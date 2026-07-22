@@ -1,19 +1,15 @@
 <script setup lang='ts'>
-const { data: images } = await useAsyncData('image', () => {
-  return queryCollection('images').first()
-})
-
-const oj = {
-  src: '/favicon.ico',
-  alt: 'Sin'
-}
-
-// console.log(images.value)
 </script>
 
 <template>
-  <div class="m-auto h-255 flex flex-row justify-center items-center py-10 bg-gray-900">
-    <PolaroidItem v-for="(image, index) in images?.images" :key="index" :image="image" :index />
-    <!-- <PolaroidItem :image="oj" :index="1" /> -->
-  </div>
+  <!-- Nuxt UI 顶层应用组件,提供全局 UI 上下文、颜色模式支持、Toast 等基础能力 -->
+  <UApp>
+    <!-- 默认布局包裹,内部渲染当前路由对应的页面 -->
+    <NuxtLayout>
+      <UMain class="relative">
+        <NuxtPage />
+      </UMain>
+    </NuxtLayout>
+  </UApp>
+
 </template>
