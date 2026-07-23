@@ -4,7 +4,13 @@ events:
     date: "2026-7-21"
     to: "/ui/polaroid"
     src: "/polaroid.png"
-    description: "改组件来源于https://github.com/nuxt-ui-templates/portfolio项目, 是一个类似于拍立得的邮票组件, 感觉可以等我找到女友后做那种邮票情头的双人站就保留下来了.还可以使用到照片墙项目的部分, 总之感觉很好就想要, 就夺舍了..."
+    description: "该组件来源于https://github.com/nuxt-ui-templates/portfolio项目, 是一个类似于拍立得的邮票组件, 感觉可以等我找到女友后做那种邮票情头的双人站就保留下来了.还可以使用到照片墙项目的部分, 总之感觉很好就想要, 就夺舍了..."
+  - category: UI
+    title: "ColorModeButton 带有动画的切换主题的按钮"
+    date: "2026-7-23"
+    to: "/ui/color-mode-button"
+    src: "#"
+    description: "该组件来源于https://github.com/nuxt-ui-templates/portfolio项目, 常用的页面切换主题的按钮, 比Ai写的好看一百倍, 动画丝滑, 而且理解之后很适合改造, 所以直接扣下来了..."
   - category: Animation
     title: "还没写的小动画"
     date: "2026-07-22"
