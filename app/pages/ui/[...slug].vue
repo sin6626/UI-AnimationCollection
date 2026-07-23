@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 const route = useRoute()
-console.log(route.path);
+// console.log(route.path);
 
 const { data: data } = await useAsyncData(route.path, () =>
   queryCollection('ui').path(route.path).first()

@@ -4,7 +4,7 @@ const { data: page } = await useAsyncData('index', () => {
 })
 const data = page.value?.events.filter((item) => item.category === 'UI')
 
-console.log(data)
+// console.log(data)
 
 </script>
 
