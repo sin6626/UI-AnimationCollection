@@ -15,16 +15,20 @@ const props = defineProps<{
 }>()
 
 // 取相邻文章 (上一篇/下一篇,仅需 description 字段)
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings('ui', route.path, {
+const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
+  return queryCollectionItemSurroundings('ui', route.path, {
     fields: ['description']
-  })
+  }).order('date', 'ASC')
+  }
 )
+
+// console.log(surround.value)
+
 </script>
 
 <template>
   <UMain class="mt-20 px-2">
-    <UContainer class="relative min-h-screen">
+    <UContainer class="relative min-h-[70vh]">
       <UPage>
         <ULink to="/ui" class="text-sm flex items-center gap-1">
           <UIcon name="lucide:chevron-left" />
@@ -36,17 +40,17 @@ const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
             {{ props.title }}
           </h1>
         </div>
-        <p class="text-base text-center max-w-2xl mx-auto">
+        <p class="text-base text-center max-w-2xl mx-auto mt-8">
           {{ props.description }}
         </p>
 
         <UPageBody>
           <!-- 演示区: 由各组件页注入 -->
           <slot />
-
-          <UContentSurround :surround />
         </UPageBody>
       </UPage>
     </UContainer>
+
+  <UContentSurround :surround class="mt-d"/>
   </UMain>
 </template>

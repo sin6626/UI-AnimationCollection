@@ -28,17 +28,42 @@ const categorys = ['UI', 'Animation']
 
 <template>
   <UPage>
-    <UPageHero :title="hero.title" :description="hero.description" :ui="{
-      title: 'mx-0! text-left',
-      description: 'mx-0! text-left text-blance',
-      links: 'justify-start'
+    <Motion :initial="{
+      scale: 1.1,
+      opacity: 0,
+      filter: 'blur(20px)'
+    }" :animate="{
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)'
+    }" :transition="{
+      duration: 0.6,
+      delay: 0.1
     }">
-      <template #links>
-        <UButton v-if="hero.links" :to="`#`" />
-      </template>
-    </UPageHero>
+      <UPageHero :title="hero.title" :description="hero.description" :ui="{
+        title: 'mx-0! text-left',
+        description: 'mx-0! text-left text-balance',
+        links: 'justify-start'
+      }">
+        <template #links>
+          <UButton v-if="hero.links" :to="`#`" />
+        </template>
+      </UPageHero>
+    </Motion>
 
-    <UPage>
+    <Motion :initial="{
+      scale: 1.1,
+      opacity: 0,
+      filter: 'blur(20px)'
+    }" :animate="{
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)'
+    }" :transition="{
+      duration: 0.6,
+      delay: 0.2
+    }">
+
       <div v-for="(category, index) in categorys" :key="index"
         class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 mb-16 last:mb-0">
 
@@ -50,9 +75,9 @@ const categorys = ['UI', 'Animation']
         </div>
 
         <!-- 右侧 -->
-        <div
-          class="lg:col-span-1 space-y-8 font-serif">
-          <div class="flex-col gap-3 " v-for="(event, index) in events?.filter(e => e.category === category)" :key="event.title">
+        <div class="lg:col-span-1 space-y-8 font-serif">
+          <div class="flex-col gap-3 " v-for="(event, index) in events?.filter(e => e.category === category)"
+            :key="event.title">
             <NuxtLink v-if="event.to" :to="event.to" class="dark:hover:text-amber-50 light:hover:text-gray-500">
               {{ index + 1 }} - {{ event.title }}
             </NuxtLink>
@@ -60,7 +85,9 @@ const categorys = ['UI', 'Animation']
         </div>
 
       </div>
-    </UPage>
+
+    </Motion>
+
 
   </UPage>
 </template>

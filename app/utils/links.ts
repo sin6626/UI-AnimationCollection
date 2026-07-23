@@ -19,4 +19,10 @@ export const navLinks: NavigationMenuItem[] = [{
   label: 'Animation',
   icon: 'tdesign:animation-1',
   to: '/animation'
-}]
+},
+{
+  label: 'Ai Laboratory',
+  icon: 'ri:ai',
+  to: '/AiLaboratory'
+}
+]

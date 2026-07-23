@@ -16,7 +16,7 @@ const switchTheme = () => {
   colorMode.preference = next
 }
 
-const startViewTransition = (event) => {
+const startViewTransition = (event: MouseEvent) => {
   if (!document.startViewTransition) {
     switchTheme()
     return
@@ -50,7 +50,7 @@ const startViewTransition = (event) => {
   })
 }
 
-const startViewTransition2 = (event) => {
+const startViewTransition2 = (event: MouseEvent) => {
   if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     switchTheme()
     return
@@ -92,12 +92,12 @@ const startViewTransition2 = (event) => {
       :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
       color="neutral"
       variant="ghost"
-      size="sm"
+      size="xl"
       class="rounded-full"
       @click="startViewTransition"
     />
 
-    <div class="border border-gray-400 mx-8 h-6" />
+    <div class="border border-gray-400 mx-8 h-6" ></div>
 
     <UButton
       :aria-label="`Switch to ${nextTheme} mode`"
