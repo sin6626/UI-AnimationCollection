@@ -14,8 +14,8 @@ export default defineContentConfig({
     }),
 
     index: defineCollection({
-      type:'page',
-      source:'index.yml',
+      type: 'page',
+      source: 'index.yml',
       schema: z.object({
         events: z.array(z.object({
           category: z.enum(['UI', 'Animation']),
@@ -30,8 +30,19 @@ export default defineContentConfig({
     }),
 
     ui: defineCollection({
-      type:'page',
-      source:'ui/*.yml',
+      type: 'page',
+      source: 'ui/*.yml',
+      schema: z.object({
+        title: z.string(),
+        date: z.date(),
+        description: z.string()
+      })
+
+    }),
+
+    animation: defineCollection({
+      type: 'page',
+      source: 'animation/*.yml',
       schema: z.object({
         title: z.string(),
         date: z.date(),
