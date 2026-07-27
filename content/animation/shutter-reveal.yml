@@ -1,3 +1,3 @@
-title: "ShutterReveal 快门切片滚动动画"
+title: "ShutterReveal 快门切片动画"
 date: "2026-07-27"
-description: "来源于 fqzlr.com 首页滚动快门效果的学习复刻, 使用 GSAP ScrollTrigger 驱动 5 个竖向切片按奇偶方向进入, 最后合成完整图片。"
+description: "来源于 fqzlr.com 首页滚动快门效果的学习复刻, 修改成了无滚动的形式, 驱动 5 个竖向切片按奇偶方向进入, 最后合成完整图片。"
