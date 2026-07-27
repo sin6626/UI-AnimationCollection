@@ -25,11 +25,14 @@ onMounted(async () => {
     return
   }
 
+  const { $gsap: gsap } = useNuxtApp()
+
+
   // 动态导入 GSAP 及 ScrollTrigger 插件
-  const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-    import('gsap'),
-    import('gsap/ScrollTrigger'),
-  ])
+  // const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+  //   import('gsap'),
+  //   import('gsap/ScrollTrigger'),
+  // ])
 
   let mm = gsap.matchMedia()
   // 如果用户偏好减少动效，直接跳过
@@ -69,6 +72,7 @@ onMounted(async () => {
       scrollTrigger: {
         // trigger: 谁触发滚动动画
         trigger: root,
+        markers: true,
         start: 'top 96px',       // [只读] ScrollTrigger 的起始滚动位置（数值，以像素为单位）。, 滚动到距顶部 96px 时触发
         end: '+=900',            // [只读] ScrollTrigger 的结束滚动位置（数值，以像素为单位）。, 持续 900px 的滚动距离
         pin: stage,              // 布尔值 | 字符串 | 元素 - 指定一个元素（或元素的选择器文本），在滚动触发器激活期间将其固定，使其“卡”在初始位置，而其下方的其他内容则继续滚动。只能固定一个元素，但该元素可以包含任意数量的子元素。设置 pin: true 将固定 trigger 元素。, 固定舞台区域

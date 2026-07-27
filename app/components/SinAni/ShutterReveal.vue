@@ -16,9 +16,10 @@ const panels = Array.from({ length: 5 }, (_, index) => ({
 
 // 存储 GSAP context 实例，用于组件卸载时清理
 // Ts的类型声明可以写成 { revert: () => void } | undefined, 表示这个对象有一个 revert(恢复, 还原动画并将其终止，使目标恢复到动画之前的状态，包括移除动画添加的内联样式)方法
-let ctx
+let ctx: { revert: () => void } | undefined
+let t1: any
 
-onMounted(async () => {
+onMounted(() => {
   // gsap.context 的第二个参数要是一个HTMLElement. 所以这里要.value出HTMLElement
   const root = shutterRef.value
   if (!root) {
@@ -29,15 +30,8 @@ onMounted(async () => {
     return
   }
 
-  // 动态导入 GSAP 及 ScrollTrigger 插件
-  const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-    import('gsap'),
-    import('gsap/ScrollTrigger')
-  ])
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  // 显式注册 ScrollTrigger, 避免不同打包环境下插件没有被 GSAP 识别
+  // gsap / ScrollTrigger 由 app/plugins/gsap.client.ts 全局注册，此处直接取用
+  const { $gsap: gsap } = useNuxtApp()
 
   // 创建 GSAP context，所有动画与 root 绑定, gsap.context返回的对象中包括了revert方法
   ctx = gsap.context(() => {
@@ -60,12 +54,13 @@ onMounted(async () => {
     gsap.set(final, { autoAlpha: 0 })
 
     // 构建滚动驱动的时间线
-    gsap.timeline({
+    // 提前记录下gasp.timeline的实例, 因为后面还要调用他的restart方法
+    t1 = gsap.timeline({
       // 后面的动画都是默认下面这个属性, 避免了重复写
-      defaults: { ease: 'circ.inOut' }
+      defaults: { ease: 'circ.inOut' },
       // defaults: { ease: 'steps(12)' },
       // 下面的 scrollTrigger 负责把时间线进度和滚动条绑定起来
-      // 其实下面的scrollTrigger完全不用, 因为做的动画本来也不涉及的到跟滚动条联动了
+      // 其实下面的scrollTrigger完全不用, 因为做的动画本来也不涉及的到跟滚动条联动了, 如果加了下面的字段, 然而会因为页面高度不够, 不能展示出发动画
       // scrollTrigger: {
       //   // trigger: 谁触发滚动动画
       //   trigger: root,
@@ -81,7 +76,14 @@ onMounted(async () => {
       // 第二阶段：最终完整图淡入（覆盖切片）
       .to(final, { autoAlpha: 1, duration: 0.25 })
   }, root)
+
+
 })
+
+const restartAni = () => {
+  t1?.restart()
+}
+
 
 onUnmounted(() => {
   // 组件卸载时恢复所有 GSAP 设置的状态
@@ -90,37 +92,26 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section
-    ref="shutter"
-    class="m-auto flex flex-row justify-center items-center py-10 px-6 bg-default rounded-3xl"
-    aria-label="滚动触发的快门动画"
-  >
+
+  <section ref="shutter"
+    class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-default rounded-3xl"
+    aria-label="滚动触发的快门动画">
+    <div class="flex justify-end w-full ">
+      <UIcon @click="restartAni" name="ic:round-loop" class="size-7 cursor-pointer" />
+    </div>
     <div class="shutter-stage relative aspect-[16/9] max-h-[62vh] w-full overflow-hidden rounded-xl bg-default">
       <!-- 5 个切片层：用 clipPath 裁剪成竖条，交错飞入 -->
-      <div
-        class="absolute inset-0 z-2"
-        aria-hidden="true"
-      >
-        <div
-          v-for="panel in panels"
-          :key="panel.index"
+      <div class="absolute inset-0 z-2" aria-hidden="true">
+        <div v-for="panel in panels" :key="panel.index"
           class="shutter-slice absolute inset-0 overflow-hidden ring-1 ring-inset ring-white/15"
-          :style="{ clipPath: panel.clip }"
-        >
-          <img
-            src="/Sin.jpg"
-            alt=""
-            class="h-full w-full object-cover object-center"
-          >
+          :style="{ clipPath: panel.clip }">
+          <img src="/Sin.jpg" alt="" class="h-full w-full object-cover object-center">
         </div>
       </div>
 
       <!-- 最终完整图：切片归位后淡出覆盖，形成完整画面 -->
-      <img
-        class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center"
-        src="/Sin.jpg"
-        alt="合并后的最终视觉"
-      >
+      <img class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center" src="/Sin.jpg"
+        alt="合并后的最终视觉">
     </div>
   </section>
 </template>
