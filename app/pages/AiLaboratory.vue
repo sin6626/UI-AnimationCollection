@@ -1,113 +1,137 @@
 <script setup lang="ts">
-// 快门动画的根元素引用
-// Vue3.5 新版本的Template的Ref引用, 只要useTemplateRef后面字符串跟元素上ref的字符串一样即可, 不用变量名一样了
-const shutterRef = useTemplateRef<HTMLElement>('shutter')
+/**
+ * thePreloader.vue —— 首屏预加载器。
+ *
+ * 显示方式：固定覆盖全屏，z-index: 50。
+ * 动画流程：
+ * 1. 页面加载后 1.5s 内，LogoBO SVG 做 fill 填充动画 + 三组 path 描边动画（CSS）；
+ * 2. 2s 后波浪 #quadbz2 从底部升起（将整屏盖住）；
+ * 3. 波浪继续推进到顶部，hidden 隐藏 preloader；
+ * 4. 解除滚动锁 -> scrollStore.isReady = false；
+ * 5. 触发 isRoute.isNewPage++ 通知页面开始入场。
+ *
+ * 注意：preloader 在 app.vue 模板中位于 <NuxtPage> 上方，
+ * 所以首次加载时也会覆盖首屏内容，preloader 消失后内容才可见。
+ */
+const { $gsap: gsap } = useNuxtApp()
 
-// 生成 5 个切片面板配置：交替从上下方向飞入，每个切片占据 20% 宽度
-const panels = Array.from({ length: 5 }, (_, index) => ({
-  index,
-  // 给了下面的gsap的yPercent设置一个初始值
-  // yPercent: 向y轴移动自身元素的%多少, 这里写成100%就是让元素一开始就藏起来
-  fromY: index % 2 === 0 ? 100 : -100,
-  // inset是给下面css属性中的clip-path设置用的, 四个值的顺序是跟margin一样的上, 右, 下, 左
-  // 比如inset(0 80% 0 0)表示, 裁剪右边的80%的部分
-  clip: `inset(0 ${100 - (index + 1) * 20}% 0 ${index * 20}%)`,
-}))
+// const isLock = scrollStore()
+// const isRoute = routeStore()
 
-// 存储 GSAP context 实例，用于组件卸载时清理
-// Ts的类型声明, 声明一个ctx变量, 前面是说, 他是一个对象, 有一个revert(恢复, 还原动画并将其终止，使目标恢复到动画之前的状态，包括移除动画添加的内联样式)方法, 不接受参数, 没有返回值, 联合类型,也可以是undefined
-let ctx: { revert: () => void } | undefined
-
-onMounted(async () => {
-  // gsap.context 的第二个参数要是一个HTMLElement. 所以这里要.value出HTMLElement
-  const root = shutterRef.value
-  if ( !root ) {
-    return
-  }
-
-  const { $gsap: gsap } = useNuxtApp()
-
-
-  // 动态导入 GSAP 及 ScrollTrigger 插件
-  // const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-  //   import('gsap'),
-  //   import('gsap/ScrollTrigger'),
-  // ])
-
-  let mm = gsap.matchMedia()
-  // 如果用户偏好减少动效，直接跳过
-  mm.add("(prefers-reduced-motion: reduce)", (context) => {
-    return
-  });
-
-  // 导入插件完全可以省略, 在gsap的3.12+ 的 ESM 构建中，插件在导入时会自动注册自身
-  // gsap.registerPlugin(ScrollTrigger)
-
-  // 创建 GSAP context，所有动画与 root 绑定, gsap.context返回的对象中包括了revert方法
-  ctx = gsap.context(() => {
-    const stage = root.querySelector<HTMLElement>('.shutter-stage')
-    // gsap.utils 提供了很多的使用函数
-    // toArray: 允许吧几乎任何类似数组的对象转换为数组，包括选择器文本！（例如： toArray(".class") --> [element1, element2] ）。
-    const slices = gsap.utils.toArray<HTMLElement>('.shutter-slice')
-    const final = root.querySelector<HTMLElement>('.shutter-final')
-    // 没有舞台, 或者最后的图片没有, 那么直接return
-    if (!stage || !final) return
-
-    // 初始状态：所有切片透明并按奇偶偏移，最终图透明
-    // 立即相应地设置目标对象的属性——本质上是一个持续时间为零的 to() Tween(补间动画)，只是名称更直观。因此，以下几行代码会产生相同的结果
-    gsap.set(slices, {
-      // autoAlpha 是gsap中的一个特殊的属性, 是opacity和visibility的组合属性, 设置为0的时候, opacity: 0, visibility: inherit(这里因为要依靠父组件, 逻辑是父组件hidden, 那么子组件应该也是hidden)
-      autoAlpha: 0,
-      // yPercent: 向y轴移动自身元素的%多少, 这里写成100%就是让元素一开始就藏起来
-      yPercent: (index) => panels[index]?.fromY ?? 0,
+onMounted(() => {
+  const preloaderContainer = document.querySelector(
+    '#preloader-container',
+  ) as HTMLDivElement
+  gsap
+    .timeline()
+    // 波浪从底部（V 100）升到 70%，呈"水漫过屏幕下半"
+    .to('#quadbz2', {
+      // svg 不是靠transform, 而是靠他自身的d属性去做动画
+      attr: {
+        d: 'M 0 0 V 70 Q 50 90 100 70 V 0 z',
+      },
+      duration: 0.3,
+      ease: 'power3.in',
+      delay: 2.5, // 等描边 + 填充动画跑完, 然后再稍微等等, 让人看见logo
     })
-    gsap.set(final, { autoAlpha: 0 })
-
-    // 构建滚动驱动的时间线
-    gsap.timeline({
-      // 后面的动画都是默认下面这个属性, 避免了重复写
-      defaults: { ease: 'circ.inOut' },
-      // defaults: { ease: 'steps(12)' },
-      // 其实下面的scrollTrigger完全不用, 因为做的动画本来也不涉及的到跟滚动条联动了
-      scrollTrigger: {
-        // trigger: 谁触发滚动动画
-        trigger: root,
-        markers: true,
-        start: 'top 96px',       // [只读] ScrollTrigger 的起始滚动位置（数值，以像素为单位）。, 滚动到距顶部 96px 时触发
-        end: '+=900',            // [只读] ScrollTrigger 的结束滚动位置（数值，以像素为单位）。, 持续 900px 的滚动距离
-        pin: stage,              // 布尔值 | 字符串 | 元素 - 指定一个元素（或元素的选择器文本），在滚动触发器激活期间将其固定，使其“卡”在初始位置，而其下方的其他内容则继续滚动。只能固定一个元素，但该元素可以包含任意数量的子元素。设置 pin: true 将固定 trigger 元素。, 固定舞台区域
-        scrub: true,             // 动画与ScrollTrigger 的进度绑定, 滚动与动画进度 1:1 绑定, 详细看https://gsap.com/docs/v3/Plugins/ScrollTrigger/#pin
-        invalidateOnRefresh: true, // 布尔值 - 如果为 true ，则与 ScrollTrigger 关联的动画会在每次刷新（通常是调整窗口大小时）时调用其 invalidate() 方法。这将清除所有内部记录的初始值。
+    // 继续升到顶部 0，盖满
+    .to('#quadbz2', {
+      attr: {
+        d: 'M 0 0 V 0 Q 50 0 100 0 V 0 z',
+      },
+      duration: 0.8,
+      ease: 'power3',
+      onComplete: () => {
+        preloaderContainer.classList.add('hidden') // 整个容器消失, tailwind的类, 对应display: none
+      //   isLock.$patch({
+      //     isReady: false, // 解除滚动锁
+      //   })
+      //   // 也可以这样写, 最直接的写法, $patch是pinia自带的方法, 优点是可以同时修改多个值
+      //   // isLock.isReady = false
+      //   isRoute.isNewPage++ // 触发 pages 的入场动画
       },
     })
-      // 第一阶段：切片飞入并淡入
-      .to(slices, { autoAlpha: 1, yPercent: 0, duration: 1 })
-      // 第二阶段：最终完整图淡出（覆盖切片）
-      .to(final, { autoAlpha: 1, duration: 0.25 })
-  }, root)
-})
-
-onUnmounted(() => {
-  // 组件卸载时恢复所有 GSAP 设置的状态
-  ctx?.revert()
+    // LOGO 从位置 0 上飘消失（与波浪并行）
+    .fromTo(
+      '#logoBO',
+      {
+        yPercent: 0,
+      },
+      {
+        yPercent: -100,
+        duration: 1,
+        ease: 'power4.out',
+      },
+      2.6,
+    )
 })
 </script>
 
 <template>
-  <section ref="shutter" class="mt-30 mb-40" aria-label="滚动触发的快门动画">
-    <div class="shutter-stage relative aspect-[16/9] max-h-[62vh] w-full overflow-hidden rounded-xl bg-default">
-      <!-- 5 个切片层：用 clipPath 裁剪成竖条，交错飞入 -->
-      <div class="absolute inset-0 z-2" aria-hidden="true">
-        <div v-for="panel in panels" :key="panel.index"
-          class="shutter-slice absolute inset-0 overflow-hidden ring-1 ring-inset ring-white/15"
-          :style="{ clipPath: panel.clip }">
-          <img src="/Sin.jpg" alt="" class="h-full w-full object-cover object-center">
-        </div>
+  <!-- 全屏覆盖层 flex 居中 -->
+  <div
+    id="preloader-container"
+    class="fixed inset-0 z-50 h-full w-full overflow-hidden"
+  >
+    <!-- 波浪 SVG 背景，亮色/暗色分别用浅紫/浅橙 -->
+     <!-- 重要属性preserveAspectRatio: 控制svg的缩放方式, 默认是svg会保持比例, 但是对于这里的要全屏的效果肯定不是不要保持比例的, 不然100 * 100 的比例如何让一个长方形的屏幕铺满, 所以要设置为none, 也就是不要保持比例, 直接铺满全屏 -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      class="absolute left-0 top-0 h-full w-full fill-light-orange dark:fill-light-sliver"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    >
+    <!-- 波浪 -->
+      <path
+        id="quadbz2"
+        stroke="transparent"
+        vector-effect="non-scaling-stroke"
+        d="M 0 0 V 100 Q 50 100 100 100 V 0 z"
+      />
+    </svg>
+    <!-- grid + place-items-center 一种很优雅的居中方式, 水平和垂直居中 -->
+    <div class="relative z-10 grid h-full w-full place-items-center">
+      <!-- LOGO 容器 overflow:hidden 以配合上飘动画 -->
+      <div class="z-30 h-1/4 w-1/2 overflow-hidden">
+        <!-- animate-[filldark_0.8s_ease-in-out_1.5s_forwards] tailwind中的自定义属性, _ 表示空格, 最后的forwards是细节, 加了这个表示保持动画的最后一帧 -->
+        <SvgLogoBO id="logoBO" class="h-full w-full animate-[filldark_0.8s_ease-in-out_1.5s_forwards] fill-transparent stroke-jet stroke-[20] dark:animate-[fillwhite_0.8s_ease-in-out_1.5s_forwards] dark:stroke-white" />
       </div>
-
-      <!-- 最终完整图：切片归位后淡出覆盖，形成完整画面 -->
-      <img class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center" src="/Sin.jpg"
-        alt="合并后的最终视觉">
     </div>
-  </section>
+  </div>
 </template>
+
+<style scoped>
+/**
+ * LogoBO 三个 path 的描边动画（stroke-dashoffset -> 0）：
+ * 路径 1（轮廓）-> 路径 2（中间细节）-> 路径 3（最细结构），错序延迟。
+ */
+
+ #logoBO:deep() path:nth-child(1) {
+  stroke-dasharray: 7413;
+  stroke-dashoffset: 7413;
+  animation: line-anim 1.5s ease-in-out forwards;
+}
+
+#logoBO:deep() path:nth-child(2) {
+  stroke-dasharray: 3514;
+  stroke-dashoffset: 3514;
+  animation: line-anim 1.3s ease-in-out forwards;
+  animation-delay: 200ms;
+}
+
+#logoBO:deep() path:nth-child(3) {
+  stroke-dasharray: 6108;
+  stroke-dashoffset: 6108;
+  animation: line-anim 1.1s ease-in-out forwards;
+  animation-delay: 400ms;
+}
+
+
+@keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+</style>

@@ -6,6 +6,10 @@
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
   --font-serif: 'Instrument Serif', serif;
+  --color-light-lavender: #c8a8e9;   /* 浅紫 */
+  --color-light-orange:   #f5cba7;   /* 浅橙 */
+  --color-light-sliver:   #c8c8c8; /* 银灰色 */
+  --color-jet:            #2c2c2c;   /* 深灰黑 */
 }
 
 :root {
@@ -14,6 +18,7 @@
   ::selection {
     color: #282a30;
     background-color: #c8c8c8;
+    /* background-color: #b6b6b6; */
   }
 }
 
