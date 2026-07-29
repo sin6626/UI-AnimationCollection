@@ -124,6 +124,11 @@ onUnmounted(() => {
 
     <!-- 全屏覆盖层 flex 居中；展示版改成局部展示框 -->
     <div class="relative aspect-[16/9] max-h-[62vh] w-full overflow-hidden rounded-xl bg-elevated">
+
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2">
+        <p class="text-4xl font-serif text-nowrap">Welcome to the little world of Sin !</p>
+      </div>
+
       <!-- 波浪 SVG 背景，亮色/暗色分别用浅紫/浅橙 -->
       <!-- 重要属性preserveAspectRatio: 控制svg的缩放方式, 默认是svg会保持比例, 但是对于这里的要全屏的效果肯定不是不要保持比例的, 不然100 * 100 的比例如何让一个长方形的屏幕铺满, 所以要设置为none, 也就是不要保持比例, 直接铺满全屏 -->
       <svg
