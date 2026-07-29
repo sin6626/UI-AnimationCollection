@@ -17,3 +17,9 @@ events:
     to: "/animation/shutter-reveal"
     src: "/ShutterReveal.png"
     description: "来源于 fqzlr.com 首页滚动快门效果的学习复刻, 修改成了无滚动的形式, 驱动 5 个竖向切片按奇偶方向进入, 最后合成完整图片。"
+  - category: Animation
+    title: "WaveReveal + Logo Stroke 波浪揭示动画"
+    date: "2026-07-29"
+    to: "/animation/wave-reveal"
+    src: "/Sin.jpg"
+    description: "从 Ai 实验室收进来的预加载动画展示版, Logo 先做描边和填充, 再由波浪形 SVG 推进完成转场。"
