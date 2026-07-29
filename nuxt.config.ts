@@ -6,11 +6,6 @@
  */
 
 export default defineNuxtConfig({
-  app: {
-    // 只有当Nuxt的layout切换时才生效
-    pageTransition: { name: 'page', mode: 'out-in' }, // out-in: 表示, 老页面先出去, 新页面再进来, name: 'page' 其实是写什么都可以, 不过改了之后, 要在app.vue的style区域把前缀改下
-  },
-  ssr: true,
 
   // 依赖的功能模块
   modules: [// ESLint 集成
@@ -20,9 +15,16 @@ export default defineNuxtConfig({
     '@nuxt/content', // VueUse 工具集自动导入
     '@vueuse/nuxt', // 社交分享 OG 图生成
     'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
-    'motion-v/nuxt',
-   // 'nuxt-studio'
+    'motion-v/nuxt'
+    // 'nuxt-studio'
   ],
+
+  ssr: true,
+
+  app: {
+    // 页面切换过渡动画: out-in 表示老页面先离开, 新页面再进入; name 是 CSS 类名前缀, 给 app.vue <style> 用
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
 
   // 启用开发工具
   devtools: {
@@ -51,11 +53,28 @@ export default defineNuxtConfig({
       routes: [
         '/'
       ],
-      // 爬取链接, 像搜索引擎一样寻找<a>, 然后发现别的页面, 然后继续预渲染这些页面
+      // 爬取链接, 像搜索引擎一样寻找 <a>, 然后发现别的页面, 继续预渲染这些页面
       crawlLinks: true
-    }
+    },
   },
 
+  // Vite 配置: 显式预构建 @nuxtjs/mdc 的子依赖, 消除 Vite 启动时的 optimizeDeps 警告
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@nuxtjs/mdc > remark-gfm',
+        '@nuxtjs/mdc > remark-emoji',
+        '@nuxtjs/mdc > remark-mdc',
+        '@nuxtjs/mdc > remark-rehype',
+        '@nuxtjs/mdc > rehype-raw',
+        '@nuxtjs/mdc > parse5',
+        '@nuxtjs/mdc > unist-util-visit',
+        '@nuxtjs/mdc > unified',
+        '@nuxtjs/mdc > debug',
+        '@nuxtjs/mdc > extend'
+      ]
+    }
+  },
   // ESLint 配置: 启用 stylistic 风格规则
   eslint: {
     config: {
