@@ -19,7 +19,13 @@ events:
     description: "来源于 fqzlr.com 首页滚动快门效果的学习复刻, 修改成了无滚动的形式, 驱动 5 个竖向切片按奇偶方向进入, 最后合成完整图片。"
   - category: Animation
     title: "WaveReveal + Logo Stroke 波浪揭示动画"
-    date: "2026-07-29"
+    date: "2026-07-28"
     to: "/animation/wave-reveal"
     src: "/WaveReveal.png"
-    description: "从https://github.com/BenjaminOddou/portfolio 进行实验收进来的预加载动画展示版, Logo 先做描边和填充, 再由波浪形 SVG 推进完成转场。"
+    description: "从 BenjaminOddou/portfolio项目中提取, 进行实验收进来的预加载动画展示版, 用stroke-dasharray + stroke-dashoffset 做Logo 先做描边和填充, 再由GSAP控制波浪形 SVG 推进完成转场。适合网站一开始进入加载资源的时候的预加载动画。"
+  - category: Animation
+    title: "InteractiveIconMorph 交互式图标形变动画"
+    date: "2026-07-29"
+    to: "/animation/interactive-icon-morph"
+    src: "/InteractiveIconMorph.png"
+    description: "从 BenjaminOddou/portfolio项目中提取, 实验之后收藏进来的交互式菜单图标动画, 鼠标悬停时用 GSAP 驱动 SVG 路径形变, 使用了GSAP的MorphSVG插件，并配合环形文字旋转。感觉好看的底部社交图标。"

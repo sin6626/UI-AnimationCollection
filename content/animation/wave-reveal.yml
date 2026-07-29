@@ -1,3 +1,3 @@
 title: "WaveReveal + Logo Stroke 波浪揭示动画"
-date: "2026-07-29"
-description: "从https://github.com/BenjaminOddou/portfolio 进行实验收进来的预加载动画展示版, Logo 先做描边和填充, 再由波浪形 SVG 推进完成转场。"
+date: "2026-07-28"
+description: "从 BenjaminOddou/portfolio项目中提取, 进行实验收进来的预加载动画展示版, 用stroke-dasharray + stroke-dashoffset 做Logo 先做描边和填充, 再由GSAP控制波浪形 SVG 推进完成转场。适合网站一开始进入加载资源的时候的预加载动画。"

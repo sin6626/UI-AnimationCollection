@@ -31,7 +31,8 @@
 </template>
 
 <style scoped>
-/* 社交图标的旋转动画（如环形 logo 持续旋转） */
+/* 社交图标周边文字旋转动画（持续旋转） */
+/* 写在外面, 用:deep穿透, 统一管理文字旋转 */
 .icon:deep() .spin {
   animation: spin 15s linear infinite;
   transform-origin: center;

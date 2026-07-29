@@ -1,0 +1,3 @@
+title: "InteractiveIconMorph 交互式图标形变动画"
+date: "2026-07-29"
+description: "从 BenjaminOddou/portfolio项目中提取, 实验之后收藏进来的交互式菜单图标动画, 鼠标悬停时用 GSAP 驱动 SVG 路径形变, 使用了GSAP的MorphSVG插件，并配合环形文字旋转。感觉好看的底部社交图标。"
