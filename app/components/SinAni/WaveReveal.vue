@@ -17,9 +17,9 @@
  */
 const waveRef = useTemplateRef('wave')
 
-let ctx
-let t1
-let resetAni
+let ctx: gsap.Context
+let t1: gsap.core.Timeline
+let resetAni: () => void
 
 onMounted(() => {
   const root = waveRef.value
@@ -47,7 +47,7 @@ onMounted(() => {
       gsap.set(logo, { yPercent: 0, autoAlpha: 1 })
       gsap.set(logoPaths, {
         fillOpacity: 0,
-        strokeDashoffset: index => [7413, 3514, 6108][index] ?? 7413
+        strokeDashoffset: index => [7413, 3514, 6108][index] ?? 9999
       })
     }
     resetAni = reset
@@ -55,7 +55,7 @@ onMounted(() => {
     reset()
 
     t1 = gsap.timeline({
-      onRepeat: reset
+      onRepeat: reset // onRepeat
     })
       // LogoBO 三个 path 的描边动画（stroke-dashoffset -> 0）
       .to(logoPaths, {
@@ -145,7 +145,7 @@ onUnmounted(() => {
       <div class="relative z-10 grid h-full w-full place-items-center">
         <!-- LOGO 容器 overflow:hidden 以配合上飘动画 -->
         <div class="z-30 h-1/3 w-1/2 overflow-hidden">
-          <SvgLogoSin class="wave-reveal-logo h-full w-full fill-jet stroke-jet stroke-[20] dark:fill-white dark:stroke-white" />
+          <SvgLogoSin class="wave-reveal-logo h-full w-full fill-jet stroke-jet stroke-20 dark:fill-white dark:stroke-white" />
         </div>
       </div>
     </div>
