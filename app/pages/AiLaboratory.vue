@@ -95,7 +95,7 @@ onMounted(() => {
       <!-- LOGO 容器 overflow:hidden 以配合上飘动画 -->
       <div class="z-30 h-1/4 w-1/2 overflow-hidden">
         <!-- animate-[filldark_0.8s_ease-in-out_1.5s_forwards] tailwind中的自定义属性, _ 表示空格, 最后的forwards是细节, 加了这个表示保持动画的最后一帧 -->
-        <SvgLogoBO id="logoBO" class="h-full w-full animate-[filldark_0.8s_ease-in-out_1.5s_forwards] fill-transparent stroke-jet stroke-[20] dark:animate-[fillwhite_0.8s_ease-in-out_1.5s_forwards] dark:stroke-white" />
+        <SvgLogoSin id="logoBO" class="h-full w-full animate-[filldark_0.8s_ease-in-out_1.5s_forwards] fill-transparent stroke-jet stroke-[20] dark:animate-[fillwhite_0.8s_ease-in-out_1.5s_forwards] dark:stroke-white" />
       </div>
     </div>
   </div>
