@@ -2,18 +2,19 @@
 // 文件名带 .client 后缀，确保只在浏览器端执行（GSAP 依赖 DOM）
 
 import gsap from "gsap"
-// import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 // 显式注册插件，避免不同打包环境下未被 GSAP 识别
-// 3.12+以后自动注册
-// gsap.registerPlugin(ScrollTrigger)
-
 export default defineNuxtPlugin(() => {
   // 通过 nuxtApp.provide 把 gsap 和 ScrollTrigger 注入全局
+  gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin)
   // 组件中可用 useGsap() / useScrollTrigger() 取用，也可直接用自动导入的 gsap
   return {
     provide: {
       gsap,
+      ScrollTrigger,
+      MorphSVGPlugin,
     },
   }
 })
