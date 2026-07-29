@@ -6,6 +6,10 @@
  */
 
 export default defineNuxtConfig({
+  app: {
+    // 只有当Nuxt的layout切换时才生效
+    pageTransition: { name: 'page', mode: 'out-in' }, // out-in: 表示, 老页面先出去, 新页面再进来, name: 'page' 其实是写什么都可以, 不过改了之后, 要在app.vue的style区域把前缀改下
+  },
   ssr: true,
 
   // 依赖的功能模块
