@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+const {$gsap: gsap, $SplitText: SplitText} = useNuxtApp()
 
 const { data: page } = await useAsyncData('index', () => {
   return queryCollection('index').first()
@@ -23,6 +24,24 @@ const hero = {
 
 const categorys = ['UI', 'Animation']
 
+onMounted(() => {
+  const herodescription = new SplitText('.herodescription', {
+    type: 'lines, chars'
+  })
+  
+  const t1 = gsap.timeline()
+  t1
+    .from(
+      herodescription.chars,
+      {
+        yPercent: 100,
+        autoAlpha: 0,
+        stagger: 0.07,
+        duration: 0.7,
+        ease: 'power4.out',
+      },
+    )
+})
 
 </script>
 
@@ -42,7 +61,7 @@ const categorys = ['UI', 'Animation']
     }">
       <UPageHero :title="hero.title" :description="hero.description" :ui="{
         title: 'mx-0! text-left',
-        description: 'mx-0! text-left text-balance',
+        description: 'mx-0! text-left text-balance herodescription',
         links: 'justify-start'
       }">
         <template #links>
