@@ -21,10 +21,10 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  app: {
-    // 页面切换过渡动画: out-in 表示老页面先离开, 新页面再进入; name 是 CSS 类名前缀, 给 app.vue <style> 用
-    pageTransition: { name: 'page', mode: 'out-in' }
-  },
+  // app: {
+  //   // 页面切换过渡动画: out-in 表示老页面先离开, 新页面再进入; name 是 CSS 类名前缀, 给 app.vue <style> 用
+  //   pageTransition: { name: 'page', mode: 'out-in' }
+  // },
 
   // 启用开发工具
   devtools: {

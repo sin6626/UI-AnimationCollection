@@ -6,14 +6,14 @@
     - 所有内部元素均使用百分比定位，因此海报可以整体缩放而不变形
   -->
   <section class="flex min-h-[calc(100vh-8rem)] items-center justify-center px-3 py-10">
-    <article class="nihilist-poster relative aspect-[1259/707] w-full max-w-6xl overflow-hidden bg-[#314ca8] text-white shadow-2xl shadow-black/20">
+    <article class="nihilist-poster relative aspect-[1259/707] w-full max-w-6xl overflow-hidden bg-default text-white shadow-2xl shadow-black/20 rounded-4xl">
       <!--
         背景层（第一层）：
         - radial-gradient 在画面偏左上(42%, 38%)打出一团柔和的蓝色光晕，模拟远处光雾
         - linear-gradient 在左侧叠加一层轻微的水平渐变，增强画面纵深感
         - 两层渐变叠加后让纯色背景(#314ca8)显得更丰富
       -->
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_42%_38%,rgba(86,116,210,.42),transparent_36%),linear-gradient(90deg,rgba(25,45,122,.2),transparent_42%)]" />
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_42%_38%,rgba(86,116,210,.42),transparent_36%),linear-gradient(90deg,rgba(25,45,122,.2),transparent_42%)] " />
 
       <!--
         背景层（第二层）：画面右侧的斜切色块
@@ -37,7 +37,7 @@
         - 绝对定位在画面左侧，宽 35%
         - font-poster-serif 使用自定义衬线字体（见 style 中的 @font-face）
       -->
-      <section class="absolute left-[5.9%] top-[22.2%] z-20 w-[35%] font-poster-serif text-white">
+      <section class="absolute left-[5.9%] top-[22.2%] z-20 w-[35%] font-poster-serif text-default">
         <!-- 主标题：使用 cqw 基于海报容器宽度缩放，保证整体等比复刻 -->
         <h1 class="poster-title whitespace-nowrap text-[5.7cqw] font-black leading-none">
           虚无实用主义
@@ -47,7 +47,7 @@
           副标题行：英文小标题，两侧各一条细横线作为装饰分割线
           - flex-1 让横线均分标题两边的空间，实现"文字居中 + 左右线"效果
         -->
-        <div class="mt-[2.6%] flex items-center gap-[1.4cqw] whitespace-nowrap text-[1.75cqw] font-semibold leading-none tracking-[.02em] text-white/88">
+        <div class="mt-[2.6%] flex items-center gap-[1.4cqw] whitespace-nowrap text-[1.75cqw] font-semibold leading-none tracking-[.02em] text-default/88">
           <span class="h-px w-[6.7cqw] bg-white/32" />
           <span>Nihilistic Practicalism</span>
           <span class="h-px w-[6.7cqw] bg-white/32" />
@@ -58,9 +58,9 @@
           - 与上面的标题线形成呼应，做一个小的视觉节点分隔内容
         -->
         <div class="mt-[7.4%] flex items-center justify-center gap-[.9cqw] px-[10%]">
-          <span class="h-px flex-1 bg-white/46" />
-          <span class="size-[.72cqw] rotate-45 bg-white/90" />
-          <span class="h-px flex-1 bg-white/46" />
+          <span class="h-px flex-1 bg-inverted/46" />
+          <span class="size-[.72cqw] rotate-45 bg-inverted/90" />
+          <span class="h-px flex-1 bg-inverted/46" />
         </div>
 
         <!--
@@ -68,7 +68,7 @@
           - <br> 手动换行控制排版节奏
           - 行高 1.48、字间距 0.08em，营造沉静的阅读感
         -->
-        <p class="poster-cn mt-[7.3%] text-[2.35cqw] font-bold leading-[1.62] tracking-[.08em] text-white/88">
+        <p class="poster-cn mt-[7.3%] text-[2.35cqw] font-bold leading-[1.62] tracking-[.08em] text-default">
           努力不会背叛自己，<br>
           却会背叛梦想；<br>
           努力的意义，<br>
@@ -76,15 +76,15 @@
         </p>
 
         <!-- 中文正文下方的一段短横线，作为与英文段落的分隔 -->
-        <div class="mt-[8.3%] h-px w-[14%] bg-white/32" />
+        <div class="mt-[8.3%] h-px w-[14%] bg-(--ui-text)/80" />
 
         <!--
           英文翻译区：
           - 左侧一个大号"×"作为装饰符号（低透明度，属于纯装饰元素）
           - 右侧为英文小字翻译，字号比中文更小，形成主次对比
         -->
-        <div class="mt-[4.5%] grid grid-cols-[2cqw_1fr] gap-[1cqw] text-white/58">
-          <span class="mt-[.1cqw] text-[2.2cqw] leading-none text-white/22">×</span>
+        <div class="mt-[4.5%] grid grid-cols-[2cqw_1fr] gap-[1cqw] text-default/90">
+          <span class="mt-[.1cqw] text-[2.2cqw] leading-none text-muted">×</span>
           <p class="poster-en text-[1.25cqw] font-medium leading-[1.28] tracking-[.02em]">
             Efforts won't betray yourself,<br>
             but they'll betray your dreams;<br>
@@ -102,7 +102,7 @@
         - 线条粗细 3~9 不等、带圆角端点，增加手绘/涂鸦质感
       -->
       <svg
-        class="absolute inset-0 z-10 h-full w-full"
+        class="absolute right-[-3%] bottom-[-5%] z-10 h-full w-full"
         viewBox="0 0 1259 707"
         aria-hidden="true"
       >
@@ -211,10 +211,12 @@
       </svg>
 
       <!-- 人物层：使用裁好的透明 PNG，不再用 CSS/SVG 拼人。 -->
+       <!-- object-contain: 保持图片比例, 把整个图全部塞进容器里 -->
+        <!-- object-bottom: 控制图片的对比区域, 这里是指容器的底部 -->
       <img
         src="/比企谷.png"
         alt="比企谷人物剪影"
-        class="absolute bottom-0 right-[3%] z-20 h-[108%] w-[87%] object-contain object-bottom"
+        class="absolute bottom-[-4%] right-[-10%] z-20 h-[108%] w-[87%] object-contain object-bottom"
       >
     </article>
   </section>
