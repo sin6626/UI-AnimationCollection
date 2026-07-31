@@ -11,6 +11,12 @@ events:
     to: "/ui/color-mode-button"
     src: "/ColorModeButton.png"
     description: "该组件来源于https://github.com/nuxt-ui-templates/portfolio项目, 常用的页面切换主题的按钮, 比Ai写的好看一百倍, 动画丝滑, 而且理解之后很适合改造, 所以直接扣下来了..."
+  - category: UI
+    title: "Nihilistic Hero 虚无实用主义左右布局 Hero"
+    date: "2026-07-31"
+    to: "/ui/nihilistic-hero"
+    src: "/Hero.png"
+    description: "从 Ai 实验室收录的 16:9 Hero 海报布局, 使用左右分栏构图、衬线标题、装饰分割线、人物透明 PNG 和紫橙裂纹 SVG 复刻虚无实用主义视觉。"
   - category: Animation
     title: "ShutterReveal 快门切片动画"
     date: "2026-07-27"
