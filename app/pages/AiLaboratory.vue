@@ -1,40 +1,91 @@
 <template>
+  <!--
+    页面布局说明：
+    - 整体使用 flex 居中，垂直高度为视口减去顶部导航栏(8rem)的高度，实现"满屏居中"的海报展示效果
+    - 海报本身固定宽高比 1259/707（约 16:9），使用 aspect-ratio 保证在不同屏幕下等比缩放
+    - 所有内部元素均使用百分比定位，因此海报可以整体缩放而不变形
+  -->
   <section class="flex min-h-[calc(100vh-8rem)] items-center justify-center px-3 py-10">
     <article class="nihilist-poster relative aspect-[1259/707] w-full max-w-6xl overflow-hidden bg-[#314ca8] text-white shadow-2xl shadow-black/20">
+      <!--
+        背景层（第一层）：
+        - radial-gradient 在画面偏左上(42%, 38%)打出一团柔和的蓝色光晕，模拟远处光雾
+        - linear-gradient 在左侧叠加一层轻微的水平渐变，增强画面纵深感
+        - 两层渐变叠加后让纯色背景(#314ca8)显得更丰富
+      -->
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_42%_38%,rgba(86,116,210,.42),transparent_36%),linear-gradient(90deg,rgba(25,45,122,.2),transparent_42%)]" />
+
+      <!--
+        背景层（第二层）：画面右侧的斜切色块
+        - 占据右侧 44% 宽度，色块更浅(加 30% 透明度)
+        - clip-path 把矩形裁剪成平行四边形（左侧边斜切），制造"排版错位"的视觉节奏
+      -->
       <div class="absolute right-0 top-0 h-full w-[44%] bg-[#243c94]/30 [clip-path:polygon(42%_0,100%_0,100%_100%,0_100%)]" />
+
+      <!--
+        背景层（第三层）：右上区域的斜切色块（比上一块更小、更浅）
+        - 位于右 5% / 上 19%，宽 32% 高 58%，整体逆时针旋转 2 度
+        - clip-path 为左右都斜切的六边形，与前面的平行四边形形成层叠透视感
+      -->
       <div class="absolute right-[5%] top-[19%] h-[58%] w-[32%] rotate-[-2deg] bg-[#5e72ca]/16 [clip-path:polygon(28%_0,100%_0,72%_100%,0_100%)]" />
+
+      <!-- 背景层（第四层）：最小的一块斜切色块，逆时针旋转 7 度，进一步叠加层次 -->
       <div class="absolute right-[17%] top-[34%] h-[38%] w-[25%] rotate-[-7deg] bg-[#7e8ee0]/12 [clip-path:polygon(20%_0,100%_0,76%_100%,0_100%)]" />
 
-      <section class="absolute left-[5.9%] top-[22.4%] z-20 w-[38%] font-poster-serif text-white">
-        <h1 class="poster-title whitespace-nowrap text-[clamp(2.05rem,3.6vw,4.3rem)] font-black leading-none">
+      <!--
+        文字区域（z-20 位于 SVG 之上）：
+        - 绝对定位在画面左侧，宽 35%
+        - font-poster-serif 使用自定义衬线字体（见 style 中的 @font-face）
+      -->
+      <section class="absolute left-[5.9%] top-[22.2%] z-20 w-[35%] font-poster-serif text-white">
+        <!-- 主标题：使用 cqw 基于海报容器宽度缩放，保证整体等比复刻 -->
+        <h1 class="poster-title whitespace-nowrap text-[5.7cqw] font-black leading-none">
           虚无实用主义
         </h1>
 
-        <div class="mt-[2.1%] flex items-center gap-4 whitespace-nowrap text-[clamp(.78rem,1.25vw,1.35rem)] font-semibold leading-none tracking-[.02em] text-white/88">
-          <span class="h-px flex-1 bg-white/32" />
+        <!--
+          副标题行：英文小标题，两侧各一条细横线作为装饰分割线
+          - flex-1 让横线均分标题两边的空间，实现"文字居中 + 左右线"效果
+        -->
+        <div class="mt-[2.6%] flex items-center gap-[1.4cqw] whitespace-nowrap text-[1.75cqw] font-semibold leading-none tracking-[.02em] text-white/88">
+          <span class="h-px w-[6.7cqw] bg-white/32" />
           <span>Nihilistic Practicalism</span>
-          <span class="h-px flex-1 bg-white/32" />
+          <span class="h-px w-[6.7cqw] bg-white/32" />
         </div>
 
-        <div class="mt-[5.8%] flex items-center justify-center gap-2 px-[10%]">
+        <!--
+          装饰行：菱形(旋转45°的正方形)+两侧横线
+          - 与上面的标题线形成呼应，做一个小的视觉节点分隔内容
+        -->
+        <div class="mt-[7.4%] flex items-center justify-center gap-[.9cqw] px-[10%]">
           <span class="h-px flex-1 bg-white/46" />
-          <span class="size-2 rotate-45 bg-white/90" />
+          <span class="size-[.72cqw] rotate-45 bg-white/90" />
           <span class="h-px flex-1 bg-white/46" />
         </div>
 
-        <p class="poster-cn mt-[6%] text-[clamp(1rem,1.62vw,1.58rem)] font-bold leading-[1.48] tracking-[.08em] text-white/88">
+        <!--
+          中文正文：海报的核心文案
+          - <br> 手动换行控制排版节奏
+          - 行高 1.48、字间距 0.08em，营造沉静的阅读感
+        -->
+        <p class="poster-cn mt-[7.3%] text-[2.35cqw] font-bold leading-[1.62] tracking-[.08em] text-white/88">
           努力不会背叛自己，<br>
           却会背叛梦想；<br>
           努力的意义，<br>
           只剩自我安慰。
         </p>
 
-        <div class="mt-[5.4%] h-px w-[14%] bg-white/32" />
+        <!-- 中文正文下方的一段短横线，作为与英文段落的分隔 -->
+        <div class="mt-[8.3%] h-px w-[14%] bg-white/32" />
 
-        <div class="mt-[3.2%] grid grid-cols-[1.4rem_1fr] gap-3 text-white/58">
-          <span class="mt-1 text-3xl leading-none text-white/22">×</span>
-          <p class="poster-en text-[clamp(.55rem,.86vw,.82rem)] font-medium leading-[1.28] tracking-[.02em]">
+        <!--
+          英文翻译区：
+          - 左侧一个大号"×"作为装饰符号（低透明度，属于纯装饰元素）
+          - 右侧为英文小字翻译，字号比中文更小，形成主次对比
+        -->
+        <div class="mt-[4.5%] grid grid-cols-[2cqw_1fr] gap-[1cqw] text-white/58">
+          <span class="mt-[.1cqw] text-[2.2cqw] leading-none text-white/22">×</span>
+          <p class="poster-en text-[1.25cqw] font-medium leading-[1.28] tracking-[.02em]">
             Efforts won't betray yourself,<br>
             but they'll betray your dreams;<br>
             the meaning of effort is<br>
@@ -43,12 +94,20 @@
         </div>
       </section>
 
+      <!--
+        线条艺术层（z-10，位于背景之上、文字之下）：
+        全部由 <path> 绘制，模拟手绘感的散点线条与色块
+        - viewBox 固定为 0 0 1259 707，与海报宽高比完全一致
+        - 颜色为紫色(#b34ad4 系)与橙色(#f0a150 系)两组，形成冷暖对比
+        - 线条粗细 3~9 不等、带圆角端点，增加手绘/涂鸦质感
+      -->
       <svg
         class="absolute inset-0 z-10 h-full w-full"
         viewBox="0 0 1259 707"
         aria-hidden="true"
       >
         <g opacity=".95">
+          <!-- 主折线：画面右侧延伸出的一条粗紫色折线，是最显眼的线条 -->
           <path
             d="M630 588 704 558 754 573 833 530 900 548 1015 495"
             fill="none"
@@ -57,6 +116,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
+          <!-- 第二条紫色折线：较细，位于画面右上方 -->
           <path
             d="M896 267 946 235 1008 283 1076 255 1120 194"
             fill="none"
@@ -65,6 +125,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
+          <!-- 橙色短线：细线(5px)，最右侧顶部区域 -->
           <path
             d="M951 180 1000 145 1018 158 1080 110"
             fill="none"
@@ -72,6 +133,7 @@
             stroke-width="5"
             stroke-linecap="round"
           />
+          <!-- 橙色长折线：4px 细线，从画面中部延伸到最右侧 -->
           <path
             d="M944 440 985 399 1017 421 1088 360 1221 329"
             fill="none"
@@ -79,38 +141,47 @@
             stroke-width="4"
             stroke-linecap="round"
           />
+          <!-- 橙色闭合小图形：类似"回形针"形状的填充色块 -->
           <path
             d="M937 228 962 205 957 239 982 252 946 260"
             fill="#eaa458"
           />
+          <!-- 紫色小三角色块 -->
           <path
             d="M1072 270 1122 251 1087 305"
             fill="#9c4bd5"
           />
+          <!-- 紫色小三角色块 -->
           <path
             d="M1102 207 1163 170 1127 226"
             fill="#8d45d7"
           />
+          <!-- 紫色小三角色块 -->
           <path
             d="M1186 158 1213 145 1204 171"
             fill="#d45bcf"
           />
+          <!-- 紫色小三角色块（左下区域，主折线起点附近） -->
           <path
             d="M621 516 637 510 629 532"
             fill="#ba4cd2"
           />
+          <!-- 橙色小三角色块 -->
           <path
             d="M648 633 660 624 665 637"
             fill="#e49b52"
           />
+          <!-- 紫色小三角色块 -->
           <path
             d="M1013 538 1044 518 1032 556"
             fill="#a449ce"
           />
+          <!-- 紫色小三角色块 -->
           <path
             d="M1060 588 1101 566 1083 610"
             fill="#b246d6"
           />
+          <!-- 橙色描边小图形：右上区域的两条细描边折线，增加细节 -->
           <path
             d="M984 178 1005 192 1018 229 997 209"
             fill="none"
@@ -123,6 +194,7 @@
             stroke="#e99d50"
             stroke-width="3"
           />
+          <!-- 右上角的两条极短竖线，作为涂鸦点缀 -->
           <path
             d="M894 118 899 124"
             stroke="#c653ca"
@@ -138,74 +210,43 @@
         </g>
       </svg>
 
-      <section
-        class="poster-boy absolute bottom-0 right-[9.5%] z-20 h-[80%] w-[49%]"
-        aria-label="CSS character silhouette"
+      <!-- 人物层：使用裁好的透明 PNG，不再用 CSS/SVG 拼人。 -->
+      <img
+        src="/比企谷.png"
+        alt="比企谷人物剪影"
+        class="absolute bottom-0 right-[3%] z-20 h-[108%] w-[87%] object-contain object-bottom"
       >
-        <div class="absolute left-[19%] top-[1%] h-[35%] w-[44%] rounded-[52%_48%_42%_58%] bg-[#1f2328]" />
-        <div class="hair-spike absolute left-[10%] top-[3%] h-[39%] w-[52%] bg-[#1f2328]" />
-        <div class="absolute left-[12%] top-[4%] h-[23%] w-[16%] rounded-full border-l-[13px] border-[#1f2328] [transform:rotate(25deg)]" />
-        <div class="face absolute left-[27%] top-[23%] h-[28%] w-[27%] bg-[#ffc4c2]" />
-        <div class="absolute left-[45%] top-[24%] h-[13%] w-[8%] rounded-full bg-[#ffc4c2]" />
-        <div class="absolute left-[30%] top-[18%] h-[20%] w-[28%] bg-[#1f2328] [clip-path:polygon(0_0,100%_0,84%_32%,70%_18%,60%_56%,49%_20%,37%_70%,28%_31%,18%_83%,7%_45%)]" />
-        <div class="absolute left-[40%] top-[49%] h-[24%] w-[20%] bg-white [clip-path:polygon(20%_0,100%_0,80%_100%,0_78%)]" />
-        <div class="absolute left-[47%] top-[45%] h-[18%] w-[26%] bg-white [clip-path:polygon(38%_0,100%_0,100%_62%,0_100%)]" />
-        <div class="suit absolute bottom-0 left-[40%] h-[46%] w-[48%] bg-[#171827]" />
-        <div class="suit-right absolute bottom-0 right-0 h-[58%] w-[45%] bg-[#1a1a2a]" />
-        <div class="absolute bottom-0 left-[50%] h-[45%] w-[16%] bg-white [clip-path:polygon(12%_0,76%_0,100%_100%,0_100%)]" />
-        <div class="absolute bottom-[3%] left-[53%] h-[38%] w-[7%] bg-[#131320] [clip-path:polygon(50%_0,100%_18%,66%_100%,0_100%,24%_18%)]" />
-        <div class="absolute bottom-[11%] left-[45%] h-[31%] w-[4%] rotate-[16deg] bg-white" />
-        <div class="absolute bottom-[20%] left-[57%] h-[28%] w-[4%] rotate-[37deg] bg-white" />
-        <div class="absolute bottom-[13%] left-[49%] h-[28%] w-[2%] rotate-[16deg] bg-[#171827]" />
-        <div class="absolute bottom-[23%] left-[61%] h-[24%] w-[2%] rotate-[37deg] bg-[#171827]" />
-        <div class="absolute bottom-[11%] right-[2%] h-[31%] w-[38%] rounded-[40%_20%_18%_42%] bg-[#1d1b2b]" />
-        <div class="absolute bottom-[30%] right-[6%] h-[2%] w-[20%] rotate-[-7deg] bg-black/22" />
-      </section>
     </article>
   </section>
 </template>
 
 <style scoped>
+/* 注册本地字体：思源宋体可变字重版本，用作海报标题/正文的衬线字体 */
 @font-face {
   font-family: "Noto Serif SC Poster";
   src: url("~/assets/fonts/NotoSerifSC-Variable.ttf") format("truetype");
-  font-display: swap;
+  font-display: swap; /* 字体加载期间先用系统字体占位，避免白屏 */
 }
 
+/* 衬线字体工具类：优先使用自定义字体，降级到系统衬线字体 */
 .font-poster-serif {
   font-family: "Noto Serif SC Poster", "Noto Serif SC", "Songti SC", serif;
 }
 
+.nihilist-poster {
+  container-type: inline-size;
+}
+
+/*
+ * 海报文字发光效果：
+ * - 0 0 2px 白色描边让文字在深色背景上更清晰
+ * - 0 0 8px 更大的模糊光晕增加柔光感
+ */
 .poster-title,
 .poster-cn,
 .poster-en {
   text-shadow:
     0 0 2px rgba(255, 255, 255, .65),
     0 0 8px rgba(255, 255, 255, .28);
-}
-
-.poster-boy {
-  filter: drop-shadow(-10px 9px 0 rgba(32, 53, 128, .18));
-}
-
-.hair-spike {
-  clip-path: polygon(
-    13% 63%, 0 40%, 15% 32%, 5% 10%, 33% 19%, 43% 0,
-    54% 18%, 73% 10%, 67% 25%, 96% 20%, 84% 38%,
-    100% 48%, 78% 51%, 84% 70%, 62% 59%, 55% 89%,
-    45% 62%, 29% 100%, 31% 66%
-  );
-}
-
-.face {
-  clip-path: polygon(11% 0, 78% 7%, 100% 37%, 84% 100%, 31% 87%, 0 52%);
-}
-
-.suit {
-  clip-path: polygon(18% 2%, 56% 18%, 84% 0, 100% 100%, 0 100%, 5% 32%);
-}
-
-.suit-right {
-  clip-path: polygon(0 0, 83% 13%, 100% 100%, 8% 100%);
 }
 </style>
