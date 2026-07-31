@@ -1,3 +1,50 @@
+<script setup lang="ts">
+const colorMode = useColorMode()
+
+
+const text = computed(() => {
+  const isDark = colorMode.value === 'dark'
+
+  return {
+    title: isDark 
+      ? '虚无实用主义' 
+      : '理想完美主义',
+
+    subTitle: isDark 
+      ? 'Nihilistic Practicalism' 
+      : 'Ideal Perfectionism',
+
+    corText: isDark
+      ? [
+          '努力不会背叛自己，',
+          '却会背叛梦想；',
+          '努力的意义，',
+          '只剩自我安慰。'
+        ]
+      : [
+          '越优秀的人，',
+          '活得越是艰难，',
+          '这个世界本就不合理，',
+          '所以我想要改变它。'
+        ],
+
+    EnText: isDark
+      ? [
+          "Efforts won't betray yourself,",
+          "but they'll betray your dreams;",
+          "the meaning of effort is",
+          "only self-comfort."
+        ]
+      : [
+          'The more outstanding a person,',
+          'the harder it is to live.',
+          'The world is inherently unfair,',
+          'so I want to change it.'
+        ]
+  }
+})
+</script>
+
 <template>
   <!--
     页面布局说明：
@@ -40,7 +87,7 @@
       <section class="absolute left-[5.9%] top-[22.2%] z-20 w-[35%] font-poster-serif text-default">
         <!-- 主标题：使用 cqw 基于海报容器宽度缩放，保证整体等比复刻 -->
         <h1 class="poster-title whitespace-nowrap text-[5.7cqw] font-black leading-none">
-          虚无实用主义
+          {{ text.title }}
         </h1>
 
         <!--
@@ -49,7 +96,7 @@
         -->
         <div class="mt-[2.6%] flex items-center gap-[1.4cqw] whitespace-nowrap text-[1.75cqw] font-semibold leading-none tracking-[.02em] text-default/88">
           <span class="h-px w-[6.7cqw] bg-white/32" />
-          <span>Nihilistic Practicalism</span>
+          <span>{{ text.subTitle }}</span>
           <span class="h-px w-[6.7cqw] bg-white/32" />
         </div>
 
@@ -69,10 +116,10 @@
           - 行高 1.48、字间距 0.08em，营造沉静的阅读感
         -->
         <p class="poster-cn mt-[7.3%] text-[2.35cqw] font-bold leading-[1.62] tracking-[.08em] text-default">
-          努力不会背叛自己，<br>
-          却会背叛梦想；<br>
-          努力的意义，<br>
-          只剩自我安慰。
+          {{ text.corText[0] }}<br>
+          {{ text.corText[1] }}<br>
+          {{ text.corText[2] }}<br>
+          {{ text.corText[3] }}
         </p>
 
         <!-- 中文正文下方的一段短横线，作为与英文段落的分隔 -->
@@ -86,10 +133,10 @@
         <div class="mt-[4.5%] grid grid-cols-[2cqw_1fr] gap-[1cqw] text-default/90">
           <span class="mt-[.1cqw] text-[2.2cqw] leading-none text-muted">×</span>
           <p class="poster-en text-[1.25cqw] font-medium leading-[1.28] tracking-[.02em]">
-            Efforts won't betray yourself,<br>
-            but they'll betray your dreams;<br>
-            the meaning of effort is<br>
-            only self-comfort.
+            {{ text.EnText[0] }}<br>
+            {{ text.EnText[1] }}<br>
+            {{ text.EnText[2] }}<br>
+            {{ text.EnText[3] }}
           </p>
         </div>
       </section>
@@ -213,11 +260,11 @@
       <!-- 人物层：使用裁好的透明 PNG，不再用 CSS/SVG 拼人。 -->
        <!-- object-contain: 保持图片比例, 把整个图全部塞进容器里 -->
         <!-- object-bottom: 控制图片的对比区域, 这里是指容器的底部 -->
-      <img
-        src="/比企谷.png"
-        alt="比企谷人物剪影"
+      <UColorModeImage     
+        light="/雪之下.png"
+        dark="/比企谷.png"
         class="absolute bottom-[-4%] right-[-10%] z-20 h-[108%] w-[87%] object-contain object-bottom"
-      >
+        />
     </article>
   </section>
 </template>
