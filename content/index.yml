@@ -16,7 +16,7 @@ events:
     date: "2026-07-31"
     to: "/ui/nihilistic-hero"
     src: "/Hero.png"
-    description: "从 Ai 实验室收录的 16:9 Hero 海报布局, 使用左右分栏构图、衬线标题、装饰分割线、人物透明 PNG 和紫橙裂纹 SVG 复刻虚无实用主义视觉。"
+    description: "从网图中收到启发，GPT-Image2抠像人物成png图片，经过实验室测试后收录的 16:9 Hero 海报布局, 使用左右分栏构图、衬线标题、装饰分割线、人物透明 PNG 和紫橙裂纹 SVG, 并按明暗主题切换虚无实用主义/理想完美主义。"
   - category: Animation
     title: "ShutterReveal 快门切片动画"
     date: "2026-07-27"
