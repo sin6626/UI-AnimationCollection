@@ -95,9 +95,9 @@ const text = computed(() => {
           - flex-1 让横线均分标题两边的空间，实现"文字居中 + 左右线"效果
         -->
         <div class="mt-[2.6%] flex items-center gap-[1.4cqw] whitespace-nowrap text-[1.75cqw] font-semibold leading-none tracking-[.02em] text-default/88">
-          <span class="h-px w-[6.7cqw] bg-white/32" />
+          <span class="h-px w-[6.7cqw] bg-inverted/80" />
           <span>{{ text.subTitle }}</span>
-          <span class="h-px w-[6.7cqw] bg-white/32" />
+          <span class="h-px w-[6.7cqw] bg-inverted/80" />
         </div>
 
         <!--
