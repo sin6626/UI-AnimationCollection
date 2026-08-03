@@ -12,6 +12,7 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.114",
     "@iconify-json/simple-icons": "^1.2.87",
+    "@lottiefiles/dotlottie-vue": "^0.11.23",
     "@nuxt/content": "^3.14.0",
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.9.0",
