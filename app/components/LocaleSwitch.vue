@@ -1,21 +1,30 @@
 <script setup lang="ts">
-const { locale, setLocale, t } = useI18n()
+// locale: 当前语言, 是一个ref, locales: 是在nuxt.config配置中的语言数组
+const { locale, locales, setLocale } = useI18n()
 
-const nextLocale = computed(() => locale.value === 'zh' ? 'en' : 'zh')
+const items = computed(() => locales.value.map((item) => {
+  // 保险写法, locales允许是locales:['zh','en']
+  if (typeof item === 'string') {
+    return { label: item, value: item }
+  }
 
-async function toggleLocale(): Promise<void> {
-  await setLocale(nextLocale.value)
+  return { label: item.name ?? item.code, value: item.code }
+}))
+
+// Parameters Ts中的工具类型, 获取函数的参数类型
+async function changeLocale(value: Parameters<typeof setLocale>[0]): Promise<void> {
+  await setLocale(value)
 }
 </script>
 
+
+<!-- 下面使用model-value而不是value, 因为组件规定单项传值的属性是modelValue -->
 <template>
-  <UButton
-    :aria-label="t('common.switchLanguage')"
-    :title="t('common.switchLanguage')"
-    color="neutral"
+  <USelect
+    :model-value="locale"
+    :items="items"
+    size="md"
     variant="ghost"
-    icon="i-lucide-languages"
-    size="sm"
-    @click="toggleLocale"
+    @update:model-value="changeLocale"
   />
 </template>

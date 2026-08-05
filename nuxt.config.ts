@@ -82,7 +82,7 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
     locales: [{
       code: 'zh',
-      name: '中文',
+      name: '简体中文',
       file: 'zh.json'
     }, {
       code: 'en',
