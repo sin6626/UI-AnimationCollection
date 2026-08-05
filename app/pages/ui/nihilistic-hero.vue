@@ -1,11 +1,16 @@
 <script setup lang='ts'>
-const { t } = useI18n()
+const route = useRoute()
+const { locale } = useI18n()
+
+const { data } = await useAsyncData(`${route.path}-content`, () => {
+  return queryLocalizedContentItem('ui', locale.value, route.path)
+}, { watch: [locale] })
 </script>
 
 <template>
   <SinUIDemo
-    :title="t('items.nihilistic-hero.title')"
-    :description="t('items.nihilistic-hero.description')"
+    :title="data?.title"
+    :description="data?.description"
   >
     <SinUINihilisticHero />
   </SinUIDemo>

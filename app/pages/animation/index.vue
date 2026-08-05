@@ -1,14 +1,10 @@
 <script setup lang='ts'>
-const { data: page } = await useAsyncData('animation-index', () => {
-  return queryCollection('index').first()
-})
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
-const data = page.value?.events.filter(item => item.category === 'Animation')
 
-function itemKey(path: string) {
-  return path.split('/').at(-1) || ''
-}
+const { data } = await useAsyncData('animation-index', () => {
+  return queryLocalizedContentList('animation', locale.value)
+}, { watch: [locale] })
 </script>
 
 <template>
@@ -32,8 +28,8 @@ function itemKey(path: string) {
         :in-view-options="{ once: false }"
       >
         <UPageCard
-          :title="t(`items.${itemKey(item.to)}.title`)"
-          :description="t(`items.${itemKey(item.to)}.description`)"
+          :title="item.title"
+          :description="item.description"
           target="_self"
           orientation="horizontal"
           variant="naked"
@@ -49,7 +45,7 @@ function itemKey(path: string) {
 
           <template #footer>
             <ULink
-              :to="localePath(item.to)"
+              :to="localePath(item.path)"
               class="text-sm text-fuchsia-600/80 hover:text-fuchsia-500/80 flex items-center"
             >
               {{ t('animation.view') }}

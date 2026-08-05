@@ -16,8 +16,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt', // 社交分享 OG 图生成
     'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
     'motion-v/nuxt',
-    '@nuxtjs/i18n'
-    // 'nuxt-studio'
+    '@nuxtjs/i18n',
+    'nuxt-studio'
   ],
 
   ssr: true,
@@ -89,5 +89,9 @@ export default defineNuxtConfig({
       name: 'English',
       file: 'en.json'
     }]
+  },
+
+  studio: {
+    route: '/_studio'
   }
 })

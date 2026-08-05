@@ -1,45 +1,45 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
+const itemSchema = z.object({
+  title: z.string(),
+  date: z.date(),
+  description: z.string(),
+  src: z.string()
+})
+
 export default defineContentConfig({
   collections: {
-    index: defineCollection({
+    ui_zh: defineCollection({
       type: 'page',
-      source: 'index.yml',
-      schema: z.object({
-        events: z.array(z.object({
-          category: z.enum(['UI', 'Animation']),
-          title: z.string(),
-          date: z.date(),
-          to: z.string(),
-          src: z.string(),
-          description: z.string()
-        }))
-      })
-
+      source: {
+        include: 'zh/ui/*.yml',
+        prefix: '/ui'
+      },
+      schema: itemSchema
     }),
-
-    ui: defineCollection({
+    ui_en: defineCollection({
       type: 'page',
-      source: 'ui/*.yml',
-      schema: z.object({
-        title: z.string(),
-        date: z.date(),
-        description: z.string()
-      })
-
+      source: {
+        include: 'en/ui/*.yml',
+        prefix: '/ui'
+      },
+      schema: itemSchema
     }),
-
-    animation: defineCollection({
+    animation_zh: defineCollection({
       type: 'page',
-      source: 'animation/*.yml',
-      schema: z.object({
-        title: z.string(),
-        date: z.date(),
-        description: z.string()
-      })
-
+      source: {
+        include: 'zh/animation/*.yml',
+        prefix: '/animation'
+      },
+      schema: itemSchema
+    }),
+    animation_en: defineCollection({
+      type: 'page',
+      source: {
+        include: 'en/animation/*.yml',
+        prefix: '/animation'
+      },
+      schema: itemSchema
     })
-
   }
-
 })

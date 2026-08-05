@@ -1,5 +1,10 @@
 <script setup lang='ts'>
-const { t } = useI18n()
+const route = useRoute()
+const { locale } = useI18n()
+
+const { data } = await useAsyncData(`${route.path}-content`, () => {
+  return queryLocalizedContentItem('ui', locale.value, route.path)
+}, { watch: [locale] })
 
 type image = {
   src: string
@@ -15,7 +20,7 @@ const images: image[] = [
 </script>
 
 <template>
-  <SinUIDemo :title="t('items.polaroid.title')" :description="t('items.polaroid.description')">
+  <SinUIDemo :title="data?.title" :description="data?.description">
     <div class="m-auto flex flex-row justify-center items-center py-10 bg-default rounded-3xl">
       <SinUIPolaroidItem v-for="(image, index) in images" :key="index" :image="image" :index />
     </div>

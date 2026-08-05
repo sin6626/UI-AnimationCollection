@@ -1,22 +1,15 @@
 <script setup lang='ts'>
 const {$gsap: gsap, $SplitText: SplitText} = useNuxtApp()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-const { data: page } = await useAsyncData('index', () => {
-  return queryCollection('index').first()
-})
-const events = page.value?.events
-// console.log(events)
+const { data: uiItems } = await useAsyncData('home-ui', () => {
+  return queryLocalizedContentList('ui', locale.value)
+}, { watch: [locale] })
 
-
-if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Page not found',
-    fatal: true
-  })
-}
+const { data: animationItems } = await useAsyncData('home-animation', () => {
+  return queryLocalizedContentList('animation', locale.value)
+}, { watch: [locale] })
 
 const hero = computed(() => ({
   title: t('home.title'),
@@ -25,12 +18,9 @@ const hero = computed(() => ({
 
 const categories = computed(() => ['UI', 'Animation'].map(category => ({
   key: category,
-  label: t(`categories.${category}`)
+  label: t(`categories.${category}`),
+  items: category === 'UI' ? uiItems.value : animationItems.value
 })))
-
-function itemKey(path: string) {
-  return path.split('/').at(-1) || ''
-}
 
 onMounted(() => {
   const herodescription = new SplitText('.herodescription', {
@@ -99,10 +89,16 @@ onMounted(() => {
 
         <!-- 右侧 -->
         <div class="lg:col-span-1 space-y-8 font-serif">
-          <div class="flex-col gap-3 " v-for="(event, index) in events?.filter(e => e.category === category.key)"
-            :key="event.title">
-            <NuxtLink v-if="event.to" :to="localePath(event.to)" class="dark:hover:text-amber-50 light:hover:text-gray-500">
-              {{ index + 1 }} - {{ t(`items.${itemKey(event.to)}.title`) }}
+          <div
+            v-for="(event, index) in category.items"
+            :key="event.path"
+            class="flex-col gap-3 "
+          >
+            <NuxtLink
+              :to="localePath(event.path)"
+              class="dark:hover:text-amber-50 light:hover:text-gray-500"
+            >
+              {{ index + 1 }} - {{ event.title }}
             </NuxtLink>
           </div>
         </div>

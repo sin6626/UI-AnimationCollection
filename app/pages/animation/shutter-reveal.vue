@@ -1,10 +1,15 @@
 <script setup lang='ts'>
-const { t } = useI18n()
+const route = useRoute()
+const { locale } = useI18n()
+
+const { data } = await useAsyncData(`${route.path}-content`, () => {
+  return queryLocalizedContentItem('animation', locale.value, route.path)
+}, { watch: [locale] })
 </script>
 
 <template>
   
-  <SinAniDemo :title="t('items.shutter-reveal.title')" :description="t('items.shutter-reveal.description')">
+  <SinAniDemo :title="data?.title" :description="data?.description">
     <SinAniShutterReveal />
   </SinAniDemo>
 

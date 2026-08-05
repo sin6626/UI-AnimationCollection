@@ -7,7 +7,7 @@
 
 <script setup lang='ts'>
 const route = useRoute()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
 const props = defineProps({
@@ -16,22 +16,18 @@ const props = defineProps({
 })
 
 // 取相邻文章 (上一篇/下一篇,仅需 description 字段)
-const contentPath = route.path.replace(/^\/en(?=\/|$)/, '')
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
-  return queryCollectionItemSurroundings('animation', contentPath, {
-    fields: ['description']
-  }).order('date', 'ASC')
-})
+  return queryLocalizedContentSurround('animation', locale.value, route.path)
+}, { watch: [locale] })
 
 const localizedSurround = computed(() => surround.value?.map((item) => {
   if (!item) return item
 
-  const key = item.path.split('/').at(-1)
   return {
     ...item,
     path: localePath(item.path),
-    title: t(`items.${key}.title`),
-    description: t(`items.${key}.description`)
+    title: item.title,
+    description: item.description
   }
 }))
 </script>

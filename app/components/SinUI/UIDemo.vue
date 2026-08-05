@@ -2,13 +2,13 @@
  * UI 组件演示页公共壳
  * - 负责统一渲染: 返回链接 / 标题 / 描述 / 上下篇导航
  * - 演示内容由默认插槽传入, 各组件演示页自定义
- * - meta (title/description) 由父组件从 content/ui/*.yml 查询后传入
- * - surround 基于 route.path 查询同级内容, young items? fields=description
+ * - meta (title/description) 由父组件从当前语言 Content 查询后传入
+ * - surround 基于 route.path 查询同级内容
  */
 
 <script setup lang="ts">
 const route = useRoute()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
 const props = defineProps<{
@@ -17,23 +17,18 @@ const props = defineProps<{
 }>()
 
 // 取相邻文章 (上一篇/下一篇,仅需 description 字段)
-const contentPath = route.path.replace(/^\/en(?=\/|$)/, '')
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
-  return queryCollectionItemSurroundings('ui', contentPath, {
-    fields: ['description']
-  }).order('date', 'ASC')
-  }
-)
+  return queryLocalizedContentSurround('ui', locale.value, route.path)
+}, { watch: [locale] })
 
 const localizedSurround = computed(() => surround.value?.map((item) => {
   if (!item) return item
 
-  const key = item.path.split('/').at(-1)
   return {
     ...item,
     path: localePath(item.path),
-    title: t(`items.${key}.title`),
-    description: t(`items.${key}.description`)
+    title: item.title,
+    description: item.description
   }
 }))
 

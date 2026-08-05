@@ -1,0 +1,4 @@
+title: "ColorModeButton 带有动画的切换主题的按钮"
+date: "2026-7-23"
+src: "/ColorModeButton.png"
+description: "该组件来源于https://github.com/nuxt-ui-templates/portfolio项目, 常用的页面切换主题的按钮, 比Ai写的好看一百倍, 动画丝滑, 而且理解之后很适合改造, 所以直接扣下来了... 左侧按钮是原项目的按钮的, 只有扩散效果; 使用JS控制ClipPath, 导致难以实现右侧按钮的收缩效果. 右侧按钮是改造的按钮, 有扩散和收缩的效果, 使用css控制clip-path, 效果更好"
