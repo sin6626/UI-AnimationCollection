@@ -28,7 +28,7 @@ const localizedSurround = computed(() => surround.value?.map((item) => {
     ...item,
     path: localePath(item.path),
     title: item.title,
-    description: item.description
+    description: typeof item.description === 'string' ? item.description : undefined
   }
 }))
 
