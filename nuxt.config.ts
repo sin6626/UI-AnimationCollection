@@ -60,22 +60,7 @@ export default defineNuxtConfig({
   },
 
   // Vite 配置: 显式预构建 @nuxtjs/mdc 的子依赖, 消除 Vite 启动时的 optimizeDeps 警告
-  vite: {
-    optimizeDeps: {
-      include: [
-        '@nuxtjs/mdc > remark-gfm',
-        '@nuxtjs/mdc > remark-emoji',
-        '@nuxtjs/mdc > remark-mdc',
-        '@nuxtjs/mdc > remark-rehype',
-        '@nuxtjs/mdc > rehype-raw',
-        '@nuxtjs/mdc > parse5',
-        '@nuxtjs/mdc > unist-util-visit',
-        '@nuxtjs/mdc > unified',
-        '@nuxtjs/mdc > debug',
-        '@nuxtjs/mdc > extend'
-      ]
-    }
-  },
+
   // ESLint 配置: 启用 stylistic 风格规则
   eslint: {
     config: {
