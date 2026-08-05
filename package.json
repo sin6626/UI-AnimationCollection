@@ -25,6 +25,9 @@
     "tailwindcss": "^4.3.1"
   },
   "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.114",
     "@iconify-json/simple-icons": "^1.2.87",
