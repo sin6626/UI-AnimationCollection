@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
     'motion-v/nuxt',
     '@nuxtjs/i18n',
-    'nuxt-studio'
+    ...(process.env.NODE_ENV === 'development' ? ['nuxt-studio'] : [])
   ],
 
   ssr: true,
@@ -95,8 +95,5 @@ export default defineNuxtConfig({
       file: 'en.json'
     }]
   },
-
-  studio: {
-    route: '/_studio'
-  }
+  
 })
