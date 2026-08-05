@@ -15,7 +15,8 @@ export default defineNuxtConfig({
     '@nuxt/content', // VueUse 工具集自动导入
     '@vueuse/nuxt', // 社交分享 OG 图生成
     'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
-    'motion-v/nuxt'
+    'motion-v/nuxt',
+    '@vueuse/nuxt'
     // 'nuxt-studio'
   ],
 
