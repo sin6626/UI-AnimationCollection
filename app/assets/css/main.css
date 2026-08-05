@@ -22,6 +22,15 @@
   }
 }
 
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-width: 100%;
+}
+
 .dark {
   --ui-bg: #101828;
   ::selection {
