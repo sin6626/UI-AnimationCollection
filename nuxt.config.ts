@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt', // 社交分享 OG 图生成
     'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
     'motion-v/nuxt',
-    '@vueuse/nuxt'
+    '@nuxtjs/i18n'
     // 'nuxt-studio'
   ],
 
@@ -52,7 +52,8 @@ export default defineNuxtConfig({
     prerender: {
       // 显式预渲染根路径,并启用链接爬取发现更多需预渲染的页面
       routes: [
-        '/'
+        '/',
+        '/en'
       ],
       // 爬取链接, 像搜索引擎一样寻找 <a>, 然后发现别的页面, 继续预渲染这些页面
       crawlLinks: true
@@ -74,5 +75,19 @@ export default defineNuxtConfig({
     // 零运行时模式: OG 图在构建时静态生成,不占用运行时
     // 看见零运行时模式之后, 由于服务器
     zeroRuntime: true
+  },
+
+  i18n: {
+    defaultLocale: 'zh',
+    strategy: 'prefix_except_default',
+    locales: [{
+      code: 'zh',
+      name: '中文',
+      file: 'zh.json'
+    }, {
+      code: 'en',
+      name: 'English',
+      file: 'en.json'
+    }]
   }
 })

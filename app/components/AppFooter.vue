@@ -7,6 +7,7 @@
 <script setup lang="ts">
 // 取全局 app.config.ts 的 footer 配置
 const { footer } = useAppConfig()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const { footer } = useAppConfig()
   >
     <!-- 左侧: 版权 / credits 文案 -->
     <template #left>
-      {{ footer.credits }}
+      {{ t('footer.credits', { year: new Date().getFullYear() }) }}
     </template>
 
     <!-- 右侧: 社交媒体按钮列表 (Discord / X / GitHub 等) -->

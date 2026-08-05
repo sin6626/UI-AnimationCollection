@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "首页",
+    "ui": "UI",
+    "animation": "动画",
+    "laboratory": "Ai 实验室"
+  },
+  "home": {
+    "title": "我是 Sin，这是我写 UI 和动画的地方",
+    "description": "一个专门用来写组件、UI 设计与动画的仓库，收集各个角落自己喜欢的东西。"
+  },
+  "categories": {
+    "UI": "UI",
+    "Animation": "动画"
+  },
+  "ui": {
+    "title": "Sin 的 UI 组件小宝库",
+    "description": "复刻我喜欢的 UI 组件，收藏我喜欢的 UI 组件。",
+    "view": "查看组件",
+    "back": "返回 UI"
+  },
+  "animation": {
+    "title": "Sin 的动画收藏夹",
+    "description": "学懂了就收进来，下次要用的时候不用重新扒一遍。",
+    "view": "查看动画",
+    "back": "返回动画"
+  },
+  "laboratory": {
+    "button": "点这里"
+  },
+  "common": {
+    "backHome": "返回首页",
+    "switchLanguage": "切换至 English"
+  },
+  "footer": {
+    "credits": "创建于 2026 - {year}"
+  },
+  "items": {
+    "polaroid": {
+      "title": "Polaroid UI：类似拍立得的小组件",
+      "description": "一个类似拍立得邮票的组件，适合双人站或照片墙。"
+    },
+    "color-mode-button": {
+      "title": "ColorModeButton：带动画的主题切换按钮",
+      "description": "从 portfolio 项目收录的主题切换按钮；左侧为原版扩散效果，右侧改用 CSS clip-path 支持扩散与收缩。"
+    },
+    "nihilistic-hero": {
+      "title": "Nihilistic Hero：虚无实用主义左右布局 Hero",
+      "description": "从网络海报得到灵感后，在实验室测试并收录的 16:9 Hero 布局。"
+    },
+    "shutter-reveal": {
+      "title": "ShutterReveal：快门切片动画",
+      "description": "学习 fqzlr.com 首页快门效果后复刻的无滚动版本，五个竖向切片按奇偶方向进入，最后合成完整图片。"
+    },
+    "wave-reveal": {
+      "title": "WaveReveal + Logo Stroke：波浪揭示动画",
+      "description": "从 BenjaminOddou/portfolio 提取的预加载动画展示版，以 SVG 描边和 GSAP 波浪转场完成揭示。"
+    },
+    "interactive-icon-morph": {
+      "title": "InteractiveIconMorph：交互式图标形变动画",
+      "description": "从 BenjaminOddou/portfolio 提取的交互菜单图标：悬停时以 GSAP 驱动 SVG 路径形变，并配合环形文字旋转。"
+    }
+  }
+}

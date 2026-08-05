@@ -1,9 +1,5 @@
 <script setup lang='ts'>
-const route = useRoute()
-
-const { data } = await useAsyncData(route.path, () =>
-  queryCollection('ui').path(route.path).first()
-)
+const { t } = useI18n()
 
 type image = {
   src: string
@@ -19,7 +15,7 @@ const images: image[] = [
 </script>
 
 <template>
-  <SinUIDemo :title="data?.title" :description="data?.description">
+  <SinUIDemo :title="t('items.polaroid.title')" :description="t('items.polaroid.description')">
     <div class="m-auto flex flex-row justify-center items-center py-10 bg-default rounded-3xl">
       <SinUIPolaroidItem v-for="(image, index) in images" :key="index" :image="image" :index />
     </div>

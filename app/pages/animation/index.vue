@@ -2,14 +2,20 @@
 const { data: page } = await useAsyncData('animation-index', () => {
   return queryCollection('index').first()
 })
+const { t } = useI18n()
+const localePath = useLocalePath()
 const data = page.value?.events.filter(item => item.category === 'Animation')
+
+function itemKey(path: string) {
+  return path.split('/').at(-1) || ''
+}
 </script>
 
 <template>
   <UPage>
     <UPageHero
-      title="Sin的动画收藏夹"
-      description="学懂了就收进来, 下次要用的时候不用重新扒一遍..."
+      :title="t('animation.title')"
+      :description="t('animation.description')"
       :ui="{
         title: 'mx-0! text-left',
         description: 'mx-0! text-left'
@@ -26,8 +32,8 @@ const data = page.value?.events.filter(item => item.category === 'Animation')
         :in-view-options="{ once: false }"
       >
         <UPageCard
-          :title="item.title"
-          :description="item.description"
+          :title="t(`items.${itemKey(item.to)}.title`)"
+          :description="t(`items.${itemKey(item.to)}.description`)"
           target="_self"
           orientation="horizontal"
           variant="naked"
@@ -43,10 +49,10 @@ const data = page.value?.events.filter(item => item.category === 'Animation')
 
           <template #footer>
             <ULink
-              :to="item.to"
+              :to="localePath(item.to)"
               class="text-sm text-fuchsia-600/80 hover:text-fuchsia-500/80 flex items-center"
             >
-              View Animation
+              {{ t('animation.view') }}
               <UIcon
                 name="i-lucide-arrow-right"
                 class="size-4 text-primary transition-all opacity-0 group-hover:translate-x-1 group-hover:opacity-100"

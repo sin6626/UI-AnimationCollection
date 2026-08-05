@@ -3,6 +3,8 @@ import type { NuxtError } from '#app'
 import { Motion } from 'motion-v'
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 
+const { t } = useI18n()
+
 defineProps({
   error:{
     type: Object as PropType<NuxtError>,
@@ -37,7 +39,7 @@ function handleMouseLeave(event: MouseEvent) {
     <DotLottieVue class="w-full h-full m-auto" autoplay loop src="/404-error.lottie" />
     <!-- <UButton to="/" class="absolute top-4/5 left-1/2 -translate-x-1/2 text-gray-600 hover:text-gray-700 hover:bg-amber-100/80" variant="outline" size="xl" icon="i-lucide-rocket" >Back to Home</UButton> -->
     <UButton
-      to="/"
+      :to="$localePath('/')"
       size="xl"
       color="neutral"
       variant="outline"
@@ -56,7 +58,7 @@ function handleMouseLeave(event: MouseEvent) {
       />
       <span :class="['relative z-10 flex items-center gap-2 transition-colors', isHovered ? 'text-white' : 'text-black/80']">
         <UIcon name="lucide-rocket" class="size-5" />
-        Back to Home
+        {{ t('common.backHome') }}
       </span>
     </UButton>
   </UMain>

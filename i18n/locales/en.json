@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "Home",
+    "ui": "UI",
+    "animation": "Animation",
+    "laboratory": "AI Laboratory"
+  },
+  "home": {
+    "title": "I'm Sin. This is where I build UI and animation.",
+    "description": "A collection of components, UI experiments, and animations I enjoy from all over the web."
+  },
+  "categories": {
+    "UI": "UI",
+    "Animation": "Animation"
+  },
+  "ui": {
+    "title": "Sin's UI Collection",
+    "description": "Recreated UI pieces worth keeping.",
+    "view": "View Component",
+    "back": "Back to UI"
+  },
+  "animation": {
+    "title": "Sin's Animation Collection",
+    "description": "Learn it once, keep it here, and never have to reverse-engineer it again.",
+    "view": "View Animation",
+    "back": "Back to Animation"
+  },
+  "laboratory": {
+    "button": "Click There"
+  },
+  "common": {
+    "backHome": "Back to Home",
+    "switchLanguage": "Switch to Chinese"
+  },
+  "footer": {
+    "credits": "Created on 2026 - {year}"
+  },
+  "items": {
+    "polaroid": {
+      "title": "Polaroid UI: A little instant-photo component",
+      "description": "An instant-photo stamp component for paired sites or photo walls."
+    },
+    "color-mode-button": {
+      "title": "ColorModeButton: An animated theme toggle",
+      "description": "A theme toggle collected from a portfolio project. The revised version uses CSS clip-path for both expansion and contraction."
+    },
+    "nihilistic-hero": {
+      "title": "Nihilistic Hero: A two-column editorial hero",
+      "description": "A 16:9 hero layout inspired by an online poster, tested in the laboratory and kept here."
+    },
+    "shutter-reveal": {
+      "title": "ShutterReveal: A shutter-slice animation",
+      "description": "A no-scroll reinterpretation of fqzlr.com's shutter effect: five vertical slices enter from alternating directions, then form one image."
+    },
+    "wave-reveal": {
+      "title": "WaveReveal + Logo Stroke: A wave reveal animation",
+      "description": "A preloader showcase adapted from BenjaminOddou/portfolio, combining SVG strokes with a GSAP wave transition."
+    },
+    "interactive-icon-morph": {
+      "title": "InteractiveIconMorph: An interactive icon morph",
+      "description": "A menu icon study adapted from BenjaminOddou/portfolio, with GSAP-driven SVG morphing and rotating circular type."
+    }
+  }
+}

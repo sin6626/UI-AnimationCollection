@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 const {$gsap: gsap, $SplitText: SplitText} = useNuxtApp()
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 const { data: page } = await useAsyncData('index', () => {
   return queryCollection('index').first()
@@ -16,13 +18,19 @@ if (!page.value) {
   })
 }
 
-const hero = {
-  title: '我是Sin, 这是我写UI和动画的地方',
-  description: '一个专门用来给我写组件, UI设计, 动画的仓库, 可能来源于各种地方, 收集各个角落自己喜欢的UI和动画',
-  links: '#'
-}
+const hero = computed(() => ({
+  title: t('home.title'),
+  description: t('home.description')
+}))
 
-const categorys = ['UI', 'Animation']
+const categories = computed(() => ['UI', 'Animation'].map(category => ({
+  key: category,
+  label: t(`categories.${category}`)
+})))
+
+function itemKey(path: string) {
+  return path.split('/').at(-1) || ''
+}
 
 onMounted(() => {
   const herodescription = new SplitText('.herodescription', {
@@ -63,11 +71,7 @@ onMounted(() => {
         title: 'mx-0! text-left',
         description: 'mx-0! text-left text-balance herodescription',
         links: 'justify-start'
-      }">
-        <template #links>
-          <UButton v-if="hero.links" :to="`#`" />
-        </template>
-      </UPageHero>
+      }" />
     </Motion>
 
     <Motion :initial="{
@@ -83,22 +87,22 @@ onMounted(() => {
       delay: 0.2
     }">
 
-      <div v-for="(category, index) in categorys" :key="index"
+      <div v-for="category in categories" :key="category.key"
         class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 mb-16 last:mb-0">
 
         <!-- 左侧 -->
         <div class="lg:col-span-1 mb-4 lg:mb-0 pl-10">
           <h2 class="lg:sticky lg:top-16 text-xl font-semibold text-highlighted">
-            {{ category }}
+            {{ category.label }}
           </h2>
         </div>
 
         <!-- 右侧 -->
         <div class="lg:col-span-1 space-y-8 font-serif">
-          <div class="flex-col gap-3 " v-for="(event, index) in events?.filter(e => e.category === category)"
+          <div class="flex-col gap-3 " v-for="(event, index) in events?.filter(e => e.category === category.key)"
             :key="event.title">
-            <NuxtLink v-if="event.to" :to="event.to" class="dark:hover:text-amber-50 light:hover:text-gray-500">
-              {{ index + 1 }} - {{ event.title }}
+            <NuxtLink v-if="event.to" :to="localePath(event.to)" class="dark:hover:text-amber-50 light:hover:text-gray-500">
+              {{ index + 1 }} - {{ t(`items.${itemKey(event.to)}.title`) }}
             </NuxtLink>
           </div>
         </div>

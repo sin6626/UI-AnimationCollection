@@ -1,15 +1,11 @@
 <script setup lang='ts'>
-const route = useRoute()
-
-const { data } = await useAsyncData(route.path, () =>
-  queryCollection('ui').path(route.path).first()
-)
+const { t } = useI18n()
 </script>
 
 <template>
   <SinUIDemo
-    :title="data?.title"
-    :description="data?.description"
+    :title="t('items.nihilistic-hero.title')"
+    :description="t('items.nihilistic-hero.description')"
   >
     <SinUINihilisticHero />
   </SinUIDemo>

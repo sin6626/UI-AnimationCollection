@@ -5,9 +5,27 @@
  */
 
 <script setup lang="ts">
-import { navLinks } from '~/utils/links';
+import type { NavigationMenuItem } from '@nuxt/ui'
 
-// 默认布局没有额外逻辑,仅作结构包裹
+const { t } = useI18n()
+const localePath = useLocalePath()
+const navLinks = computed<NavigationMenuItem[]>(() => [{
+  label: t('nav.home'),
+  icon: 'i-lucide-home',
+  to: localePath('/')
+}, {
+  label: t('nav.ui'),
+  icon: 'tabler:components',
+  to: localePath('/ui')
+}, {
+  label: t('nav.animation'),
+  icon: 'tdesign:animation-1',
+  to: localePath('/animation')
+}, {
+  label: t('nav.laboratory'),
+  icon: 'ri:ai',
+  to: localePath('/AiLaboratory')
+}])
 </script>
 
 <template>

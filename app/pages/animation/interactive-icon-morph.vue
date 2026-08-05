@@ -1,15 +1,11 @@
 <script setup lang='ts'>
-const route = useRoute()
-
-const { data } = await useAsyncData(route.path, () =>
-  queryCollection('animation').path(route.path).first()
-)
+const { t } = useI18n()
 </script>
 
 <template>
   <SinAniDemo
-    :title="data?.title"
-    :description="data?.description"
+    :title="t('items.interactive-icon-morph.title')"
+    :description="t('items.interactive-icon-morph.description')"
   >
     <SinAniInteractiveIconMorph />
   </SinAniDemo>

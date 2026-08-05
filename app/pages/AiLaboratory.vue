@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { Motion } from 'motion-v'
 
+const { t } = useI18n()
 const isHovered = ref(false)
 const cursor = reactive({ x: 0, y: 0 })
 
@@ -42,7 +43,7 @@ function handleMouseLeave(event: MouseEvent) {
       />
       <span :class="['relative z-10 flex items-center gap-2 transition-colors', isHovered ? 'text-default' : 'text-inverted']">
         <UIcon name="lucide-rocket" class="size-5" />
-        Click There
+        {{ t('laboratory.button') }}
       </span>
     </UButton>
   </div>

@@ -117,6 +117,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 
         <!-- 末尾追加颜色模式切换按钮 -->
         <template #list-trailing>
+          <LocaleSwitch />
           <ColorModeButton />
         </template>
       </UNavigationMenu>
