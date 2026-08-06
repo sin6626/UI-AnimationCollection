@@ -67,7 +67,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 </script>
 
 <template>
-  <div class="top-2 sm:top-4 z-10 size-10 fixed">
+  <div class="top-2 sm:top-4 z-10 size-10 fixed hidden md:block">
     <img src="/Sin.jpg" alt="" class="object-cover rounded-lg">
   </div>
   <div class="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-10">
