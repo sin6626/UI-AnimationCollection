@@ -26,7 +26,7 @@ const volume = 68
             <UIcon name="i-lucide-volume-2" class="size-5 text-default/75" />
             <div class="h-1.5 w-[76px] overflow-hidden rounded-full bg-inverted/30">
               <div
-                class="h-full rounded-full bg-inverted"
+                class="h-full rounded-full bg-inverted/80"
                 :style="{ width: `${volume}%` }"
               />
             </div>
@@ -34,8 +34,8 @@ const volume = 68
         </div>
 
         <div class="flex items-end gap-4 pt-[52px] text-default/72">
-          <UIcon name="i-lucide-captions" class="size-5 text-primary" />
-          <UIcon name="i-lucide-list-music" class="size-5" />
+          <UButton icon="i-lucide-captions" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
+          <UButton icon="i-lucide-list-music" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
         </div>
       </div>
 
