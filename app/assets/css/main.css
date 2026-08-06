@@ -4,6 +4,7 @@
 @source "../../../content/**/*";
 
 @theme static {
+  --color-brand-500: oklch(52.5% 0.223 3.958);   /* 自定义主题色, 这样在app.config里面才能使用这个颜色 */
   --font-sans: 'Public Sans', sans-serif;
   --font-serif: 'Instrument Serif', serif;
   --color-light-lavender: #c8a8e9;   /* 浅紫 */

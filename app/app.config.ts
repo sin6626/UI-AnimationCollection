@@ -24,7 +24,7 @@ export default defineAppConfig({
   // Nuxt UI 配置: 主题色与 UPageHero 组件样式覆盖
   ui: {
     colors: {
-      primary: "oklch(52.5% 0.223 3.958)",
+      primary: "brand",
       neutral: "neutral",
     },
     // 覆盖 UPageHero 组件默认槽位的样式 (容器内边距、标题宽度、描述样式)
