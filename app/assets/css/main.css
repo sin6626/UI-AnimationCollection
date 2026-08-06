@@ -10,7 +10,7 @@
   --color-light-orange:   #f5cba7;   /* 浅橙 */
   --color-light-sliver:   #c8c8c8; /* 银灰色 */
   --color-jet:            #2c2c2c;   /* 深灰黑 */
-  --color-jet-blue:       #16213a    /* 深灰蓝 */
+  --color-jet-blue:       #141d33    /* 深灰蓝 */
 }
 
 :root {
@@ -34,6 +34,7 @@ body {
 
 .dark {
   --ui-bg: #101828;
+
   ::selection {
     color: #ffffff;
     background-color: #474747;
