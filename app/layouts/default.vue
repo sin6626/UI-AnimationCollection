@@ -32,9 +32,12 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
   <div>
     <!-- 容器: 居中限宽 + 紧凑顶部留白 + 两侧边框 (中等及以上屏幕显示) -->
     <UContainer class="relative sm:border-x border-default pt-3 sm:pt-4">
-      <aside class="absolute left-0 hidden -translate-x-[calc(100%+1.5rem)] lg:block">
-        <div class="sticky top-24">
-          <SidebarMusicPlayer />
+      <aside
+        class="absolute top-0 hidden px-6 2xl:block"
+        style="left: calc((100vw - var(--ui-container)) / -2); width: calc((100vw - var(--ui-container)) / 2);"
+      >
+        <div class="sticky top-24 flex justify-center">
+          <SidebarMusicPlayer class="max-w-full" />
         </div>
       </aside>
 

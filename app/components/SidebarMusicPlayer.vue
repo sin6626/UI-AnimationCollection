@@ -131,7 +131,7 @@ onMounted(() => {
 
 <template>
   <section
-    class="w-[350px] rounded-[18px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
+    class="w-[350px] max-w-full rounded-[18px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
 
     <div class="px-7 py-5">
       <audio
