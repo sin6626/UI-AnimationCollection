@@ -220,9 +220,14 @@ onMounted(() => {
 
     <Motion
       tag="div"
+      :initial="{ height: 0, opacity: 0 }"
       :animate="{ height: isExpand ? 'auto' : 0, opacity: isExpand ? 1 : 0 }"
       :transition="{ type: 'spring', stiffness: 260, damping: 30 }"
-      class="overflow-hidden text-default dark:bg-jet-blue light:bg-white"
+      :aria-hidden="!isExpand"
+      :class="[
+        'overflow-hidden text-default dark:bg-jet-blue light:bg-white',
+        isExpand ? 'pointer-events-auto' : 'h-0 opacity-0 pointer-events-none'
+      ]"
     >
       <LazyUPageList class="overflow-auto max-h-[600px]">
         <UPageCard v-for="(song, index) in songs" :key="song.src" variant="ghost"
