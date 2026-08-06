@@ -21,18 +21,18 @@ type MusicItem = {
   name: string
   src: string
   avatar: string
+  order: number
 }
 
 const { data: musicItems } = await useAsyncData('sidebar-music', () => {
-  return queryCollection('music').order('order', 'ASC').all()
+  const queryMusicCollection = queryCollection as unknown as (collection: 'music') => {
+    all: () => Promise<MusicItem[]>
+  }
+
+  return queryMusicCollection('music').all()
 })
 
-const songs = computed(() => (musicItems.value ?? []).map((song): MusicItem => ({
-  title: song.title,
-  name: song.name,
-  src: song.src,
-  avatar: song.avatar
-})))
+const songs = computed(() => [...(musicItems.value ?? [])].sort((a, b) => a.order - b.order))
 
 const currentSong = computed(() => songs.value[currentIndex.value])
 const currentLabel = computed(() => currentSong.value?.title ?? '暂无歌曲')
