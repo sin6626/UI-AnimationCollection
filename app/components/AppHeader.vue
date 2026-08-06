@@ -1,10 +1,10 @@
 /**
- * 顶部浮动导航组件
- * - 固定在顶部居中位置 (左右随机平移到中线)
+ * 顶部吸附导航组件
+ * - 在页面主体容器内吸附到顶部,避免 Studio 预览面板改变视口时偏移
  * - 使用 UNavigationMenu + 模糊背景胶囊样式
  * - links 由父组件传入 (统一来自 utils/links.ts 的 navLinks)
  * - 带 motion-v spring 滑动的激活指示条,图标跟随指示条过渡
- * - 末尾槽位放颜色模式切换按钮
+ * - 左侧头像与导航保持同一行,末尾槽位放语言与颜色模式切换按钮
  */
 
 <script setup lang="ts">
@@ -67,14 +67,15 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 </script>
 
 <template>
-  <div class="top-2 sm:top-4 z-10 size-10 fixed hidden md:block">
-    <img src="/Sin.jpg" alt="" class="object-cover rounded-lg">
-  </div>
-  <div class="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-10">
+  <header class="sticky top-2 sm:top-4 z-20 grid grid-cols-[1fr_auto_1fr] items-center">
+    <div class="hidden md:block size-10 justify-self-start">
+      <img src="/Sin.jpg" alt="" class="size-full object-cover rounded-lg shadow-lg shadow-neutral-950/5">
+    </div>
+
     <!-- 外层 relative 容器: 为绝对定位的指示条提供定位基准 -->
     <div
       ref="navRef"
-      class="relative"
+      class="relative justify-self-center"
     >
       <!-- motion-v spring 滑动指示条: left/width 跟随激活项 DOM 位置变化,自动 spring 回弹过渡 -->
       <Motion
@@ -122,5 +123,5 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
         </template>
       </UNavigationMenu>
     </div>
-  </div>
+  </header>
 </template>
