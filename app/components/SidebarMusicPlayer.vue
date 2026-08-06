@@ -1,18 +1,20 @@
 <script setup lang="ts">
+import { img } from '#build/ui/prose';
+
 const isPlaying = ref(false)
 const progress = 18
 const volume = 68
 </script>
 
 <template>
-  <section class="w-[350px] rounded-[18px] border border-default bg-default/80 text-default shadow-2xl shadow-black/30">
+  <section class="w-[350px] rounded-[18px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
     <div class="px-7 py-5">
       <div class="flex items-start gap-4">
-        <img
+        <NuxtImg
           src="/Sin.jpg"
           alt=""
           class="size-[72px] shrink-0 rounded-full border border-default object-cover shadow-lg shadow-black/40"
-        >
+        />
 
         <div class="min-w-0 flex-1 pt-1">
           <h3 class="truncate text-2xl font-black leading-7 tracking-tight text-default/90">
