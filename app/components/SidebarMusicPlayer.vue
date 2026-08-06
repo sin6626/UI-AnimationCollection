@@ -142,8 +142,12 @@ onMounted(() => {
         @ended="handleEnded"
       />
       <div class="flex items-start gap-4">
-        <NuxtImg :src="currentSong?.avatar ?? '/Sin.jpg'" :alt="currentSong?.title ?? ''"
-          class="size-[72px] shrink-0 rounded-full border border-default object-cover shadow-lg shadow-black/40" />
+        <NuxtImg
+          :src="currentSong?.avatar ?? '/Sin.jpg'"
+          :alt="currentSong?.title ?? ''"
+          class="size-[72px] shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
+          :style="{ animationPlayState: isPlaying ? 'running' : 'paused' }"
+        />
 
         <div class="min-w-0 flex-1 pt-1">
           <h3 class="truncate text-2xl font-black leading-7 tracking-tight text-default/90">
@@ -166,7 +170,7 @@ onMounted(() => {
         </div>
 
         <div class="flex items-end gap-4 pt-[52px] text-default/72">
-          <UTooltip text="歌词">
+          <UTooltip text="歌词-还没做">
             <UButton icon="i-lucide-captions" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
           </UTooltip>
           <!-- 下面这个功能感觉多余了, 先隐藏起来 -->
@@ -188,10 +192,13 @@ onMounted(() => {
       </div>
 
       <div class="mt-5 flex items-center justify-between px-3 text-default/78">
-        <UTooltip text="循环播放">
+        <UTooltip :text="isRepeat ? '关闭循环' : '循环播放'">
           <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="lg"
-            :class="isRepeat ? 'text-primary bg-primary/10' : 'text-default/55 hover:bg-inverted/10 hover:text-default'"
+            :class="isRepeat
+              ? 'text-default bg-inverted/10 shadow-sm shadow-primary/20'
+              : 'text-default/55 hover:bg-inverted/10 hover:text-default'"
             aria-label="Repeat"
+            :aria-pressed="isRepeat"
             @click="isRepeat = !isRepeat"
           />
         </UTooltip>
@@ -211,7 +218,7 @@ onMounted(() => {
           <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="lg"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
         </UTooltip>
-        <UTooltip text="可视化">
+        <UTooltip text="可视化-还没做">
           <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="lg"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Audio" />
         </UTooltip>
