@@ -1,4 +1,4 @@
-import type { Collections } from '@nuxt/content'
+import type { PageCollections } from '@nuxt/content'
 
 /**
  * 内容类型枚举
@@ -26,13 +26,13 @@ export type ContentKind = 'ui' | 'animation'
  *
  * @param kind  内容类型（ui | animation）
  * @param locale 当前语言环境，例如 'zh' 或 'en'
- * @returns 对应内容集合的名称（keyof Collections 表示它是 Collections 中真实存在的一个集合键）
+ * @returns 对应页面集合的名称（keyof PageCollections 表示它是页面集合键）
  */
 
-// keyof Collections: 返回Collections类型所有属性键名组成的联合类型
-export function localizedContentCollection(kind: ContentKind, locale: string): keyof Collections {
+// keyof PageCollections: 只允许返回页面集合,避免 music 这类 data collection 混入页面查询类型
+export function localizedContentCollection(kind: ContentKind, locale: string): keyof PageCollections {
   // 拼接集合名：`${kind}_${locale}`，其中非 'en' 的 locale 统一规范为 'zh'
-  return `${kind}_${locale === 'en' ? 'en' : 'zh'}` as keyof Collections
+  return `${kind}_${locale === 'en' ? 'en' : 'zh'}` as keyof PageCollections
 }
 
 /**

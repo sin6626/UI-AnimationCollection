@@ -7,8 +7,21 @@ const itemSchema = z.object({
   src: z.string()
 })
 
+const musicSchema = z.object({
+  title: z.string(),
+  name: z.string(),
+  src: z.string(),
+  avatar: z.string(),
+  order: z.number()
+})
+
 export default defineContentConfig({
   collections: {
+    music: defineCollection({
+      type: 'data',
+      source: 'music/*.yml',
+      schema: musicSchema
+    }),
     ui_zh: defineCollection({
       type: 'page',
       source: {
