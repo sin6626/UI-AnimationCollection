@@ -10,7 +10,8 @@
   --color-light-orange:   #f5cba7;   /* 浅橙 */
   --color-light-sliver:   #c8c8c8; /* 银灰色 */
   --color-jet:            #2c2c2c;   /* 深灰黑 */
-  --color-jet-blue:       #141d33    /* 深灰蓝 */
+  --color-jet-blue:       #141d33;   /* 深灰蓝 */
+  --color-jethover-blue:  #202d50;    /* hover深灰蓝 */
 }
 
 :root {
@@ -34,6 +35,7 @@ body {
 
 .dark {
   --ui-bg: #101828;
+  /* --color-jethover-blue:  #202d50; */
 
   ::selection {
     color: #ffffff;

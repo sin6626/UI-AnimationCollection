@@ -1,14 +1,123 @@
 <script setup lang="ts">
-import { img } from '#build/ui/prose';
 
 const isPlaying = ref(false)
 const progress = 18
 const volume = 68
+
+const isExpand = ref(false)
+const openExpand = () => {
+  isExpand.value = !isExpand.value
+}
+
+const songs = ref([
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+  {
+    title: '十年',
+    name: '陈奕迅',
+    avatar: {
+      src: '/Devil.png',
+      alt: '十年',
+      loading: 'lazy' as const
+    }
+  },
+])
+
+
 </script>
 
 <template>
   <section
     class="w-[350px] rounded-[18px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
+
     <div class="px-7 py-5">
       <div class="flex items-start gap-4">
         <NuxtImg src="/Sin.jpg" alt=""
@@ -35,7 +144,7 @@ const volume = 68
             <UButton icon="i-lucide-captions" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
           </UTooltip>
           <!-- 下面这个功能感觉多余了, 先隐藏起来 -->
-          <UTooltip v-if="false" text="歌曲列表">
+          <UTooltip v-if="false" text="歌曲胶囊">
             <UButton icon="i-lucide-list-music" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
           </UTooltip>
         </div>
@@ -58,7 +167,7 @@ const volume = 68
           <UButton icon="i-lucide-skip-back" variant="ghost" color="neutral" size="lg"
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Previous" />
         </UTooltip>
-        <UTooltip :text="isPlaying ? '暂停' : '播放' ">
+        <UTooltip :text="isPlaying ? '暂停' : '播放'">
           <UButton :icon="isPlaying ? 'i-lucide-pause' : 'i-lucide-play'" variant="ghost" color="neutral" size="xl"
             class="text-default hover:bg-inverted/10" aria-label="Play" @click="isPlaying = !isPlaying" />
         </UTooltip>
@@ -67,7 +176,7 @@ const volume = 68
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Next" />
         </UTooltip>
         <UTooltip text="播放列表">
-          <UButton icon="i-lucide-list-music" variant="ghost" color="neutral" size="lg"
+          <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="lg"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
         </UTooltip>
         <UTooltip text="可视化">
@@ -76,5 +185,16 @@ const volume = 68
         </UTooltip>
       </div>
     </div>
+
+    <div class="overflow-hidden transition-all text-default dark:bg-jet-blue light:bg-white" :class="isExpand ? 'max-h-[600px]' : 'max-h-0'">
+      <LazyUPageList class="overflow-auto max-h-[600px]">
+        <UPageCard v-for="(song, index) in songs" :key="index" variant="ghost" class="dark:hover:bg-jethover-blue light:hover:bg-blue-50">
+          <template #body>
+            <UUser class="relative" :name="song.title" :description="song.name" :avatar="song.avatar" size="xl" />
+          </template>
+        </UPageCard>
+      </LazyUPageList>
+    </div>
+
   </section>
 </template>

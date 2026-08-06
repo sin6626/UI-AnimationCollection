@@ -31,7 +31,13 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
 <template>
   <div>
     <!-- 容器: 居中限宽 + 紧凑顶部留白 + 两侧边框 (中等及以上屏幕显示) -->
-    <UContainer class="sm:border-x border-default pt-3 sm:pt-4">
+    <UContainer class="relative sm:border-x border-default pt-3 sm:pt-4">
+      <aside class="absolute left-0 hidden -translate-x-[calc(100%+1.5rem)] lg:block">
+        <div class="sticky top-24">
+          <SidebarMusicPlayer />
+        </div>
+      </aside>
+
       <!-- 顶部导航 -->
       <AppHeader :links="navLinks" />
       <!-- 页面内容插槽,由进入该布局的路由组件填充 -->
