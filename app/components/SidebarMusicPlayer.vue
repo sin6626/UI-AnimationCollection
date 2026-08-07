@@ -131,9 +131,9 @@ onMounted(() => {
 
 <template>
   <section
-    class="w-[350px] max-w-full rounded-[18px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
+    class="w-[280px] max-w-full rounded-[16px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
 
-    <div class="px-7 py-5">
+    <div class="px-4 py-4">
       <audio
         ref="audio"
         :src="currentSong?.src"
@@ -141,27 +141,27 @@ onMounted(() => {
         @timeupdate="updateTime"
         @ended="handleEnded"
       />
-      <div class="flex items-start gap-4">
+      <div class="flex items-start gap-3">
         <NuxtImg
           :src="currentSong?.avatar ?? '/Sin.jpg'"
           :alt="currentSong?.title ?? ''"
-          class="size-[72px] shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
+          class="size-14 shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
           :style="{ animationPlayState: isPlaying ? 'running' : 'paused' }"
         />
 
-        <div class="min-w-0 flex-1 pt-1">
-          <h3 class="truncate text-2xl font-black leading-7 tracking-tight text-default/90">
+        <div class="min-w-0 flex-1">
+          <h3 class="truncate text-xl font-black leading-6 tracking-tight text-default/90">
             {{ currentLabel }}
           </h3>
           <p class="mt-0.5 truncate text-base leading-5 text-default/90">
             {{ artistLabel }}
           </p>
 
-          <div class="mt-3 flex items-center gap-3">
-            <UIcon name="i-lucide-volume-2" class="size-5 text-default/75" />
+          <div class="mt-2 flex items-center gap-2">
+            <UIcon name="i-lucide-volume-2" class="size-4 text-default/75" />
             <USlider
               :model-value="volume"
-              class="w-[76px]"
+              class="w-16"
               size="xs"
               color="neutral"
               @update:model-value="changeVolume"
@@ -169,7 +169,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="flex items-end gap-4 pt-[52px] text-default/72">
+        <div class="flex self-end text-default/72">
           <UTooltip text="歌词-还没做">
             <UButton icon="i-lucide-captions" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
           </UTooltip>
@@ -180,7 +180,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="mt-4 flex items-center gap-3 font-mono text-sm text-default/72">
+      <div class="mt-3 flex items-center gap-2 font-mono text-xs text-default/72">
         <span>{{ formatTime(currentTime) }}</span>
         <USlider
           :model-value="progress"
@@ -191,7 +191,7 @@ onMounted(() => {
         <span>{{ formatTime(duration) }}</span>
       </div>
 
-      <div class="mt-5 flex items-center justify-between px-3 text-default/78">
+      <div class="mt-3 flex items-center justify-between text-default/78">
         <UTooltip :text="isRepeat ? '关闭循环' : '循环播放'">
           <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="lg"
             :class="isRepeat
@@ -217,10 +217,6 @@ onMounted(() => {
         <UTooltip text="播放列表">
           <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="lg"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
-        </UTooltip>
-        <UTooltip text="可视化-还没做">
-          <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="lg"
-            class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Audio" />
         </UTooltip>
       </div>
     </div>

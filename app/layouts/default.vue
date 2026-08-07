@@ -33,7 +33,7 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
     <!-- 容器: 居中限宽 + 紧凑顶部留白 + 两侧边框 (中等及以上屏幕显示) -->
     <UContainer class="relative sm:border-x border-default pt-3 sm:pt-4">
       <aside
-        class="absolute top-0 hidden px-6 2xl:block"
+        class="absolute top-0 hidden px-3 min-[1440px]:block 2xl:px-6"
         style="left: calc((100vw - var(--ui-container)) / -2); width: calc((100vw - var(--ui-container)) / 2);"
       >
         <div class="sticky top-24 flex justify-center">
