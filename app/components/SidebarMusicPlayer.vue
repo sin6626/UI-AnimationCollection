@@ -238,7 +238,7 @@ onMounted(() => {
     >
       <LazyUPageList class="overflow-auto max-h-[600px]">
         <UPageCard v-for="(song, index) in songs" :key="song.src" variant="ghost"
-          :class="index === currentIndex ? 'bg-inverted/10' : 'dark:hover:bg-inverted/10 light:hover:bg-blue-50'"
+          :class="index === currentIndex ? 'bg-inverted/10' : 'dark:hover:bg-inverted/10 light:hover:bg-blue-50'" class="mt-1"
           @click="selectSong(index)">
           <template #body>
             <UUser class="relative" :name="song.title" :description="song.name" :avatar="{ src: song.avatar, alt: song.title, loading: 'lazy' }" size="xl" />
