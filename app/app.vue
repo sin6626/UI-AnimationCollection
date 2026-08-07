@@ -13,9 +13,7 @@ useHead(() => ({
   <UApp>
     <!-- 默认布局包裹,内部渲染当前路由对应的页面 -->
     <NuxtLayout>
-      <UMain class="relative">
-        <NuxtPage />
-      </UMain>
+      <NuxtPage />
     </NuxtLayout>
   </UApp>
 

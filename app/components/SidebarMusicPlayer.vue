@@ -133,7 +133,7 @@ onMounted(() => {
   <section
     class="w-[280px] max-w-full rounded-[16px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
 
-    <div class="px-4 py-4">
+    <div class="p-3">
       <audio
         ref="audio"
         :src="currentSong?.src"
@@ -141,43 +141,38 @@ onMounted(() => {
         @timeupdate="updateTime"
         @ended="handleEnded"
       />
-      <div class="flex items-start gap-3">
+      <div class="flex items-center gap-2">
         <NuxtImg
           :src="currentSong?.avatar ?? '/Sin.jpg'"
           :alt="currentSong?.title ?? ''"
-          class="size-14 shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
+          class="size-10 shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
           :style="{ animationPlayState: isPlaying ? 'running' : 'paused' }"
         />
 
         <div class="min-w-0 flex-1">
-          <h3 class="truncate text-xl font-black leading-6 tracking-tight text-default/90">
+          <h3 class="truncate text-base font-black leading-5 tracking-tight text-default/90">
             {{ currentLabel }}
           </h3>
-          <p class="mt-0.5 truncate text-base leading-5 text-default/90">
+          <p class="truncate text-xs leading-4 text-default/75">
             {{ artistLabel }}
           </p>
-
-          <div class="mt-2 flex items-center gap-2">
-            <UIcon name="i-lucide-volume-2" class="size-4 text-default/75" />
-            <USlider
-              :model-value="volume"
-              class="w-16"
-              size="xs"
-              color="neutral"
-              @update:model-value="changeVolume"
-            />
-          </div>
         </div>
 
-        <div class="flex self-end text-default/72">
-          <UTooltip text="歌词-还没做">
-            <UButton icon="i-lucide-captions" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
-          </UTooltip>
-          <!-- 下面这个功能感觉多余了, 先隐藏起来 -->
-          <UTooltip v-if="false" text="歌曲胶囊">
-            <UButton icon="i-lucide-list-music" variant="ghost" class="hover:bg-inverted/10 hover:text-default" />
-          </UTooltip>
-        </div>
+        <UTooltip text="歌词-还没做">
+          <UButton icon="i-lucide-captions" variant="ghost" color="neutral" size="xs"
+            class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Lyrics" />
+        </UTooltip>
+      </div>
+
+      <div class="mt-3 flex items-center gap-2">
+        <UIcon name="i-lucide-volume-2" class="size-4 shrink-0 text-default/75" />
+        <USlider
+          :model-value="volume"
+          class="min-w-0 flex-1"
+          size="xs"
+          color="neutral"
+          @update:model-value="changeVolume"
+        />
       </div>
 
       <div class="mt-3 flex items-center gap-2 font-mono text-xs text-default/72">
@@ -191,9 +186,9 @@ onMounted(() => {
         <span>{{ formatTime(duration) }}</span>
       </div>
 
-      <div class="mt-3 flex items-center justify-between text-default/78">
+      <div class="mt-3 grid grid-cols-3 place-items-center gap-1 text-default/78">
         <UTooltip :text="isRepeat ? '关闭循环' : '循环播放'">
-          <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="lg"
+          <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="xs"
             :class="isRepeat
               ? 'text-default bg-inverted/10 shadow-sm shadow-primary/20'
               : 'text-default/55 hover:bg-inverted/10 hover:text-default'"
@@ -203,20 +198,24 @@ onMounted(() => {
           />
         </UTooltip>
         <UTooltip text="上一首">
-          <UButton icon="i-lucide-skip-back" variant="ghost" color="neutral" size="lg" :disabled="songs.length === 0"
+          <UButton icon="i-lucide-skip-back" variant="ghost" color="neutral" size="xs" :disabled="songs.length === 0"
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Previous" @click="playPrevious" />
         </UTooltip>
         <UTooltip :text="isPlaying ? '暂停' : '播放'">
           <UButton @click="togglePlay" :icon="isPlaying ? 'i-lucide-pause' : 'i-lucide-play'" variant="ghost"
-            color="neutral" size="xl" class="text-default hover:bg-inverted/10" aria-label="Play" :disabled="songs.length === 0" />
+            color="neutral" size="sm" class="text-default hover:bg-inverted/10" aria-label="Play" :disabled="songs.length === 0" />
         </UTooltip>
         <UTooltip text="下一首">
-          <UButton icon="i-lucide-skip-forward" variant="ghost" color="neutral" size="lg" :disabled="songs.length === 0"
+          <UButton icon="i-lucide-skip-forward" variant="ghost" color="neutral" size="xs" :disabled="songs.length === 0"
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Next" @click="playNext" />
         </UTooltip>
         <UTooltip text="播放列表">
-          <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="lg"
+          <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="xs"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
+        </UTooltip>
+        <UTooltip text="可视化-还没做">
+          <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="xs"
+            class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Audio visualization" />
         </UTooltip>
       </div>
     </div>
@@ -232,12 +231,12 @@ onMounted(() => {
         isExpand ? 'pointer-events-auto' : 'h-0 opacity-0 pointer-events-none'
       ]"
     >
-      <LazyUPageList class="overflow-auto max-h-[600px]">
+      <LazyUPageList class="max-h-[50vh] overflow-auto">
         <UPageCard v-for="(song, index) in songs" :key="song.src" variant="ghost"
           :class="index === currentIndex ? 'bg-inverted/10' : 'dark:hover:bg-inverted/10 light:hover:bg-blue-50'" class="mt-1"
           @click="selectSong(index)">
           <template #body>
-            <UUser class="relative" :name="song.title" :description="song.name" :avatar="{ src: song.avatar, alt: song.title, loading: 'lazy' }" size="xl" />
+            <UUser class="relative min-w-0" :name="song.title" :description="song.name" :avatar="{ src: song.avatar, alt: song.title, loading: 'lazy' }" size="md" />
           </template>
         </UPageCard>
         <p v-if="songs.length === 0" class="px-7 py-6 text-sm text-muted">

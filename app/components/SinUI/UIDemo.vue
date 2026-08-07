@@ -35,30 +35,26 @@ const localizedSurround = computed(() => surround.value?.map((item) => {
 </script>
 
 <template>
-  <UMain class="mt-20 px-2">
-    <UContainer class="relative min-h-[70vh]">
-      <UPage>
-          <ULink :to="localePath('/ui')" class="text-sm flex items-center gap-1">
-            <UIcon name="lucide:chevron-left" />
-          {{ t('ui.back') }}
-        </ULink>
+  <UPage class="mt-20 min-h-[70vh] px-2">
+    <ULink :to="localePath('/ui')" class="text-sm flex items-center gap-1">
+      <UIcon name="lucide:chevron-left" />
+      {{ t('ui.back') }}
+    </ULink>
 
-        <div class="flex flex-col gap-3 mt-8">
-          <h1 class="text-4xl text-center font-medium max-w-3xl mx-auto text-highlighted text-shadow-lg">
-            {{ props.title }}
-          </h1>
-        </div>
-        <p class="text-base text-center max-w-2xl mx-auto mt-8">
-          {{ props.description }}
-        </p>
+    <div class="flex flex-col gap-3 mt-8">
+      <h1 class="text-4xl text-center font-medium max-w-3xl mx-auto text-highlighted text-shadow-lg">
+        {{ props.title }}
+      </h1>
+    </div>
+    <p class="text-base text-center max-w-2xl mx-auto mt-8">
+      {{ props.description }}
+    </p>
 
-        <UPageBody>
-          <!-- 演示区: 由各组件页注入 -->
-          <slot />
-        </UPageBody>
-      </UPage>
-    </UContainer>
+    <UPageBody>
+      <!-- 演示区: 由各组件页注入 -->
+      <slot />
+    </UPageBody>
 
-  <UContentSurround :surround="localizedSurround" class="mt-d"/>
-  </UMain>
+    <UContentSurround :surround="localizedSurround" class="mt-8" />
+  </UPage>
 </template>
