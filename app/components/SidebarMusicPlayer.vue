@@ -131,7 +131,7 @@ onMounted(() => {
 
 <template>
   <section
-    class="w-[280px] max-w-full rounded-[16px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
+    class="@container w-[280px] max-w-full rounded-[16px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10">
 
     <div class="p-3">
       <audio
@@ -186,9 +186,9 @@ onMounted(() => {
         <span>{{ formatTime(duration) }}</span>
       </div>
 
-      <div class="mt-3 grid grid-cols-3 place-items-center gap-1 text-default/78">
+      <div class="mt-3 grid grid-cols-3 place-items-center gap-1 text-default/78 @min-[200px]:flex @min-[200px]:items-center @min-[200px]:justify-between">
         <UTooltip :text="isRepeat ? '关闭循环' : '循环播放'">
-          <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="xs"
+          <UButton icon="i-lucide-repeat-2" variant="ghost" color="neutral" size="sm"
             :class="isRepeat
               ? 'text-default bg-inverted/10 shadow-sm shadow-primary/20'
               : 'text-default/55 hover:bg-inverted/10 hover:text-default'"
@@ -198,23 +198,23 @@ onMounted(() => {
           />
         </UTooltip>
         <UTooltip text="上一首">
-          <UButton icon="i-lucide-skip-back" variant="ghost" color="neutral" size="xs" :disabled="songs.length === 0"
+          <UButton icon="i-lucide-skip-back" variant="ghost" color="neutral" size="sm" :disabled="songs.length === 0"
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Previous" @click="playPrevious" />
         </UTooltip>
         <UTooltip :text="isPlaying ? '暂停' : '播放'">
           <UButton @click="togglePlay" :icon="isPlaying ? 'i-lucide-pause' : 'i-lucide-play'" variant="ghost"
-            color="neutral" size="sm" class="text-default hover:bg-inverted/10" aria-label="Play" :disabled="songs.length === 0" />
+            color="neutral" size="md" class="text-default hover:bg-inverted/10" aria-label="Play" :disabled="songs.length === 0" />
         </UTooltip>
         <UTooltip text="下一首">
-          <UButton icon="i-lucide-skip-forward" variant="ghost" color="neutral" size="xs" :disabled="songs.length === 0"
+          <UButton icon="i-lucide-skip-forward" variant="ghost" color="neutral" size="sm" :disabled="songs.length === 0"
             class="text-default/85 hover:bg-inverted/10 hover:text-default" aria-label="Next" @click="playNext" />
         </UTooltip>
         <UTooltip text="播放列表">
-          <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="xs"
+          <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="sm"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
         </UTooltip>
         <UTooltip text="可视化-还没做">
-          <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="xs"
+          <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="sm"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Audio visualization" />
         </UTooltip>
       </div>

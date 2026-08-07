@@ -29,7 +29,7 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
 </script>
 
 <template>
-  <UContainer class="sm:border-x border-default pt-3 sm:pt-4">
+  <UContainer class="max-w-none! sm:border-x border-default pt-3 sm:pt-4">
     <AppHeader :links="navLinks" />
 
     <UMain>
