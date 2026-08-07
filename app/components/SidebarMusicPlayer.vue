@@ -156,23 +156,23 @@ onMounted(() => {
           <p class="truncate text-xs leading-4 text-default/75">
             {{ artistLabel }}
           </p>
+
+          <div class="mt-2 flex items-center gap-2">
+            <UIcon name="i-lucide-volume-2" class="size-4 shrink-0 text-default/75" />
+            <USlider
+              :model-value="volume"
+              class="min-w-0 flex-1"
+              size="xs"
+              color="neutral"
+              @update:model-value="changeVolume"
+            />
+          </div>
         </div>
 
         <UTooltip text="歌词-还没做">
           <UButton icon="i-lucide-captions" variant="ghost" color="neutral" size="xs"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Lyrics" />
         </UTooltip>
-      </div>
-
-      <div class="mt-3 flex items-center gap-2">
-        <UIcon name="i-lucide-volume-2" class="size-4 shrink-0 text-default/75" />
-        <USlider
-          :model-value="volume"
-          class="min-w-0 flex-1"
-          size="xs"
-          color="neutral"
-          @update:model-value="changeVolume"
-        />
       </div>
 
       <div class="mt-3 flex items-center gap-2 font-mono text-xs text-default/72">
