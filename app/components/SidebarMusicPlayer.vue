@@ -125,7 +125,10 @@ function changeVolume(value: number | number[] | undefined) {
 }
 
 onMounted(() => {
-  if (audio.value) audio.value.volume = volume.value / 100
+  if (!audio.value) return
+
+  audio.value.volume = volume.value / 100
+  audio.value.load()
 })
 </script>
 
@@ -181,6 +184,7 @@ onMounted(() => {
           :model-value="progress"
           class="flex-1"
           size="xs"
+          color="neutral"
           @update:model-value="seek"
         />
         <span>{{ formatTime(duration) }}</span>
