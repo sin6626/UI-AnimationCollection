@@ -24,7 +24,7 @@ export default defineNuxtConfig({
 
   // vue-tsc
   typescript: {
-    typeCheck: true,
+    typeCheck: 'build',
   },
 
   // app: {
