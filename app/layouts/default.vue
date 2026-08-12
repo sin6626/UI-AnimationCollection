@@ -29,27 +29,31 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
 </script>
 
 <template>
-  <UContainer class="max-w-none! sm:border-x border-default pt-3 sm:pt-4">
-    <AppHeader :links="navLinks" />
+  <div class="relative min-h-dvh">
+    <PlumGrowthBackground />
 
-    <UMain>
-      <UPage>
-        <template #left>
-          <UPageAside>
-            <SidebarMusicPlayer />
-          </UPageAside>
-        </template>
+    <UContainer class="relative z-10 max-w-none! sm:border-x border-default pt-3 sm:pt-4">
+      <AppHeader :links="navLinks" />
 
-        <!-- 页面组件保留自己的 UPage,用于组织当前页面内容 -->
-        <slot />
+      <UMain>
+        <UPage>
+          <template #left>
+            <UPageAside>
+              <SidebarMusicPlayer />
+            </UPageAside>
+          </template>
 
-        <!-- 为未来的 2D 角色保留右侧栏 -->
-        <template #right>
-          <UPageAside aria-hidden="true" />
-        </template>
-      </UPage>
-    </UMain>
+          <!-- 页面组件保留自己的 UPage,用于组织当前页面内容 -->
+          <slot />
 
-    <AppFooter />
-  </UContainer>
+          <!-- 为未来的 2D 角色保留右侧栏 -->
+          <template #right>
+            <UPageAside aria-hidden="true" />
+          </template>
+        </UPage>
+      </UMain>
+
+      <AppFooter />
+    </UContainer>
+  </div>
 </template>
