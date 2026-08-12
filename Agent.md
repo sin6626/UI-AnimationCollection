@@ -9,4 +9,5 @@
 - Nuxt 组件命名：`app/components/SinAni/AniDemo.vue` 使用时写 `<SinAniDemo>`，不要写重复的 `<SinAniAniDemo>`。
 - GSAP 变量类型：创建 `ctx`、`t1`、`resetAni` 等变量时显式标注类型，例如 `let ctx: gsap.Context`、`let t1: gsap.core.Timeline`、`let resetAni: () => void`，避免 VSCode TS 插件报错。
 - 内容架构：收藏条目统一放在 `content/zh|en/ui|animation/*.yml`，标题/描述/截图/date 都归 Nuxt Content 管；`i18n/locales/*.json` 只放导航、按钮、页面外壳等固定文案。
+- 动画入库：从 `AiLaboratory.vue` 复制实现到 `app/components/SinAni/`，不得修改或清空实验室原稿；提取后的组件需保留并补齐算法注释，列表缩略图放在 `public/`。
 - Nuxt Studio：本项目先只启用本地 `/_studio` 编辑，不配置生产 OAuth/Git 发布和外部媒体存储。

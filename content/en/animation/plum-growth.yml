@@ -1,0 +1,4 @@
+title: "Plum Growth: A branching tree animation"
+date: "2026-08-12"
+src: "/PlumBlossom.png"
+description: "This animation comes from Anthony Fu's 2022 livestream tutorial and is also used on his blog at https://antfu.me/. It uses only Canvas to construct a binary tree, growing branches breadth-first with a 50% probability for each left and right branch."

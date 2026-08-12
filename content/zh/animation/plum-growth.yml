@@ -1,0 +1,4 @@
+title: "Plum Growth 梅花生长动画"
+date: "2026-08-12"
+src: "/PlumBlossom.png"
+description: "动画来自 Anthony Fu 老师 2022 年的直播回放教学，他在博客中也使用了此动画，地址：https://antfu.me/。动画单纯使用 Canvas 画图，构造一棵二叉树，每次通过广度优先的方式生长枝条，左右枝条的生长概率均为 50%。"
