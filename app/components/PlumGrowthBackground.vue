@@ -23,7 +23,7 @@ onBeforeUnmount(() => {
   >
     <canvas
       ref="canvas"
-      class="block size-full opacity-90 mix-blend-difference transition-opacity duration-[180ms] ease-[ease] motion-reduce:transition-none"
+      class="block size-full opacity-90 mix-blend-difference transition-opacity duration-180 ease-[ease] motion-reduce:transition-none"
     />
   </div>
 </template>
