@@ -354,6 +354,42 @@ export interface UseMeteorSoundwaveOptions {
 const DEFAULT_AUDIO_PATH = '/music/许嵩 - 幻听.mp3'
 const DEFAULT_AUDIO_NAME = '许嵩 - 幻听.mp3'
 
+export interface StageUniforms {
+  uTime: THREE.IUniform<number>
+  uSubBass: THREE.IUniform<number>
+  uBass: THREE.IUniform<number>
+  uLowMid: THREE.IUniform<number>
+  uMid: THREE.IUniform<number>
+  uHighMid: THREE.IUniform<number>
+  uPresence: THREE.IUniform<number>
+  uBrilliance: THREE.IUniform<number>
+  uAir: THREE.IUniform<number>
+  uWarmth: THREE.IUniform<number>
+  uBrightness: THREE.IUniform<number>
+  uSharpness: THREE.IUniform<number>
+  uSmoothness: THREE.IUniform<number>
+  uDensity: THREE.IUniform<number>
+  uEnergy: THREE.IUniform<number>
+  uHeightIdle: THREE.IUniform<number>
+  uHeightSubBass: THREE.IUniform<number>
+  uHeightBass: THREE.IUniform<number>
+  uHeightLowMid: THREE.IUniform<number>
+  uHeightMid: THREE.IUniform<number>
+  uHeightHighMid: THREE.IUniform<number>
+  uHeightEnergy: THREE.IUniform<number>
+  uHeightRipple: THREE.IUniform<number>
+  uRipples: THREE.IUniform<{ pos: THREE.Vector2; time: number; strength: number; isActive: number; rippleType: number }[]>
+  uBaseColor1: THREE.IUniform<THREE.Color>
+  uBaseColor2: THREE.IUniform<THREE.Color>
+  uCoolCore: THREE.IUniform<THREE.Color>
+  uCoolEdge: THREE.IUniform<THREE.Color>
+  uWarmCore: THREE.IUniform<THREE.Color>
+  uWarmEdge: THREE.IUniform<THREE.Color>
+  uRippleColor: THREE.IUniform<THREE.Color>
+  uGlowIntensity: THREE.IUniform<number>
+  [key: string]: THREE.IUniform<any>
+}
+
 export function useMeteorSoundwave({
   areaRef,
   isPlaying,
@@ -373,6 +409,7 @@ export function useMeteorSoundwave({
 
   let instancedMesh: THREE.InstancedMesh | null = null
   let customMaterial: THREE.ShaderMaterial | null = null
+  let stageUniforms: StageUniforms | null = null
 
   const MAX_RIPPLES = 24
   const ripplesData = new Array(MAX_RIPPLES).fill(null).map(() => ({
@@ -577,6 +614,7 @@ export function useMeteorSoundwave({
       customMaterial.dispose()
       customMaterial = null
     }
+    stageUniforms = null
     if (meteorMesh) {
       meteorMesh.geometry.dispose()
       if (Array.isArray(meteorMesh.material)) {
@@ -654,46 +692,48 @@ export function useMeteorSoundwave({
     controls.maxDistance = 90
     controls.maxPolarAngle = Math.PI / 2 - 0.08
 
+    stageUniforms = {
+      uTime: { value: 0 },
+      uSubBass: { value: 0 },
+      uBass: { value: 0 },
+      uLowMid: { value: 0 },
+      uMid: { value: 0 },
+      uHighMid: { value: 0 },
+      uPresence: { value: 0 },
+      uBrilliance: { value: 0 },
+      uAir: { value: 0 },
+      uWarmth: { value: 0 },
+      uBrightness: { value: 0 },
+      uSharpness: { value: 0 },
+      uSmoothness: { value: 0.5 },
+      uDensity: { value: 0.5 },
+      uEnergy: { value: 0 },
+
+      uHeightIdle: { value: STAGE_CONFIG.height.idle },
+      uHeightSubBass: { value: STAGE_CONFIG.height.subBass },
+      uHeightBass: { value: STAGE_CONFIG.height.bass },
+      uHeightLowMid: { value: STAGE_CONFIG.height.lowMid },
+      uHeightMid: { value: STAGE_CONFIG.height.mid },
+      uHeightHighMid: { value: STAGE_CONFIG.height.highMid },
+      uHeightEnergy: { value: STAGE_CONFIG.height.energy },
+      uHeightRipple: { value: STAGE_CONFIG.height.ripple },
+
+      uRipples: { value: ripplesData },
+
+      uBaseColor1: { value: new THREE.Color(STAGE_CONFIG.theme.base1) },
+      uBaseColor2: { value: new THREE.Color(STAGE_CONFIG.theme.base2) },
+      uCoolCore: { value: new THREE.Color(STAGE_CONFIG.theme.coolCore) },
+      uCoolEdge: { value: new THREE.Color(STAGE_CONFIG.theme.coolEdge) },
+      uWarmCore: { value: new THREE.Color(STAGE_CONFIG.theme.warmCore) },
+      uWarmEdge: { value: new THREE.Color(STAGE_CONFIG.theme.warmEdge) },
+      uRippleColor: { value: new THREE.Color(STAGE_CONFIG.theme.rippleColor) },
+      uGlowIntensity: { value: STAGE_CONFIG.theme.glowIntensity }
+    }
+
     customMaterial = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uSubBass: { value: 0 },
-        uBass: { value: 0 },
-        uLowMid: { value: 0 },
-        uMid: { value: 0 },
-        uHighMid: { value: 0 },
-        uPresence: { value: 0 },
-        uBrilliance: { value: 0 },
-        uAir: { value: 0 },
-        uWarmth: { value: 0 },
-        uBrightness: { value: 0 },
-        uSharpness: { value: 0 },
-        uSmoothness: { value: 0.5 },
-        uDensity: { value: 0.5 },
-        uEnergy: { value: 0 },
-
-        uHeightIdle: { value: STAGE_CONFIG.height.idle },
-        uHeightSubBass: { value: STAGE_CONFIG.height.subBass },
-        uHeightBass: { value: STAGE_CONFIG.height.bass },
-        uHeightLowMid: { value: STAGE_CONFIG.height.lowMid },
-        uHeightMid: { value: STAGE_CONFIG.height.mid },
-        uHeightHighMid: { value: STAGE_CONFIG.height.highMid },
-        uHeightEnergy: { value: STAGE_CONFIG.height.energy },
-        uHeightRipple: { value: STAGE_CONFIG.height.ripple },
-
-        uRipples: { value: ripplesData },
-
-        uBaseColor1: { value: new THREE.Color(STAGE_CONFIG.theme.base1) },
-        uBaseColor2: { value: new THREE.Color(STAGE_CONFIG.theme.base2) },
-        uCoolCore: { value: new THREE.Color(STAGE_CONFIG.theme.coolCore) },
-        uCoolEdge: { value: new THREE.Color(STAGE_CONFIG.theme.coolEdge) },
-        uWarmCore: { value: new THREE.Color(STAGE_CONFIG.theme.warmCore) },
-        uWarmEdge: { value: new THREE.Color(STAGE_CONFIG.theme.warmEdge) },
-        uRippleColor: { value: new THREE.Color(STAGE_CONFIG.theme.rippleColor) },
-        uGlowIntensity: { value: STAGE_CONFIG.theme.glowIntensity }
-      },
+      uniforms: stageUniforms,
       transparent: true,
       side: THREE.DoubleSide
     })
@@ -786,23 +826,22 @@ export function useMeteorSoundwave({
 
       const audioData = audioAnalyzer.update(delta)
 
-      if (customMaterial) {
-        const u = customMaterial.uniforms
-        u.uTime.value = elapsedTime
-        u.uSubBass.value = audioData.subBass
-        u.uBass.value = audioData.bass
-        u.uLowMid.value = audioData.lowMid
-        u.uMid.value = audioData.mid
-        u.uHighMid.value = audioData.highMid
-        u.uPresence.value = audioData.presence
-        u.uBrilliance.value = audioData.brilliance
-        u.uAir.value = audioData.air
-        u.uWarmth.value = audioData.warmth
-        u.uBrightness.value = audioData.brightness
-        u.uSharpness.value = audioData.sharpness
-        u.uSmoothness.value = audioData.smoothness
-        u.uDensity.value = audioData.density
-        u.uEnergy.value = audioData.energy
+      if (stageUniforms) {
+        stageUniforms.uTime.value = elapsedTime
+        stageUniforms.uSubBass.value = audioData.subBass
+        stageUniforms.uBass.value = audioData.bass
+        stageUniforms.uLowMid.value = audioData.lowMid
+        stageUniforms.uMid.value = audioData.mid
+        stageUniforms.uHighMid.value = audioData.highMid
+        stageUniforms.uPresence.value = audioData.presence
+        stageUniforms.uBrilliance.value = audioData.brilliance
+        stageUniforms.uAir.value = audioData.air
+        stageUniforms.uWarmth.value = audioData.warmth
+        stageUniforms.uBrightness.value = audioData.brightness
+        stageUniforms.uSharpness.value = audioData.sharpness
+        stageUniforms.uSmoothness.value = audioData.smoothness
+        stageUniforms.uDensity.value = audioData.density
+        stageUniforms.uEnergy.value = audioData.energy
 
         for (let r = 0; r < MAX_RIPPLES; r++) {
           const item = ripplesData[r]
@@ -811,7 +850,7 @@ export function useMeteorSoundwave({
           }
         }
 
-        u.uRipples.value = ripplesData
+        stageUniforms.uRipples.value = ripplesData
 
         if (scene.fog instanceof THREE.Fog) {
           scene.fog.color.lerp(bgColor, 3.0 * delta)
