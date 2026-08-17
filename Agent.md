@@ -11,4 +11,8 @@
 - GSAP 变量类型：创建 `ctx`、`t1`、`resetAni` 等变量时显式标注类型，例如 `let ctx: gsap.Context`、`let t1: gsap.core.Timeline`、`let resetAni: () => void`，避免 VSCode TS 插件报错。
 - 内容架构：收藏条目统一放在 `content/zh|en/ui|animation/*.yml`，标题/描述/截图/date 都归 Nuxt Content 管；`i18n/locales/*.json` 只放导航、按钮、页面外壳等固定文案。
 - 动画入库：从 `AiLaboratory.vue` 复制实现到 `app/components/SinAni/`，不得修改或清空实验室原稿；提取后的组件需保留并补齐算法注释，列表缩略图放在 `public/`。全局梅花背景与动画库单株演示是两个独立用途，不得互相替换。
+- 3D 音频可视化组件（Meteor Soundwave / Three.js）：
+  - 着色器文件统一放在 `app/components/SinUI/shaders/`（如 `stageVertex.glsl`, `stageFragment.glsl`），通过 `?raw` 导入。
+  - Web Audio 与 Three.js 逻辑封装在 `app/components/SinUI/composables/useMeteorSoundwave.ts` 中，组件在 `app/components/SinUI/MeteorSoundwave.vue`，页面在 `app/pages/ui/meteor-soundwave.vue`。
+  - 缩略图统一放在 `public/`，内容元数据分别配置在 `content/zh/ui/meteor-soundwave.yml` 与 `content/en/ui/meteor-soundwave.yml`。
 - Nuxt Studio：本项目先只启用本地 `/_studio` 编辑，不配置生产 OAuth/Git 发布和外部媒体存储。

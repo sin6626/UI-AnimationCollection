@@ -1,0 +1,4 @@
+title: "流星音潮-Meteor Soundwave"
+date: "2026-08-17"
+src: "/MentorSoundWave.png"
+description: "组件灵感来源番茄代理人的博客(https://fqzlr.com/music), 很喜欢他里面的3D音频可视化的效果, 于是去学习了Web Audio API, Three.js, 还有很多相关联的技术, 然后使用Ai实现了效果. 因为GLSL里面无法使用JS上的SimplexNoise库, 所以用的是原生数学算法.上传音频后再次点击屏幕即可开始播放, 再次点击暂停"

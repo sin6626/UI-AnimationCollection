@@ -1,0 +1,4 @@
+title: "Meteor Soundwave"
+date: "2026-08-17"
+src: "/MentorSoundWave.png"
+description: "The component is inspired by Tomato Agent's blog (https://fqzlr.com/music). Fascinated by the 3D audio visualization effect, I studied the Web Audio API, Three.js, and related technologies, then implemented the effect using AI. Since the JS SimplexNoise library cannot be used in GLSL, native mathematical algorithms are used instead. After uploading audio, click the screen to start playing, and click again to pause."
