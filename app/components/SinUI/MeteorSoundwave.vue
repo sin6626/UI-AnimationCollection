@@ -3,8 +3,8 @@ import { useMeteorSoundwave } from './composables/useMeteorSoundwave'
 
 const areaRef = ref<HTMLElement | null>(null)
 const isPlaying = ref(false)
-const hasAudio = ref(false)
-const audioName = ref('')
+const hasAudio = ref(true)
+const audioName = ref('许嵩 - 幻听.mp3')
 
 const { setAudio, togglePlay, startVis, destroy } = useMeteorSoundwave({
   areaRef,

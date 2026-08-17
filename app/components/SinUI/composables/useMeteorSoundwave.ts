@@ -351,6 +351,9 @@ export interface UseMeteorSoundwaveOptions {
   audioName: Ref<string>
 }
 
+const DEFAULT_AUDIO_PATH = '/music/许嵩 - 幻听.mp3'
+const DEFAULT_AUDIO_NAME = '许嵩 - 幻听.mp3'
+
 export function useMeteorSoundwave({
   areaRef,
   isPlaying,
@@ -485,6 +488,19 @@ export function useMeteorSoundwave({
     meteorPoolIdx = (idx + 1) % MAX_METEORS
   }
 
+  function initDefaultAudio() {
+    if (!audio) {
+      audio = new Audio(DEFAULT_AUDIO_PATH)
+      audio.loop = true
+      audio.crossOrigin = 'anonymous'
+      audio.onended = () => {
+        isPlaying.value = false
+      }
+      hasAudio.value = true
+      audioName.value = DEFAULT_AUDIO_NAME
+    }
+  }
+
   function setAudio(event: Event) {
     const target = event.target as HTMLInputElement
     const file = target.files?.[0]
@@ -514,7 +530,8 @@ export function useMeteorSoundwave({
   }
 
   function togglePlay() {
-    if (!hasAudio.value || !audio) return
+    initDefaultAudio()
+    if (!audio) return
     audioAnalyzer.connect(audio)
     if (audio.paused) {
       audio.play().then(() => {
@@ -595,6 +612,8 @@ export function useMeteorSoundwave({
     const height = area.clientHeight || 500
 
     clock = new THREE.Clock()
+
+    initDefaultAudio()
 
     audioAnalyzer.setEvents({
       onRipple: (x, z, strength, isAccent) => spawnRipple(strength, x, z, isAccent),
