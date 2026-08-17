@@ -12,7 +12,7 @@ const { t } = useI18n()
 
 <template>
   <UFooter
-    class="z-10 bg-default"
+    class="z-10 bg-transparent"
     :ui="{ left: 'text-muted text-xs' }"
   >
     <!-- 左侧: 版权 / credits 文案 -->
