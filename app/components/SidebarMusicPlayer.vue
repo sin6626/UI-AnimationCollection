@@ -8,6 +8,7 @@ const duration = ref(0)
 const progress = ref(0)
 const volume = ref(68)
 const isRepeat = ref(false)
+const localePath = useLocalePath()
 
 const isExpand = ref(false)
 const openExpand = () => {
@@ -130,6 +131,10 @@ onMounted(() => {
   audio.value.volume = volume.value / 100
   audio.value.load()
 })
+
+onUnmounted(() => {
+  audio.value?.pause()
+})
 </script>
 
 <template>
@@ -217,9 +222,9 @@ onMounted(() => {
           <UButton @click="openExpand" icon="i-lucide-list-music" variant="ghost" color="neutral" size="sm"
             class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Playlist" />
         </UTooltip>
-        <UTooltip text="可视化-还没做">
-          <UButton icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="sm"
-            class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="Audio visualization" />
+        <UTooltip text="3D 音频可视化">
+          <UButton :to="localePath('/Music')" icon="i-lucide-audio-lines" variant="ghost" color="neutral" size="sm"
+            class="text-default/55 hover:bg-inverted/10 hover:text-default" aria-label="打开 3D 音频可视化" />
         </UTooltip>
       </div>
     </div>

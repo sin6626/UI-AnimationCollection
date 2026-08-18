@@ -16,3 +16,6 @@
   - Web Audio 与 Three.js 逻辑封装在 `app/components/SinUI/composables/useMeteorSoundwave.ts` 中，组件在 `app/components/SinUI/MeteorSoundwave.vue`，页面在 `app/pages/ui/meteor-soundwave.vue`。
   - 缩略图统一放在 `public/`，内容元数据分别配置在 `content/zh/ui/meteor-soundwave.yml` 与 `content/en/ui/meteor-soundwave.yml`。
 - Nuxt Studio：本项目先只启用本地 `/_studio` 编辑，不配置生产 OAuth/Git 发布和外部媒体存储。
+- Music 沉浸页：`app/pages/Music.vue` 使用 `layout: false`，不挂默认导航、侧栏、页脚和全局梅花背景；入口仅放在 `SidebarMusicPlayer.vue` 的 3D 可视化按钮。
+- Music 播放数据继续读取 `content/music/*.yml`，每首歌必须同时维护 `src`、`avatar` 与 `lrc`；播放、频谱分析和 Three.js 舞台统一复用 `useMeteorSoundwave.ts`，不得再创建第二套音频元素。
+- Music 当前按桌面端设计，页面设置 1024px 最小宽度；未做移动端性能评估与布局适配前，不加入顶部导航或其他全局入口。

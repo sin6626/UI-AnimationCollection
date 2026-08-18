@@ -349,6 +349,7 @@ export interface UseMeteorSoundwaveOptions {
   isPlaying: Ref<boolean>
   hasAudio: Ref<boolean>
   audioName: Ref<string>
+  loop?: boolean
 }
 
 const DEFAULT_AUDIO_PATH = '/music/MP3/许嵩 - 幻听.mp3'
@@ -394,10 +395,16 @@ export function useMeteorSoundwave({
   areaRef,
   isPlaying,
   hasAudio,
-  audioName
+  audioName,
+  loop = true
 }: UseMeteorSoundwaveOptions) {
   let audio: HTMLAudioElement | null = null
   const audioAnalyzer = new StageAudioAnalyzer()
+  const currentTime = ref(0)
+  const duration = ref(0)
+  const volume = ref(0.8)
+  const isMuted = ref(false)
+  let endedCallback: (() => void) | null = null
 
   let rafId = 0
   let renderer: THREE.WebGLRenderer | null = null
@@ -528,14 +535,49 @@ export function useMeteorSoundwave({
   function initDefaultAudio() {
     if (!audio) {
       audio = new Audio(DEFAULT_AUDIO_PATH)
-      audio.loop = true
+      audio.loop = loop
       audio.crossOrigin = 'anonymous'
-      audio.onended = () => {
+
+      audio.addEventListener('timeupdate', () => {
+        currentTime.value = audio?.currentTime ?? 0
+      })
+      audio.addEventListener('loadedmetadata', () => {
+        duration.value = audio?.duration || 0
+      })
+      audio.addEventListener('durationchange', () => {
+        duration.value = audio?.duration || 0
+      })
+      audio.addEventListener('play', () => {
+        isPlaying.value = true
+      })
+      audio.addEventListener('pause', () => {
         isPlaying.value = false
-      }
+      })
+      audio.addEventListener('ended', () => {
+        isPlaying.value = false
+        endedCallback?.()
+      })
+
+      audio.volume = volume.value
       hasAudio.value = true
       audioName.value = DEFAULT_AUDIO_NAME
     }
+  }
+
+  function loadTrack(url: string, name = '', autoPlay = true) {
+    initDefaultAudio()
+    if (!audio) return
+
+    audio.pause()
+    audio.src = url
+    audio.load()
+    currentTime.value = 0
+    duration.value = 0
+    hasAudio.value = true
+    if (name) audioName.value = name
+    audioAnalyzer.connect(audio)
+
+    if (autoPlay) play()
   }
 
   function setAudio(event: Event) {
@@ -544,22 +586,8 @@ export function useMeteorSoundwave({
     if (!file) return
 
     if (file.name.toLowerCase().endsWith('.mp3')) {
-      if (audio) {
-        audio.pause()
-      }
       const audioURL = URL.createObjectURL(file)
-      audio = new Audio(audioURL)
-      audio.loop = true
-      hasAudio.value = true
-      isPlaying.value = false
-      audioName.value = file.name
-
-      audio.onended = () => {
-        isPlaying.value = false
-      }
-
-      clearScene()
-      startVis()
+      loadTrack(audioURL, file.name, true)
     }
     else {
       alert('请上传 .mp3 格式的音频文件')
@@ -581,6 +609,51 @@ export function useMeteorSoundwave({
       audio.pause()
       isPlaying.value = false
     }
+  }
+
+  function play() {
+    initDefaultAudio()
+    if (!audio || !hasAudio.value) return
+
+    audioAnalyzer.connect(audio)
+    audio.play().catch((err) => {
+      console.warn('播放失败或被浏览器拦截:', err)
+    })
+  }
+
+  function pause() {
+    audio?.pause()
+  }
+
+  function seek(time: number) {
+    if (!audio || !Number.isFinite(time)) return
+    audio.currentTime = Math.max(0, Math.min(time, duration.value || time))
+    currentTime.value = audio.currentTime
+  }
+
+  function setVolume(value: number) {
+    initDefaultAudio()
+    if (!audio) return
+
+    const nextVolume = Math.max(0, Math.min(value, 1))
+    volume.value = nextVolume
+    audio.volume = nextVolume
+    if (nextVolume > 0) {
+      isMuted.value = false
+      audio.muted = false
+    }
+  }
+
+  function toggleMute() {
+    initDefaultAudio()
+    if (!audio) return
+
+    isMuted.value = !isMuted.value
+    audio.muted = isMuted.value
+  }
+
+  function onEnded(callback: () => void) {
+    endedCallback = callback
   }
 
   function clearScene() {
@@ -934,8 +1007,19 @@ export function useMeteorSoundwave({
   }
 
   return {
+    currentTime,
+    duration,
+    volume,
+    isMuted,
     setAudio,
+    loadTrack,
+    play,
+    pause,
     togglePlay,
+    seek,
+    setVolume,
+    toggleMute,
+    onEnded,
     startVis,
     destroy,
     spawnRipple

@@ -12,6 +12,7 @@ const musicSchema = z.object({
   name: z.string(),
   src: z.string(),
   avatar: z.string(),
+  lrc: z.string(),
   order: z.number()
 })
 
