@@ -351,7 +351,7 @@ export interface UseMeteorSoundwaveOptions {
   audioName: Ref<string>
 }
 
-const DEFAULT_AUDIO_PATH = '/music/许嵩 - 幻听.mp3'
+const DEFAULT_AUDIO_PATH = '/music/MP3/许嵩 - 幻听.mp3'
 const DEFAULT_AUDIO_NAME = '许嵩 - 幻听.mp3'
 
 export interface StageUniforms {
