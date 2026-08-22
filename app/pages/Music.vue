@@ -6,6 +6,9 @@ definePageMeta({
   layout: false
 })
 
+// 根据当前语言，生成对应语言版本的路由地址
+const localePath = useLocalePath()
+
 type MusicItem = {
   title: string
   name: string
@@ -241,6 +244,13 @@ onUnmounted(() => {
         >
           Lyrics
         </button>
+        <NuxtLink
+          :to="localePath('/')"
+          class="pointer-events-auto flex items-center gap-1.5 border border-white/20 bg-white/5 px-4 py-2.5 text-[12px] font-bold tracking-[0.18em] uppercase backdrop-blur-md transition-colors hover:border-[#8ef0de]/60 hover:bg-[#8ef0de]/15 hover:text-[#8ef0de]"
+        >
+          <UIcon name="i-lucide-arrow-left" class="size-4" />
+          Back
+        </NuxtLink>
       </div>
     </header>
 
@@ -361,6 +371,9 @@ onUnmounted(() => {
             step="0.05"
             :value="progress"
             class="stage-range flex-1"
+            :style="{
+              background: `linear-gradient(to right, #2255ff 0%, #8ef0de ${progress * 0.5}%, #44ddff ${progress}%, rgba(255, 255, 255, 0.14) ${progress}%, rgba(255, 255, 255, 0.14) 100%)`
+            }"
             aria-label="播放进度"
             @input="onProgressInput"
           >
@@ -386,6 +399,9 @@ onUnmounted(() => {
           step="1"
           :value="isMuted ? 0 : volume * 100"
           class="stage-range w-24"
+          :style="{
+            background: `linear-gradient(to right, #2255ff 0%, #8ef0de ${(isMuted ? 0 : volume * 100) * 0.5}%, #44ddff ${isMuted ? 0 : volume * 100}%, rgba(255, 255, 255, 0.14) ${isMuted ? 0 : volume * 100}%, rgba(255, 255, 255, 0.14) 100%)`
+          }"
           aria-label="音量"
           @input="onVolumeInput"
         >

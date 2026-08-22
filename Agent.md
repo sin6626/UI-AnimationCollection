@@ -16,8 +16,8 @@
   - Web Audio 与 Three.js 逻辑封装在 `app/components/SinUI/composables/useMeteorSoundwave.ts` 中，组件在 `app/components/SinUI/MeteorSoundwave.vue`，页面在 `app/pages/ui/meteor-soundwave.vue`。
   - 缩略图统一放在 `public/`，内容元数据分别配置在 `content/zh/ui/meteor-soundwave.yml` 与 `content/en/ui/meteor-soundwave.yml`。
 - Nuxt Studio：本项目先只启用本地 `/_studio` 编辑，不配置生产 OAuth/Git 发布和外部媒体存储。
-- Music 沉浸页：`app/pages/Music.vue` 使用 `layout: false`，不挂默认导航、侧栏、页脚和全局梅花背景；入口仅放在 `SidebarMusicPlayer.vue` 的 3D 可视化按钮。
-- Music 播放数据继续读取 `content/music/*.yml`，每首歌必须同时维护 `src`、`avatar` 与 `lrc`；播放、频谱分析和 Three.js 舞台统一复用 `useMeteorSoundwave.ts`，不得再创建第二套音频元素。
-- Music 当前按桌面端设计，页面设置 1024px 最小宽度；未做移动端性能评估与布局适配前，不加入顶部导航或其他全局入口。
+- Music 沉浸页：`app/pages/Music.vue` 使用 `layout: false`，不挂默认导航、侧栏、页脚和全局梅花背景；入口仅放在 `SidebarMusicPlayer.vue` 的 3D 可视化按钮；页面顶部 HUD 需提供返回主页的快捷入口（Back）。
+- Music 播放进度条与音量条采用流光渐变（`from #2255ff via #8ef0de to #44ddff`），走过的部分动态高亮。
+
 - 多语言与 useAsyncData 缓存约定：凡是依赖语言查询的 `useAsyncData`，其 key 必须绑定当前语言（如 `` `xxx-${locale.value}` `` 或带上 `${route.path}`），严禁使用与语言无关的静态 key，避免路由/语言切换时命中同名 Payload 缓存导致数据语言错乱。
 - 纯客户端库与 SSR/Prerender 规范：强依赖 DOM/Browser 全局对象（如 `MouseEvent`、`AudioContext`）的第三方组件（例如 `@applemusic-like-lyrics`），严禁在页面顶层静态 import；必须通过 `onMounted` 动态 `import()` 或 `defineAsyncComponent` 加载，并配合 `<ClientOnly>` 包裹，确保 Nitro 服务端预渲染（prerender）阶段顺利通过。
