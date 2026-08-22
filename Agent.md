@@ -20,3 +20,4 @@
 - Music 播放数据继续读取 `content/music/*.yml`，每首歌必须同时维护 `src`、`avatar` 与 `lrc`；播放、频谱分析和 Three.js 舞台统一复用 `useMeteorSoundwave.ts`，不得再创建第二套音频元素。
 - Music 当前按桌面端设计，页面设置 1024px 最小宽度；未做移动端性能评估与布局适配前，不加入顶部导航或其他全局入口。
 - 多语言与 useAsyncData 缓存约定：凡是依赖语言查询的 `useAsyncData`，其 key 必须绑定当前语言（如 `` `xxx-${locale.value}` `` 或带上 `${route.path}`），严禁使用与语言无关的静态 key，避免路由/语言切换时命中同名 Payload 缓存导致数据语言错乱。
+- 纯客户端库与 SSR/Prerender 规范：强依赖 DOM/Browser 全局对象（如 `MouseEvent`、`AudioContext`）的第三方组件（例如 `@applemusic-like-lyrics`），严禁在页面顶层静态 import；必须通过 `onMounted` 动态 `import()` 或 `defineAsyncComponent` 加载，并配合 `<ClientOnly>` 包裹，确保 Nitro 服务端预渲染（prerender）阶段顺利通过。

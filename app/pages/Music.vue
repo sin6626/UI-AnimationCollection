@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { LyricPlayer } from '@applemusic-like-lyrics/vue'
-import { parseLrc } from '@applemusic-like-lyrics/lyric'
 import '@applemusic-like-lyrics/core/style.css'
 import { useMeteorSoundwave } from '~/components/SinUI/composables/useMeteorSoundwave'
 
@@ -32,7 +30,8 @@ type LyricPlayerController = {
 }
 
 const areaRef = ref<HTMLElement | null>(null)
-const lyricPlayerRef = ref<InstanceType<typeof LyricPlayer> | null>(null)
+const lyricPlayerRef = ref<any>(null)
+const LyricPlayerComponent = shallowRef<any>(null)
 const isPlaying = ref(false)
 const hasAudio = ref(false)
 const audioName = ref('')
@@ -40,7 +39,7 @@ const currentTrackIndex = ref(0)
 const playlistOpen = ref(false)
 const lyricsVisible = ref(true)
 const isRepeat = ref(false)
-const lyricsLines = shallowRef<ReturnType<typeof parseLrc>>([])
+const lyricsLines = shallowRef<any[]>([])
 
 const { data: musicItems } = await useAsyncData('music-stage-playlist', () => {
   const queryMusicCollection = queryCollection as unknown as (collection: 'music') => {
@@ -99,7 +98,10 @@ async function fetchCurrentLyrics() {
   }
 
   try {
-    const response = await fetch(track.lrc)
+    const [{ parseLrc }, response] = await Promise.all([
+      import('@applemusic-like-lyrics/lyric'),
+      fetch(track.lrc)
+    ])
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
 
     const text = await response.text()
@@ -186,7 +188,10 @@ function onLyricLineClick(event: LyricLineClickEvent) {
   player?.calcLayout(true, true)
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const mod = await import('@applemusic-like-lyrics/vue')
+  LyricPlayerComponent.value = mod.LyricPlayer
+
   startVis()
   if (playlist.value.length) switchTrack(0, false)
   onEnded(handleEnded)
@@ -244,27 +249,30 @@ onUnmounted(() => {
       class="pointer-events-none absolute top-28 bottom-32 left-12 z-10 flex w-[480px] flex-col justify-center"
     >
       <div class="amll-glass-wrapper pointer-events-auto h-[480px] w-full overflow-hidden">
-        <LyricPlayer
-          v-if="lyricsLines.length"
-          ref="lyricPlayerRef"
-          :lyric-lines="lyricsLines"
-          :current-time="currentTimeMs"
-          :playing="isPlaying"
-          :enable-spring="true"
-          :enable-blur="true"
-          :enable-scale="true"
-          :word-fade-width="0.5"
-          align-anchor="center"
-          :align-position="0.5"
-          class="size-full"
-          @line-click="onLyricLineClick"
-        />
-        <div
-          v-else
-          class="flex size-full items-center pl-4 font-mono text-sm tracking-widest text-white/30 uppercase"
-        >
-          [ Instrumental / No Lyrics ]
-        </div>
+        <ClientOnly>
+          <component
+            :is="LyricPlayerComponent"
+            v-if="lyricsLines.length && LyricPlayerComponent"
+            ref="lyricPlayerRef"
+            :lyric-lines="lyricsLines"
+            :current-time="currentTimeMs"
+            :playing="isPlaying"
+            :enable-spring="true"
+            :enable-blur="true"
+            :enable-scale="true"
+            :word-fade-width="0.5"
+            align-anchor="center"
+            :align-position="0.5"
+            class="size-full"
+            @line-click="onLyricLineClick"
+          />
+          <div
+            v-else
+            class="flex size-full items-center pl-4 font-mono text-sm tracking-widest text-white/30 uppercase"
+          >
+            [ Instrumental / No Lyrics ]
+          </div>
+        </ClientOnly>
       </div>
     </section>
 
