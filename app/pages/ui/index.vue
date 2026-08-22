@@ -2,7 +2,7 @@
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-const { data } = await useAsyncData('ui-index', () => {
+const { data } = await useAsyncData(`ui-index-${locale.value}`, () => {
   return queryLocalizedContentList('ui', locale.value)
 }, { watch: [locale] })
 

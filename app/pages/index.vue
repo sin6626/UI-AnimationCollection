@@ -3,11 +3,11 @@ const {$gsap: gsap, $SplitText: SplitText} = useNuxtApp()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-const { data: uiItems } = await useAsyncData('home-ui', () => {
+const { data: uiItems } = await useAsyncData(`home-ui-${locale.value}`, () => {
   return queryLocalizedContentList('ui', locale.value)
 }, { watch: [locale] })
 
-const { data: animationItems } = await useAsyncData('home-animation', () => {
+const { data: animationItems } = await useAsyncData(`home-animation-${locale.value}`, () => {
   return queryLocalizedContentList('animation', locale.value)
 }, { watch: [locale] })
 

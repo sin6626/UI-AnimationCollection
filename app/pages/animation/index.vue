@@ -2,7 +2,7 @@
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-const { data } = await useAsyncData('animation-index', () => {
+const { data } = await useAsyncData(`animation-index-${locale.value}`, () => {
   return queryLocalizedContentList('animation', locale.value)
 }, { watch: [locale] })
 </script>
