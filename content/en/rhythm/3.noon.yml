@@ -1,0 +1,8 @@
+id: noon
+order: 3
+title: Noon
+time: 12:00 - 14:00
+startHour: 12
+endHour: 14
+icon: i-lucide-utensils
+tag: Recharge

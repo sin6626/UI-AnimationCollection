@@ -17,7 +17,6 @@ async function changeLocale(value: Parameters<typeof setLocale>[0]): Promise<voi
 }
 </script>
 
-
 <!-- 下面使用model-value而不是value, 因为组件规定单项传值的属性是modelValue -->
 <!-- 下面的bodyLock默认为True, 会锁定全局, 也会让滚动条消失, 让布局改变 -->
 <template>
@@ -27,7 +26,7 @@ async function changeLocale(value: Parameters<typeof setLocale>[0]): Promise<voi
     :content="{ bodyLock: false }"
     size="md"
     variant="ghost"
-    class="w-28 shrink-0"
+    class="shrink-0"
     @update:model-value="changeLocale"
   />
 </template>

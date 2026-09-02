@@ -16,12 +16,33 @@ const musicSchema = z.object({
   order: z.number()
 })
 
+const rhythmSchema = z.object({
+  id: z.string(),
+  order: z.number(),
+  title: z.string(),
+  time: z.string(),
+  startHour: z.number(),
+  endHour: z.number(),
+  icon: z.string(),
+  tag: z.string()
+})
+
 export default defineContentConfig({
   collections: {
     music: defineCollection({
       type: 'data',
       source: 'music/*.yml',
       schema: musicSchema
+    }),
+    rhythm_zh: defineCollection({
+      type: 'data',
+      source: 'zh/rhythm/*.yml',
+      schema: rhythmSchema
+    }),
+    rhythm_en: defineCollection({
+      type: 'data',
+      source: 'en/rhythm/*.yml',
+      schema: rhythmSchema
     }),
     ui_zh: defineCollection({
       type: 'page',

@@ -46,9 +46,11 @@ const navLinks = computed<NavigationMenuItem[]>(() => [{
           <!-- 页面组件保留自己的 UPage,用于组织当前页面内容 -->
           <slot />
 
-          <!-- 为未来的 2D 角色保留右侧栏 -->
+          <!-- 右侧栏: 时间仪表盘与作息时间流 -->
           <template #right>
-            <UPageAside aria-hidden="true" />
+            <UPageAside>
+              <SidebarTimeDashboard />
+            </UPageAside>
           </template>
         </UPage>
       </UMain>

@@ -57,7 +57,7 @@ onMounted(() => {
     // 提前记录下gasp.timeline的实例, 因为后面还要调用他的restart方法
     t1 = gsap.timeline({
       // 后面的动画都是默认下面这个属性, 避免了重复写
-      defaults: { ease: 'circ.inOut' },
+      defaults: { ease: 'circ.inOut' }
       // defaults: { ease: 'steps(12)' },
       // 下面的 scrollTrigger 负责把时间线进度和滚动条绑定起来
       // 其实下面的scrollTrigger完全不用, 因为做的动画本来也不涉及的到跟滚动条联动了, 如果加了下面的字段, 然而会因为页面高度不够, 不能展示出发动画
@@ -76,14 +76,11 @@ onMounted(() => {
       // 第二阶段：最终完整图淡入（覆盖切片）
       .to(final, { autoAlpha: 1, duration: 0.25 })
   }, root)
-
-
 })
 
 const restartAni = () => {
   t1?.restart()
 }
-
 
 onUnmounted(() => {
   // 组件卸载时恢复所有 GSAP 设置的状态
@@ -92,26 +89,44 @@ onUnmounted(() => {
 </script>
 
 <template>
-
-  <section ref="shutter"
+  <section
+    ref="shutter"
     class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-default rounded-3xl"
-    aria-label="滚动触发的快门动画">
+    aria-label="滚动触发的快门动画"
+  >
     <div class="flex justify-end w-full ">
-      <UIcon @click="restartAni" name="ic:round-loop" class="size-7 cursor-pointer" />
+      <UIcon
+        name="ic:round-loop"
+        class="size-7 cursor-pointer"
+        @click="restartAni"
+      />
     </div>
     <div class="shutter-stage relative aspect-[16/9] max-h-[62vh] w-full overflow-hidden rounded-xl bg-default">
       <!-- 5 个切片层：用 clipPath 裁剪成竖条，交错飞入 -->
-      <div class="absolute inset-0 z-2" aria-hidden="true">
-        <div v-for="panel in panels" :key="panel.index"
+      <div
+        class="absolute inset-0 z-2"
+        aria-hidden="true"
+      >
+        <div
+          v-for="panel in panels"
+          :key="panel.index"
           class="shutter-slice absolute inset-0 overflow-hidden ring-1 ring-inset ring-white/15"
-          :style="{ clipPath: panel.clip }">
-          <img src="/Sin.jpg" alt="" class="h-full w-full object-cover object-center">
+          :style="{ clipPath: panel.clip }"
+        >
+          <img
+            src="/Sin.jpg"
+            alt=""
+            class="h-full w-full object-cover object-center"
+          >
         </div>
       </div>
 
       <!-- 最终完整图：切片归位后淡出覆盖，形成完整画面 -->
-      <img class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center" src="/Sin.jpg"
-        alt="合并后的最终视觉">
+      <img
+        class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center"
+        src="/Sin.jpg"
+        alt="合并后的最终视觉"
+      >
     </div>
   </section>
 </template>

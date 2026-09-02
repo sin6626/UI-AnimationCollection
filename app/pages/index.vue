@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-const {$gsap: gsap, $SplitText: SplitText} = useNuxtApp()
+const { $gsap: gsap, $SplitText: SplitText } = useNuxtApp()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
@@ -26,7 +26,7 @@ onMounted(() => {
   const herodescription = new SplitText('.herodescription', {
     type: 'lines, chars'
   })
-  
+
   const t1 = gsap.timeline()
   t1
     .from(
@@ -36,50 +36,62 @@ onMounted(() => {
         autoAlpha: 0,
         stagger: 0.07,
         duration: 0.7,
-        ease: 'power4.out',
-      },
+        ease: 'power4.out'
+      }
     )
 })
-
 </script>
 
 <template>
   <UPage>
-    <Motion :initial="{
-      scale: 1.1,
-      opacity: 0,
-      filter: 'blur(20px)'
-    }" :animate="{
-      opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)'
-    }" :transition="{
-      duration: 0.6,
-      delay: 0.1
-    }">
-      <UPageHero :title="hero.title" :description="hero.description" :ui="{
-        title: 'mx-0! text-left',
-        description: 'mx-0! text-left text-balance herodescription',
-        links: 'justify-start'
-      }" />
+    <Motion
+      :initial="{
+        scale: 1.1,
+        opacity: 0,
+        filter: 'blur(20px)'
+      }"
+      :animate="{
+        opacity: 1,
+        scale: 1,
+        filter: 'blur(0px)'
+      }"
+      :transition="{
+        duration: 0.6,
+        delay: 0.1
+      }"
+    >
+      <UPageHero
+        :title="hero.title"
+        :description="hero.description"
+        :ui="{
+          title: 'mx-0! text-left',
+          description: 'mx-0! text-left text-balance herodescription',
+          links: 'justify-start'
+        }"
+      />
     </Motion>
 
-    <Motion :initial="{
-      scale: 1.1,
-      opacity: 0,
-      filter: 'blur(20px)'
-    }" :animate="{
-      opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)'
-    }" :transition="{
-      duration: 0.6,
-      delay: 0.2
-    }">
-
-      <div v-for="category in categories" :key="category.key"
-        class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 mb-16 last:mb-0">
-
+    <Motion
+      :initial="{
+        scale: 1.1,
+        opacity: 0,
+        filter: 'blur(20px)'
+      }"
+      :animate="{
+        opacity: 1,
+        scale: 1,
+        filter: 'blur(0px)'
+      }"
+      :transition="{
+        duration: 0.6,
+        delay: 0.2
+      }"
+    >
+      <div
+        v-for="category in categories"
+        :key="category.key"
+        class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 mb-16 last:mb-0"
+      >
         <!-- 左侧 -->
         <div class="lg:col-span-1 mb-4 lg:mb-0 pl-10">
           <h2 class="lg:sticky lg:top-16 text-xl font-semibold text-highlighted">
@@ -102,11 +114,7 @@ onMounted(() => {
             </NuxtLink>
           </div>
         </div>
-
       </div>
-
     </Motion>
-
-
   </UPage>
 </template>

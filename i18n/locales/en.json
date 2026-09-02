@@ -32,6 +32,39 @@
     "backHome": "Back to Home",
     "switchLanguage": "Switch to Chinese"
   },
+  "dashboard": {
+    "dayOfYear": "Day {day}",
+    "yearProgress": "Year Progress",
+    "todayProgress": "Today Progress",
+    "currentRhythm": "Current State",
+    "timeline": "Daily Rhythm"
+  },
+  "rhythm": {
+    "dawn": {
+      "title": "Dawn",
+      "tag": "Awakening"
+    },
+    "morning": {
+      "title": "Morning",
+      "tag": "Deep Focus"
+    },
+    "noon": {
+      "title": "Noon",
+      "tag": "Recharge"
+    },
+    "afternoon": {
+      "title": "Afternoon",
+      "tag": "Crafting UI"
+    },
+    "evening": {
+      "title": "Evening",
+      "tag": "Wind Down"
+    },
+    "night": {
+      "title": "Night",
+      "tag": "Starlight"
+    }
+  },
   "footer": {
     "credits": "Created on 2026 - {year}"
   }

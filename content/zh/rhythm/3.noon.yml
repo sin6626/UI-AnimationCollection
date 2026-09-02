@@ -1,0 +1,8 @@
+id: noon
+order: 3
+title: 午休
+time: 12:00 - 14:00
+startHour: 12
+endHour: 14
+icon: i-lucide-utensils
+tag: 能量充能

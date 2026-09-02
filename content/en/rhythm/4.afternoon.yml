@@ -1,0 +1,8 @@
+id: afternoon
+order: 4
+title: Afternoon
+time: 14:00 - 18:00
+startHour: 14
+endHour: 18
+icon: i-lucide-laptop
+tag: Crafting UI

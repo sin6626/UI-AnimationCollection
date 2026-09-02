@@ -15,27 +15,27 @@ export default defineAppConfig({
       // alt: "My profile picture",
     },
     // 访客预约会议的链接 (Cal.com)
-    meetingLink: "#",
+    meetingLink: '#',
     // 联系邮箱
-    email: "sin6626meo@gmail.com",
+    email: 'sin6626meo@gmail.com',
     // 是否可接新项目 (影响 Hero 区"接单状态"按钮颜色与文案)
-    available: true,
+    available: true
   },
   // Nuxt UI 配置: 主题色与 UPageHero 组件样式覆盖
   ui: {
     colors: {
-      primary: "brand",
-      neutral: "neutral",
+      primary: 'brand',
+      neutral: 'neutral'
     },
     // 覆盖 UPageHero 组件默认槽位的样式 (容器内边距、标题宽度、描述样式)
     pageHero: {
       slots: {
-        container: "pt-14 pb-18 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32",
-        title: "mx-auto max-w-xl text-pretty text-3xl sm:text-4xl lg:text-5xl",
+        container: 'pt-14 pb-18 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32',
+        title: 'mx-auto max-w-xl text-pretty text-3xl sm:text-4xl lg:text-5xl',
         description:
-          "mt-2 text-md mx-auto max-w-2xl text-pretty sm:text-md text-muted",
-      },
-    },
+          'mt-2 text-md mx-auto max-w-2xl text-pretty sm:text-md text-muted'
+      }
+    }
   },
 
   // 页脚配置: 版权信息、是否显示颜色模式切换、社交链接
@@ -43,23 +43,23 @@ export default defineAppConfig({
     credits: `Created on 2026 - ${new Date().getFullYear()}`,
     links: [
       {
-        icon: "mingcute:bilibili-line",
-        to: "https://space.bilibili.com/514794835?spm_id_from=333.1007.0.0",
-        target: "_blank",
-        "aria-label": "Sin on Bilibili",
+        'icon': 'mingcute:bilibili-line',
+        'to': 'https://space.bilibili.com/514794835?spm_id_from=333.1007.0.0',
+        'target': '_blank',
+        'aria-label': 'Sin on Bilibili'
       },
       {
-        icon: "i-simple-icons-x",
-        to: "https://x.com/Sins6626",
-        target: "_blank",
-        "aria-label": "Sin on X",
+        'icon': 'i-simple-icons-x',
+        'to': 'https://x.com/Sins6626',
+        'target': '_blank',
+        'aria-label': 'Sin on X'
       },
       {
-        icon: "i-simple-icons-github",
-        to: "https://github.com/sin6626",
-        target: "_blank",
-        "aria-label": "Nuxt UI on GitHub",
-      },
-    ],
-  },
+        'icon': 'i-simple-icons-github',
+        'to': 'https://github.com/sin6626',
+        'target': '_blank',
+        'aria-label': 'Nuxt UI on GitHub'
+      }
+    ]
+  }
 })

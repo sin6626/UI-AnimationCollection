@@ -32,6 +32,39 @@
     "backHome": "返回首页",
     "switchLanguage": "切换至 English"
   },
+  "dashboard": {
+    "dayOfYear": "第 {day} 天",
+    "yearProgress": "年度进度",
+    "todayProgress": "今日进度",
+    "currentRhythm": "当前状态",
+    "timeline": "作息时间流"
+  },
+  "rhythm": {
+    "dawn": {
+      "title": "清晨",
+      "tag": "晨光醒脑"
+    },
+    "morning": {
+      "title": "上午",
+      "tag": "专注编码"
+    },
+    "noon": {
+      "title": "午休",
+      "tag": "能量充能"
+    },
+    "afternoon": {
+      "title": "下午",
+      "tag": "动效打磨"
+    },
+    "evening": {
+      "title": "晚上",
+      "tag": "晚霞闲暇"
+    },
+    "night": {
+      "title": "深夜",
+      "tag": "灵感星梦"
+    }
+  },
   "footer": {
     "credits": "创建于 2026 - {year}"
   }

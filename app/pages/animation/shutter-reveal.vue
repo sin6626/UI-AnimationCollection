@@ -8,9 +8,10 @@ const { data } = await useAsyncData(`${route.path}-content`, () => {
 </script>
 
 <template>
-  
-  <SinAniDemo :title="data?.title" :description="data?.description">
+  <SinAniDemo
+    :title="data?.title"
+    :description="data?.description"
+  >
     <SinAniShutterReveal />
   </SinAniDemo>
-
 </template>

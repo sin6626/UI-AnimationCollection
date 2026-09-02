@@ -6,9 +6,9 @@ import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 const { t } = useI18n()
 
 defineProps({
-  error:{
+  error: {
     type: Object as PropType<NuxtError>,
-    required: true  
+    required: true
   }
 })
 
@@ -31,12 +31,16 @@ function handleMouseLeave(event: MouseEvent) {
   updateCursor(event)
   isHovered.value = false
 }
-
 </script>
 
 <template>
   <UMain class="relative bg-amber-50 flex flex-col gap-4 min-w-[100vh] min-h-screen">
-    <DotLottieVue class="w-full h-full m-auto" autoplay loop src="/404-error.lottie" />
+    <DotLottieVue
+      class="w-full h-full m-auto"
+      autoplay
+      loop
+      src="/404-error.lottie"
+    />
     <!-- <UButton to="/" class="absolute top-4/5 left-1/2 -translate-x-1/2 text-gray-600 hover:text-gray-700 hover:bg-amber-100/80" variant="outline" size="xl" icon="i-lucide-rocket" >Back to Home</UButton> -->
     <UButton
       :to="$localePath('/')"
@@ -47,7 +51,7 @@ function handleMouseLeave(event: MouseEvent) {
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
-    <!-- spring弹簧动画, stiffness弹簧的刚度, 越小越柔软, 回弹更明显, damping: 阻尼, 越小摆动越久, 用来做轻微的摆动, resetDelta:当速度/位置误差小于该值时视为动画结束,值越小越精确、动画越久(其实不是很懂, 但是随便加点值显示吧) -->
+      <!-- spring弹簧动画, stiffness弹簧的刚度, 越小越柔软, 回弹更明显, damping: 阻尼, 越小摆动越久, 用来做轻微的摆动, resetDelta:当速度/位置误差小于该值时视为动画结束,值越小越精确、动画越久(其实不是很懂, 但是随便加点值显示吧) -->
       <Motion
         tag="span"
         :initial="{ scale: 0 }"
@@ -57,7 +61,10 @@ function handleMouseLeave(event: MouseEvent) {
         :style="{ left: `${cursor.x}px`, top: `${cursor.y}px` }"
       />
       <span :class="['relative z-10 flex items-center gap-2 transition-colors', isHovered ? 'text-white' : 'text-black/80']">
-        <UIcon name="lucide-rocket" class="size-5" />
+        <UIcon
+          name="lucide-rocket"
+          class="size-5"
+        />
         {{ t('common.backHome') }}
       </span>
     </UButton>

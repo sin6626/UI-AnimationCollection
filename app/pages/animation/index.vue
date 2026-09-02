@@ -25,7 +25,7 @@ const { data } = await useAsyncData(`animation-index-${locale.value}`, () => {
         :initial="{ opacity: 0, transform: 'translateY(10px)' }"
         :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
         :transition="{ delay: 0.3 * index }"
-        :in-view-options="{ once: false }"
+        :in-view-options="{ once: true }"
       >
         <UPageCard
           :title="item.title"

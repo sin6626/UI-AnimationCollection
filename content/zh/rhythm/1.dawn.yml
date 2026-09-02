@@ -1,0 +1,8 @@
+id: dawn
+order: 1
+title: 清晨
+time: 05:00 - 08:00
+startHour: 5
+endHour: 8
+icon: i-lucide-sunrise
+tag: 晨光醒脑

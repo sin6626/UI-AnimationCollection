@@ -31,12 +31,14 @@ const localizedSurround = computed(() => surround.value?.map((item) => {
     description: typeof item.description === 'string' ? item.description : undefined
   }
 }))
-
 </script>
 
 <template>
   <UPage class="mt-20 min-h-[70vh] px-2">
-    <ULink :to="localePath('/ui')" class="text-sm flex items-center gap-1">
+    <ULink
+      :to="localePath('/ui')"
+      class="text-sm flex items-center gap-1"
+    >
       <UIcon name="lucide:chevron-left" />
       {{ t('ui.back') }}
     </ULink>
@@ -55,6 +57,9 @@ const localizedSurround = computed(() => surround.value?.map((item) => {
       <slot />
     </UPageBody>
 
-    <UContentSurround :surround="localizedSurround" class="mt-8" />
+    <UContentSurround
+      :surround="localizedSurround"
+      class="mt-8"
+    />
   </UPage>
 </template>

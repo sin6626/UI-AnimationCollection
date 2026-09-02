@@ -48,7 +48,10 @@ onUnmounted(() => {
         <h2 class="mt-1 font-mono text-2xl md:text-3xl font-bold tracking-[0.12em] text-white">
           METEOR SOUNDWAVE
         </h2>
-        <p v-if="audioName" class="mt-1 font-mono text-xs text-white/50 truncate max-w-xs md:max-w-sm">
+        <p
+          v-if="audioName"
+          class="mt-1 font-mono text-xs text-white/50 truncate max-w-xs md:max-w-sm"
+        >
           ♫ {{ audioName }}
         </p>
       </div>
@@ -86,7 +89,10 @@ onUnmounted(() => {
             for="meteor-audio-input"
             class="group flex cursor-pointer items-center gap-2 rounded-xl border border-[#8ef0de]/40 bg-[#8ef0de]/10 px-4 py-2 backdrop-blur-md transition-all duration-200 hover:border-[#8ef0de] hover:bg-[#8ef0de]/25 hover:shadow-[0_0_20px_rgba(142,240,222,0.25)] active:scale-95"
           >
-            <UIcon name="lucide:upload" class="size-4 text-[#8ef0de] transition-transform group-hover:-translate-y-0.5" />
+            <UIcon
+              name="lucide:upload"
+              class="size-4 text-[#8ef0de] transition-transform group-hover:-translate-y-0.5"
+            />
             <span class="font-mono text-sm font-semibold tracking-[0.12em] text-[#8ef0de]">
               Load MP3
             </span>

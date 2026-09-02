@@ -97,7 +97,7 @@ const startViewTransition2 = (event: MouseEvent) => {
       @click="startViewTransition"
     />
 
-    <div class="border border-gray-400 mx-8 h-6" ></div>
+    <div class="border border-gray-400 mx-8 h-6" />
 
     <UButton
       :aria-label="`Switch to ${nextTheme} mode`"

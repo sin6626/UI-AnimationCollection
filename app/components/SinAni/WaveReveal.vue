@@ -124,9 +124,10 @@ onUnmounted(() => {
 
     <!-- 全屏覆盖层 flex 居中；展示版改成局部展示框 -->
     <div class="relative aspect-[16/9] max-h-[62vh] w-full overflow-hidden rounded-xl bg-elevated">
-
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2">
-        <p class="text-4xl font-serif text-nowrap">Welcome to the little world of Sin !</p>
+        <p class="text-4xl font-serif text-nowrap">
+          Welcome to the little world of Sin !
+        </p>
       </div>
 
       <!-- 波浪 SVG 背景，亮色/暗色分别用浅紫/浅橙 -->

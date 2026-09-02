@@ -28,7 +28,7 @@ export interface StageConfig {
   gridSize: number
   spacing: number
   tileSize: number
-  cameraPos: { x: number; y: number; z: number }
+  cameraPos: { x: number, y: number, z: number }
   height: {
     idle: number
     subBass: number
@@ -168,8 +168,7 @@ export class StageAudioAnalyzer {
       this.source.connect(this.analyser)
       this.analyser.connect(this.gainNode)
       this.gainNode.connect(this.audioCtx.destination)
-    }
-    catch (err) {
+    } catch (err) {
       console.warn('MediaElementSource connect error:', err)
     }
   }
@@ -178,8 +177,9 @@ export class StageAudioAnalyzer {
     if (this.source) {
       try {
         this.source.disconnect()
+      } catch {
+        // ignore disconnect error
       }
-      catch {}
       this.source = null
     }
     if (this.audioCtx) {
@@ -230,22 +230,19 @@ export class StageAudioAnalyzer {
         if (i <= 1) {
           sumSub += val
           subBassDiff += diff
-        }
-        else if (i <= 3) sumBass += val
+        } else if (i <= 3) sumBass += val
         else if (i <= 7) sumLowMid += val
         else if (i <= 18) sumMid += val
         else if (i <= 46) {
           sumHighMid += val
           highMidDiff += diff
-        }
-        else if (i <= 93) sumPresence += val
+        } else if (i <= 93) sumPresence += val
         else if (i <= 186) sumBrilliance += val
         else if (i <= 372) sumAir += val
       }
 
       this.detectBeatsAndMeteors(subBassDiff, highMidDiff)
-    }
-    else {
+    } else {
       for (let i = 0; i < binCount; i++) {
         this.dataArray[i] = Math.floor((this.dataArray[i] ?? 0) * 0.94)
         this.prevData[i] = 0
@@ -379,7 +376,7 @@ export interface StageUniforms {
   uHeightHighMid: THREE.IUniform<number>
   uHeightEnergy: THREE.IUniform<number>
   uHeightRipple: THREE.IUniform<number>
-  uRipples: THREE.IUniform<{ pos: THREE.Vector2; time: number; strength: number; isActive: number; rippleType: number }[]>
+  uRipples: THREE.IUniform<{ pos: THREE.Vector2, time: number, strength: number, isActive: number, rippleType: number }[]>
   uBaseColor1: THREE.IUniform<THREE.Color>
   uBaseColor2: THREE.IUniform<THREE.Color>
   uCoolCore: THREE.IUniform<THREE.Color>
@@ -588,8 +585,7 @@ export function useMeteorSoundwave({
     if (file.name.toLowerCase().endsWith('.mp3')) {
       const audioURL = URL.createObjectURL(file)
       loadTrack(audioURL, file.name, true)
-    }
-    else {
+    } else {
       alert('请上传 .mp3 格式的音频文件')
     }
   }
@@ -604,8 +600,7 @@ export function useMeteorSoundwave({
       }).catch((err) => {
         console.warn('播放失败或被拦截:', err)
       })
-    }
-    else {
+    } else {
       audio.pause()
       isPlaying.value = false
     }
@@ -692,8 +687,7 @@ export function useMeteorSoundwave({
       meteorMesh.geometry.dispose()
       if (Array.isArray(meteorMesh.material)) {
         meteorMesh.material.forEach(m => m.dispose())
-      }
-      else {
+      } else {
         meteorMesh.material.dispose()
       }
       meteorMesh = null
@@ -702,8 +696,7 @@ export function useMeteorSoundwave({
       particleMesh.geometry.dispose()
       if (Array.isArray(particleMesh.material)) {
         particleMesh.material.forEach(m => m.dispose())
-      }
-      else {
+      } else {
         particleMesh.material.dispose()
       }
       particleMesh = null
@@ -953,8 +946,7 @@ export function useMeteorSoundwave({
           if (m.y > 0 && Math.random() > 0.4) {
             spawnSplashParticle(m.x, m.y, m.z, 0.15 * m.speed)
           }
-        }
-        else {
+        } else {
           dummyPos.set(0, -1000, 0)
           dummyScale.set(0, 0, 0)
           dummyMatrix.compose(dummyPos, dummyQuat, dummyScale)
@@ -971,8 +963,7 @@ export function useMeteorSoundwave({
           if (p.life >= p.maxLife) {
             p.active = false
             dummyScale.set(0, 0, 0)
-          }
-          else {
+          } else {
             p.x += p.vx * delta * 8.0
             p.y += p.vy * delta * 8.0
             p.z += p.vz * delta * 8.0
@@ -982,8 +973,7 @@ export function useMeteorSoundwave({
           }
           dummyMatrix.compose(dummyPos, dummyQuat, dummyScale)
           particleMesh.setMatrixAt(i, dummyMatrix)
-        }
-        else {
+        } else {
           dummyPos.set(0, -1000, 0)
           dummyScale.set(0, 0, 0)
           dummyMatrix.compose(dummyPos, dummyQuat, dummyScale)

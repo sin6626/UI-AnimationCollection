@@ -69,7 +69,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 <template>
   <header class="sticky top-2 sm:top-4 z-20 grid grid-cols-[1fr_auto_1fr] items-center">
     <div class="hidden md:block size-10 justify-self-start">
-      <img src="/Sin.jpg" alt="" class="size-full object-cover rounded-lg shadow-lg shadow-neutral-950/5">
+      <img
+        src="/Sin.jpg"
+        alt=""
+        class="size-full object-cover rounded-lg shadow-lg shadow-neutral-950/5"
+      >
     </div>
 
     <!-- 外层 relative 容器: 为绝对定位的指示条提供定位基准 -->
@@ -116,10 +120,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
           </span>
         </template>
 
-        <!-- 末尾追加颜色模式切换按钮 -->
+        <!-- 末尾追加语言、颜色模式切换与用户登录菜单 -->
         <template #list-trailing>
           <LocaleSwitch />
           <ColorModeButton />
+          <UserMenu />
         </template>
       </UNavigationMenu>
     </div>

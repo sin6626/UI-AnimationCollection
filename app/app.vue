@@ -16,8 +16,8 @@ useHead(() => ({
       <NuxtPage />
     </NuxtLayout>
   </UApp>
-
 </template>
+
 <style>
 .page-enter-active,
 .page-leave-active {
