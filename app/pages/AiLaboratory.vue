@@ -23,10 +23,10 @@ const isItemActive = (index: number) => activeIndex.value === index
 </script>
 
 <template>
-  <div class="flex items-center justify-center min-h-screen w-full gap-4">
-    <!-- 胶囊导航外壳：毛玻璃 + 圆润药丸 + 边框微光 -->
+  <div class="flex flex-col items-center justify-center min-h-screen w-full gap-6">
+    <!-- 胶囊导航外壳：毛玻璃 + 圆润药丸 + 边框微光 (明暗模式适配) -->
     <nav
-      class="relative inline-flex items-center rounded-full bg-zinc-900/60 px-3 py-1.5 shadow-lg shadow-black/20 ring-1 ring-white/10 backdrop-blur-md"
+      class="relative inline-flex items-center rounded-full bg-white/70 dark:bg-zinc-900/60 px-3 py-1.5 shadow-lg shadow-zinc-300/40 dark:shadow-black/30 ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-md transition-colors duration-300"
     >
       <button
         v-for="(item, index) in navItems"
@@ -35,8 +35,8 @@ const isItemActive = (index: number) => activeIndex.value === index
         class="relative flex items-center px-4 py-1.5 text-sm font-medium transition-colors duration-200 cursor-pointer outline-none select-none"
         :class="[
           isItemActive(index)
-            ? 'text-pink-400/80' /* 激活时的高亮强调色 */
-            : 'text-zinc-400 hover:text-zinc-200'
+            ? 'text-[rgb(138,194,187)] dark:text-pink-400/80 font-semibold' /* 激活时高亮：光明模式 138,194,187，黑暗模式粉色 */
+            : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
         ]"
         @click="activeIndex = index"
       >
@@ -49,7 +49,7 @@ const isItemActive = (index: number) => activeIndex.value === index
           :transition="{
             type: 'spring',
             stiffness: 350,
-            damping: 25 
+            damping: 25
           }"
         >
           <UIcon
@@ -58,26 +58,26 @@ const isItemActive = (index: number) => activeIndex.value === index
           />
         </Motion>
 
-      <Motion
-        as="span"
-        layout
-        :transition="{
+        <Motion
+          as="span"
+          layout
+          :transition="{
             type: 'spring',
             stiffness: 400,
             damping: 28,
             mass: 0.8 // mass: 指的是物体的质量, 质量大的物品惯性大
           }"
-        class="whitespace-nowrap"
-      >
-        {{ item.title }}
-      </Motion>
+          class="whitespace-nowrap"
+        >
+          {{ item.title }}
+        </Motion>
 
-        <!-- 特效 2：底部 1px 流光激光指示线（两端虚化、中间聚焦高光） -->
+        <!-- 特效 2：底部 1px 流光激光指示线（明暗模式流光色彩适配） -->
         <Motion
           v-if="isItemActive(index)"
           layout-id="active-nav-line"
           as="span"
-          class="absolute inset-x-2 -bottom-0.5 h-[1.5px] bg-gradient-to-r from-pink-500/0 via-pink-400 to-pink-500/0 shadow-[0_0_8px_rgba(244,114,182,0.6)]"
+          class="absolute inset-x-2 -bottom-0.5 h-[1.5px] bg-gradient-to-r from-transparent via-[rgb(138,194,187)] to-transparent dark:from-pink-500/0 dark:via-pink-400 dark:to-pink-500/0 shadow-[0_0_8px_rgba(138,194,187,0.8)] dark:shadow-[0_0_8px_rgba(244,114,182,0.6)]"
           :transition="{
             type: 'spring',
             stiffness: 350,
