@@ -143,7 +143,7 @@ const todayProgress = computed(() => {
       </div>
     </div>
 
-    <!-- 下方作息时间流 (独立封装的 Innei 风格时间轴) -->
+    <!-- 下方作息时间流 (独立封装的 Innei 风格时间轴 x todo: 等完全炼化之后再来重写) -->
     <div class="pt-1">
       <DailyRhythmTimeline />
     </div>
