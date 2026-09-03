@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     'motion-v/nuxt', // motion-v 动效组件 (Motion) 自动导入
     'nuxt-auth-utils', // 官方认证与 OAuth 工具集
     '@nuxtjs/i18n',
-    ...(process.env.NODE_ENV === 'development' ? ['nuxt-studio'] : [])
+    // ...(process.env.NODE_ENV === 'development' ? ['nuxt-studio'] : [])
   ],
 
   ssr: true,
