@@ -32,6 +32,11 @@
   - Web Audio 与 Three.js 逻辑封装在 `app/components/SinUI/composables/useMeteorSoundwave.ts`。
   - 组件在 `app/components/SinUI/MeteorSoundwave.vue`，页面在 `app/pages/ui/meteor-soundwave.vue`。
   - 缩略图置于 `public/`，元数据分别在 `content/zh|en/ui/meteor-soundwave.yml`。
+- **ShiroNav 胶囊导航栏组件 (SinUI / Motion)**：
+  - 组件位于 `app/components/SinUI/ShiroNav.vue`，页面在 `app/pages/ui/shiro-nav.vue`，缩略图置于 `public/ShiroNav.png`。
+  - 运用 Motion 的 `layout-id` 实现跨 Tab 的图标跳跃飞跃（`layout-id="active-nav-icon"`）与底部激光指示线平滑流动（`layout-id="active-nav-line"`）。
+  - 文字通过 `layout` 属性与 `mass: 0.8` 惯性质量参数实现随图标插入的平滑重排。
+  - 深度适配明暗双色模式：光明模式主色为 `rgb(138, 194, 187)`（薄荷青/灰湖绿），黑暗模式为 `pink-400/80`（粉红流光）。
 - **Music 沉浸页 (`app/pages/Music.vue`)**：
   - `layout: false`，不挂默认导航、侧栏、页脚和全局梅花背景；入口仅在 `SidebarMusicPlayer.vue` 的 3D 可视化按钮。
   - 顶部 HUD 提供 Back 返回主页入口；进度条与音量条采用流光渐变（`from #2255ff via #8ef0de to #44ddff`）。

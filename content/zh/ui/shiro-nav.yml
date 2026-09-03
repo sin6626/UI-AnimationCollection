@@ -1,0 +1,4 @@
+title: "Shiro的导航栏"
+date: "2026-09-03"
+src: "/ShiroNav.png"
+description: "组件来源于Innei在24年写的Shiro主题的博客, 博客开源, 读了下源码使用的是Motion库, 用到了layout和layoutId两个关键属性完成这个效果, 当然还有Innei大佬那神级UI的审美, 我很喜欢, 收录了进来, 想要进一步复刻可以使用DropdownMenu"
