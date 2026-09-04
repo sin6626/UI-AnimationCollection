@@ -1,90 +1,157 @@
 <script setup lang="ts">
-import { Motion } from 'motion-v'
+import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 
-// 1. 定义导航菜单项数据
-interface NavItem {
+const apiUrl = '/api/blog/post'
+
+interface BlogPost {
+  id: string
   title: string
-  icon: string // Nuxt Icon / Iconify 图标名称
+  text: string
+  summary?: string
+  created: string
+  modified: string
+  tags?: string[]
 }
 
-const navItems: NavItem[] = [
-  { title: '首页', icon: 'i-mingcute-home-3-line' },
-  { title: '文稿', icon: 'i-mingcute-quill-pen-line' },
-  { title: '手记', icon: 'i-mingcute-notebook-line' },
-  { title: '时光', icon: 'i-mingcute-time-line' },
-  { title: '友链', icon: 'i-fa6-solid-user-group' }
-]
+// 1. 使用 useFetch 请求博客文章数据，在响应拦截器中打印规范日志
+const { data: post, status, error, refresh } = await useFetch<BlogPost>(apiUrl, {
+  // 规范化接口返回的 Markdown 换行符（CRLF -> LF），彻底消除客户端与服务端 Hydration text mismatch
+  transform(data) {
+    if (data && typeof data.text === 'string') {
+      data.text = data.text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    }
+    return data
+  },
+  onResponse({ request, response }) {
+    if (import.meta.client) {
+      console.log(JSON.stringify({
+        statusCode: response.status,
+        method: 'GET',
+        url: typeof request === 'string' ? request : (request as Request).url,
+        params: {},
+        response: response._data
+      }, null, 2))
+    }
+  }
+})
 
-// 2. 当前激活项索引（默认第 0 项）
-const activeIndex = ref(0)
-
-// 3. 判定当前项是否激活
-const isItemActive = (index: number) => activeIndex.value === index
+// 2. 将 Markdown 文本解析为包含 body AST 与 toc 目录树的 Content 数据结构
+// 显式传入 { highlight: false }，防止 MDC 触发不存在的 /api/_mdc/highlight 路由警告
+const { data: parsedPost } = await useAsyncData(
+  'lab-parsed-blog-post',
+  async () => {
+    if (!post.value?.text) return null
+    return await parseMarkdown(post.value.text, { highlight: false })
+  }
+)
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen w-full gap-6">
-    <!-- 胶囊导航外壳：毛玻璃 + 圆润药丸 + 边框微光 (明暗模式适配) -->
-    <nav
-      class="relative inline-flex items-center rounded-full bg-white/70 dark:bg-zinc-900/60 px-3 py-1.5 shadow-lg shadow-zinc-300/40 dark:shadow-black/30 ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-md transition-colors duration-300"
+  <div class="py-8 px-2 sm:px-4">
+    <!-- 加载中状态 -->
+    <div
+      v-if="status === 'pending'"
+      class="flex flex-col items-center justify-center py-20 gap-3"
     >
-      <button
-        v-for="(item, index) in navItems"
-        :key="item.title"
-        type="button"
-        class="relative flex items-center px-4 py-1.5 text-sm font-medium transition-colors duration-200 cursor-pointer outline-none select-none"
-        :class="[
-          isItemActive(index)
-            ? 'text-[rgb(138,194,187)] dark:text-pink-400/80 font-semibold' /* 激活时高亮：光明模式 138,194,187，黑暗模式粉色 */
-            : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
-        ]"
-        @click="activeIndex = index"
+      <UIcon
+        name="i-lucide-loader-circle"
+        class="size-8 animate-spin text-primary"
+      />
+      <p class="text-sm text-muted">
+        正在拉取并解析博客富文本内容...
+      </p>
+    </div>
+
+    <!-- 加载失败状态 -->
+    <div
+      v-else-if="error"
+      class="flex flex-col items-center justify-center py-20 gap-4 text-center"
+    >
+      <UIcon
+        name="i-lucide-alert-triangle"
+        class="size-10 text-red-500"
+      />
+      <p class="text-base text-red-500 font-medium">
+        请求博客内容失败：{{ error.message }}
+      </p>
+      <UButton
+        color="neutral"
+        variant="subtle"
+        icon="i-lucide-rotate-ccw"
+        @click="refresh()"
       >
-        <!-- 特效 1：左侧小图标（带有 layout-id 跨 Tab 平滑飞跃） -->
-        <Motion
-          v-if="isItemActive(index)"
-          layout-id="active-nav-icon"
-          as="span"
-          class="mr-1.5 flex items-center text-base"
-          :transition="{
-            type: 'spring',
-            stiffness: 350,
-            damping: 25
-          }"
-        >
-          <UIcon
-            :name="item.icon"
-            class="size-4"
+        重试
+      </UButton>
+    </div>
+
+    <!-- 成功渲染：左侧文章正文 + 右侧 TOC 目录树两栏布局 -->
+    <div
+      v-else-if="post && parsedPost"
+      class="flex flex-col lg:flex-row gap-10 items-start"
+    >
+      <!-- 主体文章区 -->
+      <article class="flex-1 min-w-0 flex flex-col gap-8">
+        <!-- 文章头部元信息 -->
+        <header class="border-b border-muted/40 pb-6 flex flex-col gap-4">
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-highlighted">
+            {{ post.title }}
+          </h1>
+
+          <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
+            <span class="flex items-center gap-1.5">
+              <UIcon
+                name="i-lucide-calendar"
+                class="size-4"
+              />
+              {{ new Date(post.created).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }) }}
+            </span>
+
+            <span
+              v-if="post.tags?.length"
+              class="flex items-center gap-2"
+            >
+              <UIcon
+                name="i-lucide-tags"
+                class="size-4"
+              />
+              <span
+                v-for="tag in post.tags"
+                :key="tag"
+                class="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium"
+              >
+                {{ tag }}
+              </span>
+            </span>
+          </div>
+
+          <!-- 摘要引言块 -->
+          <blockquote
+            v-if="post.summary"
+            class="mt-2 pl-4 border-l-2 border-primary/60 text-sm italic text-muted-foreground bg-muted/20 py-2 pr-3 rounded-r-lg"
+          >
+            💡 <span class="font-medium not-italic text-default">摘要：</span>{{ post.summary }}
+          </blockquote>
+        </header>
+
+        <!-- 🌟 使用 Nuxt Content 官方 ContentRenderer 渲染富文本正文 -->
+        <main class="prose dark:prose-invert max-w-none">
+          <ContentRenderer :value="parsedPost" />
+        </main>
+      </article>
+
+      <!-- 🌟 右侧 TOC 目录导航（基于 parseMarkdown 生成的 toc 数据与 UContentToc 组件） -->
+      <aside
+        v-if="parsedPost.toc?.links?.length"
+        class="hidden lg:block w-64 shrink-0 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto"
+      >
+        <div class="p-4 rounded-xl border border-muted/40 bg-muted/10 backdrop-blur-sm">
+          <UContentToc
+            :links="parsedPost.toc.links"
+            title="文章目录"
+            highlight
           />
-        </Motion>
-
-        <Motion
-          as="span"
-          layout
-          :transition="{
-            type: 'spring',
-            stiffness: 400,
-            damping: 28,
-            mass: 0.8 // mass: 指的是物体的质量, 质量大的物品惯性大
-          }"
-          class="whitespace-nowrap"
-        >
-          {{ item.title }}
-        </Motion>
-
-        <!-- 特效 2：底部 1px 流光激光指示线（明暗模式流光色彩适配） -->
-        <Motion
-          v-if="isItemActive(index)"
-          layout-id="active-nav-line"
-          as="span"
-          class="absolute inset-x-2 -bottom-0.5 h-[1.5px] bg-gradient-to-r from-transparent via-[rgb(138,194,187)] to-transparent dark:from-pink-500/0 dark:via-pink-400 dark:to-pink-500/0 shadow-[0_0_8px_rgba(138,194,187,0.8)] dark:shadow-[0_0_8px_rgba(244,114,182,0.6)]"
-          :transition="{
-            type: 'spring',
-            stiffness: 350,
-            damping: 25
-          }"
-        />
-      </button>
-    </nav>
+        </div>
+      </aside>
+    </div>
   </div>
 </template>
