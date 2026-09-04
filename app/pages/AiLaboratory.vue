@@ -13,44 +13,44 @@ interface BlogPost {
   tags?: string[]
 }
 
-// 1. 使用 useFetch 请求博客文章数据，在响应拦截器中打印规范日志
-const { data: post, status, error, refresh } = await useFetch<BlogPost>(apiUrl, {
+// 1. 使用 useLazyFetch 懒加载请求博客文章数据（非阻塞，路由秒切），并开启 getCachedData 缓存复用
+const { data: post, status, error, refresh } = useLazyFetch<BlogPost>(apiUrl, {
+  // 开启内存缓存复用：从其他路由切回时直接从 nuxtApp 内存秒取，彻底免除重复网络请求
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key]
+  },
   // 规范化接口返回的 Markdown 换行符（CRLF -> LF），彻底消除客户端与服务端 Hydration text mismatch
   transform(data) {
     if (data && typeof data.text === 'string') {
       data.text = data.text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
     }
     return data
-  },
-  onResponse({ request, response }) {
-    if (import.meta.client) {
-      console.log(JSON.stringify({
-        statusCode: response.status,
-        method: 'GET',
-        url: typeof request === 'string' ? request : (request as Request).url,
-        params: {},
-        response: response._data
-      }, null, 2))
-    }
   }
 })
 
 // 2. 将 Markdown 文本解析为包含 body AST 与 toc 目录树的 Content 数据结构
-// 显式传入 { highlight: false }，防止 MDC 触发不存在的 /api/_mdc/highlight 路由警告
-const { data: parsedPost } = await useAsyncData(
+// 启用 lazy 非阻塞模式与 getCachedData 缓存复用
+const { data: parsedPost } = useAsyncData(
   'lab-parsed-blog-post',
   async () => {
     if (!post.value?.text) return null
     return await parseMarkdown(post.value.text, { highlight: false })
+  },
+  {
+    lazy: true,
+    watch: [post],
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    }
   }
 )
 </script>
 
 <template>
   <div class="py-8 px-2 sm:px-4">
-    <!-- 加载中状态 -->
+    <!-- 加载中状态（当请求中或尚未解析完成时） -->
     <div
-      v-if="status === 'pending'"
+      v-if="status === 'pending' || (!parsedPost && !error)"
       class="flex flex-col items-center justify-center py-20 gap-3"
     >
       <UIcon
@@ -138,20 +138,6 @@ const { data: parsedPost } = await useAsyncData(
           <ContentRenderer :value="parsedPost" />
         </main>
       </article>
-
-      <!-- 🌟 右侧 TOC 目录导航（基于 parseMarkdown 生成的 toc 数据与 UContentToc 组件） -->
-      <aside
-        v-if="parsedPost.toc?.links?.length"
-        class="hidden lg:block w-64 shrink-0 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto"
-      >
-        <div class="p-4 rounded-xl border border-muted/40 bg-muted/10 backdrop-blur-sm">
-          <UContentToc
-            :links="parsedPost.toc.links"
-            title="文章目录"
-            highlight
-          />
-        </div>
-      </aside>
     </div>
   </div>
 </template>

@@ -26,10 +26,6 @@ const hours = computed(() => now.value.getHours())
 const minutes = computed(() => now.value.getMinutes())
 const seconds = computed(() => now.value.getSeconds())
 
-const hourStr = computed(() => hours.value.toString().padStart(2, '0'))
-const minStr = computed(() => minutes.value.toString().padStart(2, '0'))
-const secStr = computed(() => seconds.value.toString().padStart(2, '0'))
-
 // 判断闰年
 const isLeapYear = computed(() => {
   const y = now.value.getFullYear()
@@ -87,7 +83,7 @@ const todayProgress = computed(() => {
 
           <template #fallback>
             <div class="font-mono text-2xl font-bold tracking-tight text-highlighted">
-              {{ hourStr }}:{{ minStr }}:<span class="text-lg text-muted">{{ secStr }}</span>
+              --:--:<span class="text-lg text-muted">--</span>
             </div>
           </template>
         </ClientOnly>
@@ -110,16 +106,21 @@ const todayProgress = computed(() => {
                 :format="{ minimumFractionDigits: 2, maximumFractionDigits: 2 }"
               />
               <template #fallback>
-                <span>{{ todayProgress.toFixed(2) }}</span>
+                <span>--.--</span>
               </template>
             </ClientOnly>
             <span class="text-xs text-muted ml-0.5">%</span>
           </div>
-          <UProgress
-            :model-value="todayProgress"
-            color="primary"
-            size="xs"
-          />
+          <ClientOnly>
+            <UProgress
+              :model-value="todayProgress"
+              color="primary"
+              size="xs"
+            />
+            <template #fallback>
+              <div class="h-1 w-full rounded-full bg-muted/20" />
+            </template>
+          </ClientOnly>
         </div>
 
         <!-- 年度进度 -->
@@ -129,16 +130,21 @@ const todayProgress = computed(() => {
             <ClientOnly>
               <NumberFlow :value="yearProgress" />
               <template #fallback>
-                <span>{{ yearProgress }}</span>
+                <span>--</span>
               </template>
             </ClientOnly>
             <span class="text-xs text-muted ml-0.5">%</span>
           </div>
-          <UProgress
-            :model-value="yearProgress"
-            color="neutral"
-            size="xs"
-          />
+          <ClientOnly>
+            <UProgress
+              :model-value="yearProgress"
+              color="neutral"
+              size="xs"
+            />
+            <template #fallback>
+              <div class="h-1 w-full rounded-full bg-muted/20" />
+            </template>
+          </ClientOnly>
         </div>
       </div>
     </div>
