@@ -58,103 +58,156 @@ const currentActiveIndex = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col select-none py-1">
-    <div
-      v-for="(item, index) in rhythmConfig"
-      :key="item.key"
-      class="group relative flex gap-3.5"
-    >
-      <!-- 左侧时间轴 (微型索引方框 + 贯穿连接线) -->
-      <div class="relative flex flex-col items-center">
-        <!-- 顶部引线 (第一项顶部短线) -->
-        <div
-          v-if="index === 0"
-          class="w-px h-2 -mt-2 transition-colors duration-300"
-          :class="currentActiveIndex >= 0 ? 'bg-primary' : 'bg-border/40'"
-        />
-
-        <!-- Innei 风格数字索引方框 (仅当前时段变色高亮，走过的时段保持低调不抢戏) -->
-        <div
-          class="z-10 flex items-center justify-center font-mono text-[10px] px-1.5 py-0.5 rounded-[3px] border transition-all duration-300 shadow-xs"
-          :class="[
-            index === currentActiveIndex
-              ? 'border-primary text-primary bg-primary/10 ring-2 ring-primary/20 font-bold scale-105 shadow-primary/20'
-              : 'border-border/60 text-muted/70 bg-muted/10'
-          ]"
-        >
-          {{ String(index + 1).padStart(2, '0') }}
-        </div>
-
-        <!-- 向下延伸的连接竖线 (走过的历程全量点亮高亮色，未走过的保持暗灰) -->
-        <div
-          v-if="index !== rhythmConfig.length - 1"
-          class="w-px flex-1 my-1 transition-colors duration-500"
-          :class="[
-            index < currentActiveIndex
-              ? 'bg-primary shadow-[0_0_6px_var(--ui-primary)]'
-              : 'bg-border/30'
-          ]"
-        />
-      </div>
-
-      <!-- 右侧内容排版 (仅当前时段焦点放大高亮) -->
+  <ClientOnly>
+    <div class="flex flex-col select-none py-1">
       <div
-        class="flex flex-col flex-1 transition-all duration-300"
-        :class="[
-          index !== rhythmConfig.length - 1 ? 'pb-4 sm:pb-5' : 'pb-1',
-          index === currentActiveIndex ? 'pt-0' : 'pt-0.5'
-        ]"
+        v-for="(item, index) in rhythmConfig"
+        :key="item.key"
+        class="group relative flex gap-3.5"
       >
-        <!-- Meta 行: 时间区间与进行中微标 -->
-        <div class="flex items-center gap-2">
-          <span
-            class="font-mono text-[11px] tracking-tight transition-colors duration-300"
-            :class="index === currentActiveIndex ? 'text-primary font-medium' : 'text-muted/60'"
-          >
-            {{ item.time }}
-          </span>
+        <!-- 左侧时间轴 (微型索引方框 + 贯穿连接线) -->
+        <div class="relative flex flex-col items-center">
+          <!-- 顶部引线 (第一项顶部短线) -->
+          <div
+            v-if="index === 0"
+            class="w-px h-2 -mt-2 transition-colors duration-300"
+            :class="currentActiveIndex >= 0 ? 'bg-primary' : 'bg-border/40'"
+          />
 
-          <UBadge
-            v-if="index === currentActiveIndex"
-            color="primary"
-            variant="subtle"
-            size="xs"
-            class="text-[9px] px-1 py-0 rounded-xs font-mono animate-pulse"
+          <!-- Innei 风格数字索引方框 (仅当前时段变色高亮，走过的时段保持低调不抢戏) -->
+          <div
+            class="z-10 flex items-center justify-center font-mono text-[10px] px-1.5 py-0.5 rounded-[3px] border transition-all duration-300 shadow-xs"
+            :class="[
+              index === currentActiveIndex
+                ? 'border-primary text-primary bg-primary/10 ring-2 ring-primary/20 font-bold scale-105 shadow-primary/20'
+                : 'border-border/60 text-muted/70 bg-muted/10'
+            ]"
           >
-            NOW
-          </UBadge>
+            {{ String(index + 1).padStart(2, '0') }}
+          </div>
+
+          <!-- 向下延伸的连接竖线 (走过的历程全量点亮高亮色，未走过的保持暗灰) -->
+          <div
+            v-if="index !== rhythmConfig.length - 1"
+            class="w-px flex-1 my-1 transition-colors duration-500"
+            :class="[
+              index < currentActiveIndex
+                ? 'bg-primary shadow-[0_0_6px_var(--ui-primary)]'
+                : 'bg-border/30'
+            ]"
+          />
         </div>
 
-        <!-- 标题行: 仅当前项焦点放大加粗 -->
+        <!-- 右侧内容排版 (仅当前时段焦点放大高亮) -->
         <div
-          class="mt-1 transition-all duration-300"
-          :class="index === currentActiveIndex ? 'mt-1.5' : 'mt-0.5'"
+          class="flex flex-col flex-1 transition-all duration-300"
+          :class="[
+            index !== rhythmConfig.length - 1 ? 'pb-4 sm:pb-5' : 'pb-1',
+            index === currentActiveIndex ? 'pt-0' : 'pt-0.5'
+          ]"
         >
-          <div class="flex items-baseline gap-1.5">
+          <!-- Meta 行: 时间区间与进行中微标 -->
+          <div class="flex items-center gap-2">
             <span
-              class="tracking-tight transition-colors duration-300"
-              :class="[
-                index === currentActiveIndex
-                  ? 'text-sm font-bold text-highlighted'
-                  : 'text-xs font-medium text-muted-foreground'
-              ]"
+              class="font-mono text-[11px] tracking-tight transition-colors duration-300"
+              :class="index === currentActiveIndex ? 'text-primary font-medium' : 'text-muted/60'"
             >
-              {{ t(`rhythm.${item.key}.title`) }}
+              {{ item.time }}
             </span>
 
-            <span
-              class="text-[11px] transition-colors duration-300"
-              :class="[
-                index === currentActiveIndex
-                  ? 'text-primary font-medium'
-                  : 'text-muted/50'
-              ]"
+            <UBadge
+              v-if="index === currentActiveIndex"
+              color="primary"
+              variant="subtle"
+              size="xs"
+              class="text-[9px] px-1 py-0 rounded-xs font-mono animate-pulse"
             >
-              · {{ t(`rhythm.${item.key}.tag`) }}
-            </span>
+              NOW
+            </UBadge>
+          </div>
+
+          <!-- 标题行: 仅当前项焦点放大加粗 -->
+          <div
+            class="mt-1 transition-all duration-300"
+            :class="index === currentActiveIndex ? 'mt-1.5' : 'mt-0.5'"
+          >
+            <div class="flex items-baseline gap-1.5">
+              <span
+                class="tracking-tight transition-colors duration-300"
+                :class="[
+                  index === currentActiveIndex
+                    ? 'text-sm font-bold text-highlighted'
+                    : 'text-xs font-medium text-muted-foreground'
+                ]"
+              >
+                {{ t(`rhythm.${item.key}.title`) }}
+              </span>
+
+              <span
+                class="text-[11px] transition-colors duration-300"
+                :class="[
+                  index === currentActiveIndex
+                    ? 'text-primary font-medium'
+                    : 'text-muted/50'
+                ]"
+              >
+                · {{ t(`rhythm.${item.key}.tag`) }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- SSR / 水合前静态骨架 fallback (全量无高亮静态结构，避免服务端时区偏差污染初始 DOM) -->
+    <template #fallback>
+      <div class="flex flex-col select-none py-1">
+        <div
+          v-for="(item, index) in rhythmConfig"
+          :key="item.key"
+          class="group relative flex gap-3.5"
+        >
+          <div class="relative flex flex-col items-center">
+            <div
+              v-if="index === 0"
+              class="w-px h-2 -mt-2 bg-border/40"
+            />
+            <div
+              class="z-10 flex items-center justify-center font-mono text-[10px] px-1.5 py-0.5 rounded-[3px] border border-border/60 text-muted/70 bg-muted/10 shadow-xs"
+            >
+              {{ String(index + 1).padStart(2, '0') }}
+            </div>
+            <div
+              v-if="index !== rhythmConfig.length - 1"
+              class="w-px flex-1 my-1 bg-border/30"
+            />
+          </div>
+
+          <div
+            class="flex flex-col flex-1"
+            :class="[
+              index !== rhythmConfig.length - 1 ? 'pb-4 sm:pb-5' : 'pb-1',
+              'pt-0.5'
+            ]"
+          >
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-[11px] tracking-tight text-muted/60">
+                {{ item.time }}
+              </span>
+            </div>
+            <div class="mt-0.5">
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-xs font-medium text-muted-foreground tracking-tight">
+                  {{ t(`rhythm.${item.key}.title`) }}
+                </span>
+                <span class="text-[11px] text-muted/50">
+                  · {{ t(`rhythm.${item.key}.tag`) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </ClientOnly>
 </template>

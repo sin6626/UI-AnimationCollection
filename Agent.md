@@ -44,6 +44,7 @@
 
 ## 6. SSR / Prerender 兼容与构建规范
 - **纯客户端库**：强依赖 DOM/Browser API（如 `MouseEvent`, `AudioContext`）的第三方组件（如 `@applemusic-like-lyrics`）严禁在页面顶层静态 import；必须通过 `onMounted` 动态 `import()` 或 `defineAsyncComponent` 加载并配合 `<ClientOnly>` 包裹。
+- **时间与时区敏感组件**：强依赖客户端本地当前时间/时区（如时钟、作息高亮、`dayOfYear` 等）的组件，必须使用 `<ClientOnly>` 包裹并提供统一的无高亮/占位 fallback。禁止让服务端的 UTC 时间参与初始 HTML 的高亮状态计算，防止部署在 Vercel 等平台时产生 SSR 水合错位。
 - **开发服务与构建**：不要主动启动 Nuxt dev server（优先使用用户已常驻启动的服务）；非必要不跑完整 build，优先用文件 lint 或局部检查。
 - **Nuxt Studio**：仅启用本地 `/_studio` 编辑，不配置生产发布与外部存储。
 

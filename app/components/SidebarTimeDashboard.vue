@@ -89,9 +89,16 @@ const todayProgress = computed(() => {
         </ClientOnly>
 
         <!-- 当年天数徽章 -->
-        <span class="font-mono">
-          {{ t('dashboard.dayOfYear', { day: dayOfYear }) }}
-        </span>
+        <ClientOnly>
+          <span class="font-mono">
+            {{ t('dashboard.dayOfYear', { day: dayOfYear }) }}
+          </span>
+          <template #fallback>
+            <span class="font-mono text-muted/60">
+              {{ t('dashboard.dayOfYear', { day: '--' }) }}
+            </span>
+          </template>
+        </ClientOnly>
       </div>
 
       <!-- 进度指标网格 -->
