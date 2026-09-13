@@ -13,8 +13,8 @@ const { data } = await useAsyncData(`${route.path}-content`, () => {
     :description="data?.description"
   >
     <!-- 演示区: 居中展示 ShiroNav 胶囊导航栏 -->
-    <div class="m-auto flex flex-row justify-center items-center py-20 bg-default rounded-3xl">
+    <DemoContainer class="py-20">
       <SinUIShiroNav />
-    </div>
+    </DemoContainer>
   </SinUIDemo>
 </template>

@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <section
-    class="m-auto flex min-h-[46vh] items-center justify-center rounded-3xl bg-default px-6 py-10"
+  <DemoContainer
+    class="min-h-[46vh] px-6"
     aria-label="Interactive icon morph animation"
   >
-    <div class="flex w-full max-w-3xl justify-center rounded-xl bg-default px-6 py-12">
+    <div class="flex w-full max-w-3xl justify-center rounded-xl bg-transparent px-6 py-12">
       <!-- grid-cols-[repeat(4,_55px)] 分成四列, 没列55px的宽度, tailwind规定_是 空格, 写空格的话会被误认为两个css的样式类 -->
       <div class="grid grid-cols-[repeat(4,55px)] items-center justify-center gap-2.5 md:grid-cols-[repeat(4,70px)] md:gap-7.5">
         <!-- 下面的no-rel 是NuxtLink, 加上之后, NuxtLink 生成的a标签中就没有rel="noopener, noreferrer" 就不会给有安全隔离和用户隐私的保护, 一般默认不要写no-rel即可 -->
@@ -45,7 +45,7 @@
         </NuxtLink>
       </div>
     </div>
-  </section>
+  </DemoContainer>
 </template>
 
 <style scoped>

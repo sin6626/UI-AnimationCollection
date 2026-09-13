@@ -111,7 +111,7 @@ onUnmounted(() => {
 <template>
   <section
     ref="wave"
-    class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-default rounded-3xl"
+    class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-transparent rounded-3xl"
     aria-label="Wave reveal and logo stroke animation"
   >
     <div class="flex justify-end w-full">

@@ -91,7 +91,7 @@ onUnmounted(() => {
 <template>
   <section
     ref="shutter"
-    class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-default rounded-3xl"
+    class="m-auto flex flex-col gap-4 justify-center items-center py-10 px-6 bg-transparent rounded-3xl"
     aria-label="滚动触发的快门动画"
   >
     <div class="flex justify-end w-full ">

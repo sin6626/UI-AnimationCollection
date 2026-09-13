@@ -12,8 +12,8 @@ const { data } = await useAsyncData(`${route.path}-content`, () => {
     :title="data?.title"
     :description="data?.description"
   >
-    <div class="m-auto flex flex-col justify-center items-center py-6">
+    <DemoContainer class="flex-col py-6">
       <SinUIMeteorSoundwave />
-    </div>
+    </DemoContainer>
   </SinUIDemo>
 </template>

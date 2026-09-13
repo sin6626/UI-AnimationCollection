@@ -34,7 +34,7 @@ const localizedSurround = computed(() => surround.value?.map((item) => {
 </script>
 
 <template>
-  <UPage class="mt-20 min-h-[70vh] px-2">
+  <UPage class="mt-20 min-h-[70vh] px-2 bg-transparent">
     <ULink
       :to="localePath('/ui')"
       class="text-sm flex items-center gap-1"

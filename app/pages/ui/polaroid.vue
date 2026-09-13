@@ -24,13 +24,13 @@ const images: PolaroidImage[] = [
     :title="data?.title"
     :description="data?.description"
   >
-    <div class="m-auto flex flex-row justify-center items-center py-10 bg-default rounded-3xl">
+    <DemoContainer>
       <SinUIPolaroidItem
         v-for="(image, index) in images"
         :key="index"
         :image="image"
         :index
       />
-    </div>
+    </DemoContainer>
   </SinUIDemo>
 </template>

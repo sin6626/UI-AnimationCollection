@@ -17,7 +17,7 @@
 
 ## 3. 页面骨架与背景体系
 - **页面骨架**：默认 layout 统一维护全宽 `UContainer + UMain + UPage` 和全局侧栏；页面级 `UPage` 可以保留，但**严禁在页面内重复创建 `UMain` 或 `UContainer`**。
-- **全局背景**：默认 layout 统一挂载 `PlumGrowthBackground`，Canvas 固定在所有前景内容下方；页面不得重复创建该背景。
+- **全局背景与演示区透明度**：默认 layout 统一挂载 `PlumGrowthBackground`，Canvas 固定在所有前景内容下方；页面不得重复创建该背景。为了透出底层水墨梅花背景，公共壳组件 (`UIDemo` / `AniDemo`) 统一配置 `bg-transparent`；所有 UI 与动画演示区外层统一封装使用 `<DemoContainer>`（位于 `app/components/DemoContainer.vue`），默认保持 `bg-transparent` 透明背景与 `rounded-3xl` 居中布局。
 
 ## 4. 内容与国际化 (Nuxt Content & i18n)
 - **内容数据归属**：条目元数据统一存放在 `content/zh|en/ui|animation/*.yml`，标题、描述、截图、date 等均归 Nuxt Content 管理。
