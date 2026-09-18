@@ -1,5 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nuxtjs",
-  "outputDirectory": "apps/web/.vercel/output"
+  "framework": "nuxtjs"
 }
