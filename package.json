@@ -2,8 +2,19 @@
   "name": "ui-animation-collection",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter @ui-animation-collection/web build",
-    "dev": "pnpm --filter @ui-animation-collection/web dev",
+    "dev:server": "pnpm --filter server start:dev",
+    "build:server": "pnpm --filter server build",
+    "start:server": "pnpm --filter server start",
+    "start:server:prod": "pnpm --filter server start:prod",
+    "debug:server": "pnpm --filter server start:debug",
+    "test:server": "pnpm --filter server test",
+    "test:server:watch": "pnpm --filter server test:watch",
+    "test:server:cov": "pnpm --filter server test:cov",
+    "lint:server": "pnpm --filter server lint",
+    "format:server": "pnpm --filter server format",
+
+    "dev:web": "pnpm --filter @ui-animation-collection/web dev",
+    "build:web": "pnpm --filter @ui-animation-collection/web build",
     "generate": "pnpm --filter @ui-animation-collection/web generate",
     "preview": "pnpm --filter @ui-animation-collection/web preview",
     "typecheck": "pnpm --filter @ui-animation-collection/web typecheck"
