@@ -1,7 +1,14 @@
-# SinFrontend 开发规范与 Agent 指南
+# UI Animation Collection 开发规范与 Agent 指南
 
-> **全局协作与 Monorepo 规范**：请参阅根目录 [Agent.md](file:///h:/Sin6626/SinUA/Agent.md)。  
-> **架构分工**：本项目为 Monorepo，前端由当前开发者负责（`SinFrontend/`），后端由 [HanniRis](https://github.com/HanniRis) 负责。
+> **项目架构**：本仓库使用 pnpm workspace。Nuxt 应用位于 `apps/web/`，仓库根目录负责依赖锁定、命令编排和项目级文档。
+> **后端协作**：前端由当前开发者负责，后端由 [HanniRis](https://github.com/HanniRis) 负责。
+
+## 0. Workspace 约定
+
+- 在仓库根目录统一执行 `pnpm install`，只维护根目录的 `pnpm-lock.yaml`。
+- 根目录的 `pnpm dev`、`pnpm build`、`pnpm generate`、`pnpm preview`、`pnpm typecheck` 均代理到 `@ui-animation-collection/web`。
+- Web 应用源码、Nuxt 配置、公开资源、Content 数据和环境变量分别位于 `apps/web/app/`、`apps/web/*.config.*`、`apps/web/public/`、`apps/web/content/` 和 `apps/web/.env`。
+- 可复用包统一放入 `packages/`；没有明确复用边界时，不为满足目录形式而拆包。
 
 ---
 

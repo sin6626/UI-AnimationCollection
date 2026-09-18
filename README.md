@@ -1,75 +1,48 @@
-# Nuxt Minimal Starter
+# UI Animation Collection
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+基于 Nuxt 的 UI 与动画效果收藏项目，采用 pnpm workspace 管理。
 
-## Setup
+## 项目结构
 
-Make sure to install dependencies:
+```text
+.
+├─ apps/
+│  └─ web/          # Nuxt Web 应用
+├─ dev-tools/       # 项目开发辅助工具
+├─ docs/            # 项目文档
+├─ package.json     # Workspace 命令入口
+└─ pnpm-workspace.yaml
+```
+
+`packages/*` 已在 workspace 中预留，当前尚未拆分共享包。
+
+## 环境要求
+
+- Node.js 22.5.0 或更高版本
+- pnpm 11.20.0
+
+## 安装依赖
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## 常用命令
 
-Start the development server on `http://localhost:3000`:
+在仓库根目录执行：
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm generate
+pnpm preview
+pnpm typecheck
 ```
 
-Locally preview production build:
+这些命令会代理到 `@ui-animation-collection/web`。也可以显式执行：
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+pnpm --filter @ui-animation-collection/web dev
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+本地环境变量写入 `apps/web/.env`，可参考 `apps/web/.env.example`。
