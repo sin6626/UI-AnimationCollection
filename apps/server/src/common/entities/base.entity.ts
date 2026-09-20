@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import {ApiProperty} from '@nestjs/swagger';
 import {
     PrimaryColumn,
     BeforeInsert,
@@ -7,60 +7,75 @@ import {
     DeleteDateColumn,
     Column,
 } from 'typeorm';
-import { generateSnowflakeId } from '../utils/snowflake.util.js';
+import {generateSnowflakeId} from '../utils/snowflake.util.js';
+import {DatabaseConstants} from '../constants/database.constants.js';
+import {CommonConstants} from "../constants/common.constants.js";
+
 
 export abstract class BaseEntity {
     @ApiProperty({
-        description: '主键 ID（雪花算法）',
-        example: '1234567890123456789',
+        description: DatabaseConstants.DESC.ID,
+        example: DatabaseConstants.EXAMPLE.ID,
     })
-    @PrimaryColumn({ type: 'bigint' })
+    @PrimaryColumn({type: CommonConstants.TYPE.BIGINT})
     id: string;
 
     @ApiProperty({
-        description: '创建时间',
-        example: '2026-09-18T08:00:00.000Z',
+        description: DatabaseConstants.DESC.CREATED_AT,
+        example: DatabaseConstants.EXAMPLE.DATETIME,
     })
-    @CreateDateColumn({ name: 'created_at' })
+    @CreateDateColumn({name: DatabaseConstants.COLUMN.CREATED_AT})
     createdAt: Date;
 
     @ApiProperty({
-        description: '更新时间',
-        example: '2026-09-18T09:30:00.000Z',
+        description: DatabaseConstants.DESC.UPDATED_AT,
+        example: DatabaseConstants.EXAMPLE.DATETIME,
     })
-    @UpdateDateColumn({ name: 'updated_at' })
+    @UpdateDateColumn({name: DatabaseConstants.COLUMN.UPDATED_AT})
     updatedAt: Date;
 
     @ApiProperty({
-        description: '逻辑删除时间，null 表示未删除',
-        required: false,
-        example: null,
+        description: DatabaseConstants.DESC.DELETED_AT,
+        required: CommonConstants.BOOLEAN.FALSE,
+        example: DatabaseConstants.EXAMPLE.NULL,
     })
-    @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+    @DeleteDateColumn({name: DatabaseConstants.COLUMN.DELETED_AT, nullable: CommonConstants.BOOLEAN.TRUE})
     deletedAt: Date | null;
 
     @ApiProperty({
-        description: '创建人 ID',
-        required: false,
-        example: '1234567890123456789',
+        description: DatabaseConstants.DESC.CREATED_BY,
+        required: CommonConstants.BOOLEAN.FALSE,
+        example: DatabaseConstants.EXAMPLE.ID,
     })
-    @Column({ name: 'created_by', type: 'bigint', nullable: true })
+    @Column({
+        name: DatabaseConstants.COLUMN.CREATED_BY,
+        type: CommonConstants.TYPE.BIGINT,
+        nullable: CommonConstants.BOOLEAN.TRUE
+    })
     createdBy: string | null;
 
     @ApiProperty({
-        description: '最后更新人 ID',
-        required: false,
-        example: '1234567890123456789',
+        description: DatabaseConstants.DESC.UPDATED_BY,
+        required: CommonConstants.BOOLEAN.FALSE,
+        example: DatabaseConstants.EXAMPLE.ID,
     })
-    @Column({ name: 'updated_by', type: 'bigint', nullable: true })
+    @Column({
+        name: DatabaseConstants.COLUMN.UPDATED_BY,
+        type: CommonConstants.TYPE.BIGINT,
+        nullable: CommonConstants.BOOLEAN.TRUE
+    })
     updatedBy: string | null;
 
     @ApiProperty({
-        description: '删除人 ID',
-        required: false,
-        example: null,
+        description: DatabaseConstants.DESC.DELETED_BY,
+        required: CommonConstants.BOOLEAN.FALSE,
+        example: DatabaseConstants.EXAMPLE.NULL,
     })
-    @Column({ name: 'deleted_by', type: 'bigint', nullable: true })
+    @Column({
+        name: DatabaseConstants.COLUMN.DELETED_BY,
+        type: CommonConstants.TYPE.BIGINT,
+        nullable: CommonConstants.BOOLEAN.TRUE
+    })
     deletedBy: string | null;
 
     @BeforeInsert()
