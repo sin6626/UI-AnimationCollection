@@ -11,6 +11,7 @@ const isRepeat = ref(false)
 const localePath = useLocalePath()
 
 const isExpand = ref(false)
+const playerRef = useTemplateRef<HTMLLIElement>('playerRef')
 const openExpand = () => {
   isExpand.value = !isExpand.value
 }
@@ -130,6 +131,10 @@ onMounted(() => {
 
   audio.value.volume = volume.value / 100
   audio.value.load()
+
+  onClickOutside(playerRef, () => {
+    isExpand.value = false
+  })
 })
 
 onUnmounted(() => {
@@ -139,6 +144,7 @@ onUnmounted(() => {
 
 <template>
   <section
+    ref="playerRef"
     class="@container w-70 max-w-full rounded-[16px] border border-default dark:bg-jet-blue light:bg-white text-default shadow-2xl light:shadow-black/30 dark:shadow-white/10"
   >
     <div class="p-3">

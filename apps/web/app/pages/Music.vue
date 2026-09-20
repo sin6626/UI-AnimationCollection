@@ -40,6 +40,7 @@ const hasAudio = ref(false)
 const audioName = ref('')
 const currentTrackIndex = ref(0)
 const playlistOpen = ref(false)
+const playlistRef = ref<HTMLElement | null>(null)
 const lyricsVisible = ref(true)
 const isRepeat = ref(false)
 const lyricsLines = shallowRef<any[]>([])
@@ -54,6 +55,10 @@ const { data: musicItems } = await useAsyncData('music-stage-playlist', () => {
 
 const playlist = computed(() => [...(musicItems.value ?? [])].sort((a, b) => a.order - b.order))
 const currentTrack = computed(() => playlist.value[currentTrackIndex.value])
+
+onClickOutside(playlistRef, () => {
+  playlistOpen.value = false
+})
 
 const {
   currentTime,
@@ -414,6 +419,7 @@ onUnmounted(() => {
     <Transition name="playlist-drawer">
       <aside
         v-if="playlistOpen"
+        ref="playlistRef"
         class="absolute top-0 right-0 bottom-[112px] z-30 flex w-[390px] flex-col border-l border-white/10 bg-[#05070d]/92 p-6 shadow-2xl backdrop-blur-2xl"
         @click.stop
       >
