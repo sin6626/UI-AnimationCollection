@@ -3,6 +3,7 @@ import { Entity, Column, Index } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity.js';
 
 @Entity('request_logs')
+@Index(['method', 'url'])
 export class RequestLogs extends BaseEntity {
     @ApiProperty({ description: 'HTTP 方法', example: 'GET' })
     @Index()

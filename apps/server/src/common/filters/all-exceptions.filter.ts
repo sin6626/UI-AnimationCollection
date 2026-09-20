@@ -6,9 +6,9 @@ import {
     HttpStatus,
     Logger,
 } from '@nestjs/common';
-import { Response } from 'express';
-import { BusinessException } from '../exceptions/business.exception.js';
-import { ApiResultDto } from '../dto/result/api-result.dto.js';
+import {Response} from 'express';
+import {BusinessException} from '../exceptions/business.exception.js';
+import {ApiResultDto} from '../dto/result/api-result.dto.js';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -17,11 +17,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-
         let httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         let code: string | number = 500;
         let message = 'Internal server error';
-
         if (exception instanceof BusinessException) {
             httpStatus = exception.getStatus();
             code = exception.code;
@@ -39,9 +37,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         } else if (exception instanceof Error) {
             message = exception.message;
         }
-
         this.logger.error(`[${httpStatus}] [${code}] ${message}`);
-
         response.status(httpStatus).json(ApiResultDto.error(code, message));
     }
 }
