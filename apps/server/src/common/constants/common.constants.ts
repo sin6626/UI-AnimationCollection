@@ -5,6 +5,10 @@ export class CommonConstants {
 
     static readonly IS_PUBLIC_KEY = 'isPublic';
 
+    static readonly CACHE_KEY = {
+        USER_TOKEN: 'user_token',
+    } as const;
+
     /** ========== 数据库列类型 ========== */
     static readonly TYPE = {
         BIGINT: 'bigint',
