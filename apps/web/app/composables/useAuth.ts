@@ -5,7 +5,7 @@
  */
 
 /**
- * 用户信息接口定义
+ * 用户信息接口定义(已废弃, 登录全部由后端掌控)
  */
 export interface AuthUser {
   id?: number

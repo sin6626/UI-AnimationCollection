@@ -1,8 +1,23 @@
 <script setup lang="ts">
+import { avatar } from '#build/ui';
 import type { DropdownMenuItem } from '@nuxt/ui'
-import { useAuth } from '~/composables/useAuth'
 
-const { loggedIn, user, loginWithGithub, logout } = useAuth()
+const user = ref({
+  name: 'Sin',
+  login: '',
+  avatar: '',
+  htmlUrl: '127.0.0.1'
+})
+
+const loggedIn = false
+
+const loginWithGithub = () => {
+  return
+}
+
+const logout = () => {
+  return
+}
 
 const items = computed<DropdownMenuItem[][]>(() => [
   [
@@ -53,7 +68,7 @@ const items = computed<DropdownMenuItem[][]>(() => [
         >
           <UAvatar
             :src="user?.avatar"
-            :alt="user?.name || user?.login"
+            :alt="user?.name"
             size="xs"
             class="size-6 rounded-full object-cover"
           />
