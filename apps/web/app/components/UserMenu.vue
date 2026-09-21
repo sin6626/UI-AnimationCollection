@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
 
-const { isLoggingIn, loginWithGithub } = useAuth()
-
 const user = ref({
   name: 'Sin',
   login: '',
@@ -11,6 +9,10 @@ const user = ref({
 })
 
 const loggedIn = false
+
+const loginWithGithub = () => {
+  return
+}
 
 const logout = () => {
   return
@@ -80,8 +82,6 @@ const items = computed<DropdownMenuItem[][]>(() => [
         color="neutral"
         variant="ghost"
         size="sm"
-        :loading="isLoggingIn"
-        :disabled="isLoggingIn"
         class="rounded-full gap-1.5 px-2.5 py-1 text-xs cursor-pointer"
         @click="loginWithGithub"
       />
