@@ -5,6 +5,9 @@ import {LogsModule} from './modules/module_logs/module.logs.js';
 import {LoggingInterceptor} from './common/interceptors/logging.interceptor.js';
 import {RedisModule} from "./common/redis/redis.module.js";
 import {MysqlModule} from "./common/mysql/mysql.module.js";
+import {ModulesModule} from "./modules/module.module.js";
+import {ClsModule} from "nestjs-cls";
+import {AuditSubscriber} from "./common/subscribers/audit.subscriber.js";
 
 @Module({
     imports: [
@@ -12,9 +15,23 @@ import {MysqlModule} from "./common/mysql/mysql.module.js";
             isGlobal: true,
             envFilePath: '.env',
         }),
+        ClsModule.forRoot({
+            global: true,
+            middleware: {
+                mount: true,
+                setup: (cls, req) => {
+                    const user = (req as any).user;
+                    if (user?.id) {
+                        cls.set('userId', user.id);
+                    }
+                },
+            },
+        }),
         MysqlModule,
         LogsModule,
         RedisModule,
+        ModulesModule,
+        AuditSubscriber,
     ],
     providers: [
         {
