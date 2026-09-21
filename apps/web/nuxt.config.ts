@@ -23,6 +23,12 @@ export default defineNuxtConfig({
 
   ssr: true,
 
+  runtimeConfig: {
+    public: {
+      apiBase: 'https://tomogovo.foo/api'
+    }
+  },
+
   // app: {
   //   // 页面切换过渡动画: out-in 表示老页面先离开, 新页面再进入; name 是 CSS 类名前缀, 给 app.vue <style> 用
   //   pageTransition: { name: 'page', mode: 'out-in' }
