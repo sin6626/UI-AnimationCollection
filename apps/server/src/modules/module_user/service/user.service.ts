@@ -12,7 +12,7 @@ import {RegisterRequestDto} from '../dto/request/register.request.dto.js';
 import {ThirdPartyProvider} from '../enums/third-party-provider.enum.js';
 import {GithubLoginResponseVo} from "../dto/vo/github.login.response.vo.js";
 import {CommonConstants} from "../../../common/constants/common.constants.js";
-import {TokenService} from "../../../common/token/token.service.js";
+import {TokenService} from "../../module_common/token/service/token.service.js";
 import {LoginResponseDto} from "../dto/response/login.response.dto.js";
 
 @Injectable()
