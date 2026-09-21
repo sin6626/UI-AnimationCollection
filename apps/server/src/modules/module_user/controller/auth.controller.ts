@@ -42,7 +42,7 @@ export class AuthController {
     }
 
     @Public()
-    @Post('/auth/loginGithub')
+    @Post('/loginGithub')
     @ApiOperation({summary: 'github login'})
     async loginGithub(): Promise<ApiResultDto> {
         return ApiResultDto.success(await this.userService.loginGithubUrl());

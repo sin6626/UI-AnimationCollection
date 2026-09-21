@@ -1,10 +1,7 @@
 import {Module} from '@nestjs/common';
 import {APP_INTERCEPTOR} from '@nestjs/core';
 import {ConfigModule} from '@nestjs/config';
-import {LogsModule} from './modules/module_logs/module.logs.js';
 import {LoggingInterceptor} from './common/interceptors/logging.interceptor.js';
-import {RedisModule} from "./common/redis/redis.module.js";
-import {MysqlModule} from "./common/mysql/mysql.module.js";
 import {ModulesModule} from "./modules/module.module.js";
 import {ClsModule} from "nestjs-cls";
 import {AuditSubscriber} from "./common/subscribers/audit.subscriber.js";
@@ -27,13 +24,10 @@ import {AuditSubscriber} from "./common/subscribers/audit.subscriber.js";
                 },
             },
         }),
-        MysqlModule,
-        LogsModule,
-        RedisModule,
         ModulesModule,
-        AuditSubscriber,
     ],
     providers: [
+        AuditSubscriber,
         {
             provide: APP_INTERCEPTOR,
             useClass: LoggingInterceptor,

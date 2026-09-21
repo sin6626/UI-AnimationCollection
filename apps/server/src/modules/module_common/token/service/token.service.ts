@@ -1,9 +1,9 @@
 import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import {ConfigService} from '@nestjs/config';
-import {RedisService} from '../redis/service/redis.service.js';
-import {CommonConstants} from '../constants/common.constants.js';
-import {LoginResponseDto} from "../../modules/module_user/dto/response/login.response.dto.js";
+import {RedisService} from '../../redis/service/redis.service.js';
+import {CommonConstants} from '../../../../common/constants/common.constants.js';
+import {LoginResponseDto} from "../../../module_user/dto/response/login.response.dto.js";
 
 @Injectable()
 export class TokenService {

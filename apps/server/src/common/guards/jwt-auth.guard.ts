@@ -10,7 +10,7 @@ import {
 import {CommonConstants} from '../constants/common.constants.js';
 import {requestContext} from "../context/request-context.js";
 import {Reflector} from "@nestjs/core";
-import {TokenService} from "../token/token.service.js";
+import {TokenService} from "../../modules/module_common/token/service/token.service.js";
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
