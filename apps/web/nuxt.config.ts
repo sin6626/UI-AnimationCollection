@@ -92,6 +92,8 @@ export default defineNuxtConfig({
 
   // nuxt-og-image 配置
   ogImage: {
+    // 开发环境不生成 OG 图,避免无实际使用的图像处理模块拖慢首屏
+    enabled: process.env.NODE_ENV !== 'development',
     // 零运行时模式: OG 图在构建时静态生成,不占用运行时
     // 看见零运行时模式之后, 由于服务器
     zeroRuntime: true
