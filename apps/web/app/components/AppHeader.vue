@@ -69,11 +69,16 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 <template>
   <header class="sticky top-2 sm:top-4 z-20 grid grid-cols-[1fr_auto_1fr] items-center">
     <div class="hidden md:block size-10 justify-self-start">
-      <img
+      <NuxtImg
         src="/Sin.jpg"
         alt=""
+        format="webp"
+        quality="80"
+        width="40"
+        height="40"
+        loading="eager"
         class="size-full object-cover rounded-lg shadow-lg shadow-neutral-950/5"
-      >
+      />
     </div>
 
     <!-- 外层 relative 容器: 为绝对定位的指示条提供定位基准 -->

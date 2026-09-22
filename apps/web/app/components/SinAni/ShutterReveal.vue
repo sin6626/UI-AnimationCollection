@@ -113,20 +113,30 @@ onUnmounted(() => {
           class="shutter-slice absolute inset-0 overflow-hidden ring-1 ring-inset ring-white/15"
           :style="{ clipPath: panel.clip }"
         >
-          <img
+          <NuxtImg
             src="/Sin.jpg"
             alt=""
+            format="webp"
+            quality="82"
+            width="960"
+            height="540"
+            loading="eager"
             class="h-full w-full object-cover object-center"
-          >
+          />
         </div>
       </div>
 
       <!-- 最终完整图：切片归位后淡出覆盖，形成完整画面 -->
-      <img
+      <NuxtImg
         class="shutter-final absolute inset-0 z-3 h-full w-full object-cover object-center"
         src="/Sin.jpg"
         alt="合并后的最终视觉"
-      >
+        format="webp"
+        quality="82"
+        width="960"
+        height="540"
+        loading="eager"
+      />
     </div>
   </section>
 </template>

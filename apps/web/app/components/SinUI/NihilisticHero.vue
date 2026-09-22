@@ -262,6 +262,9 @@ const text = computed(() => {
       <UColorModeImage
         light="/雪之下.png"
         dark="/比企谷.png"
+        format="webp"
+        quality="82"
+        width="1024"
         class="absolute bottom-[-4%] right-[-10%] z-20 h-[108%] w-[87%] object-contain object-bottom"
       />
     </article>
