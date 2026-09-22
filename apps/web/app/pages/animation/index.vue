@@ -65,7 +65,6 @@ const { data } = await useAsyncData(`animation-index-${locale.value}`, () => {
             height="384"
             sizes="100vw sm:50vw lg:640px"
             :loading="index === 0 ? 'eager' : 'lazy'"
-            :preload="index === 0"
             class="object-cover w-full h-48 rounded-lg"
           />
         </UPageCard>
