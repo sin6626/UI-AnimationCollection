@@ -23,6 +23,12 @@ export default defineNuxtConfig({
 
   ssr: true,
 
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? ''
+    }
+  },
+
   // app: {
   //   // 页面切换过渡动画: out-in 表示老页面先离开, 新页面再进入; name 是 CSS 类名前缀, 给 app.vue <style> 用
   //   pageTransition: { name: 'page', mode: 'out-in' }
@@ -92,6 +98,8 @@ export default defineNuxtConfig({
 
   // nuxt-og-image 配置
   ogImage: {
+    // 开发环境不生成 OG 图,避免无实际使用的图像处理模块拖慢首屏
+    enabled: process.env.NODE_ENV !== 'development',
     // 零运行时模式: OG 图在构建时静态生成,不占用运行时
     // 看见零运行时模式之后, 由于服务器
     zeroRuntime: true

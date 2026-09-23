@@ -15,11 +15,16 @@ defineProps<{
       index % 2 === 0 ? 'rotate-5' : '-rotate-5', index % 2 === 0 ? 'hover:-translate-x-4' : 'hover:translate-x-4'
     ]"
   >
-    <img
+    <NuxtImg
       :src="image.src"
       :alt="image.alt"
+      format="webp"
+      quality="80"
+      width="128"
+      height="128"
+      loading="lazy"
       class="size-32 object-cover"
-    >
+    />
 
     <span class="w-32 text-center text-xs text-black font-serif mt-2">
       {{ image.alt }}

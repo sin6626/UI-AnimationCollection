@@ -159,6 +159,10 @@ onUnmounted(() => {
         <NuxtImg
           :src="currentSong?.avatar ?? '/Sin.jpg'"
           :alt="currentSong?.title ?? ''"
+          format="webp"
+          quality="80"
+          width="40"
+          height="40"
           class="size-10 shrink-0 rounded-full border border-default object-cover shadow-lg dark:shadow-amber-50/40 light:shadow-black/40 animate-[spin_18s_linear_infinite] motion-reduce:animate-none"
           :style="{ animationPlayState: isPlaying ? 'running' : 'paused' }"
         />

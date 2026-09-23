@@ -302,6 +302,10 @@ onUnmounted(() => {
         <NuxtImg
           :src="currentTrack?.avatar ?? '/Sin.jpg'"
           :alt="currentTrack?.title ?? ''"
+          format="webp"
+          quality="80"
+          width="56"
+          height="56"
           class="size-14 shrink-0 rounded-xl border border-white/15 object-cover shadow-lg"
         />
         <div class="min-w-0">
@@ -461,6 +465,11 @@ onUnmounted(() => {
             <NuxtImg
               :src="track.avatar"
               :alt="track.title"
+              format="webp"
+              quality="80"
+              width="44"
+              height="44"
+              loading="lazy"
               class="size-11 shrink-0 rounded-lg object-cover"
             />
             <span class="min-w-0 flex-1">

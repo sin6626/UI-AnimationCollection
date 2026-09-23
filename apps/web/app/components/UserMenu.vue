@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { avatar } from '#build/ui';
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const user = ref({
