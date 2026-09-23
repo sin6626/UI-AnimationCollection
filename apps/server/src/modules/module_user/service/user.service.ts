@@ -2,6 +2,7 @@ import {Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {ConfigService} from '@nestjs/config';
+import { ClsService } from 'nestjs-cls';
 import axios from 'axios';
 
 import {UsersEntity} from '../entities/users.entity.js';
@@ -14,6 +15,10 @@ import {GithubLoginResponseVo} from "../dto/vo/github.login.response.vo.js";
 import {CommonConstants} from "../../../common/constants/common.constants.js";
 import {TokenService} from "../../module_common/token/service/token.service.js";
 import {LoginResponseDto} from "../dto/response/login.response.dto.js";
+import {UserInfoResponseDto} from "../dto/response/user.info.response.dto.js";
+import {getCurrentUser} from "../../../common/context/request-context.js";
+import {CurrentUserUtil} from "../../../common/utils/current-user.util.js";
+import {Gender} from "../enums/user.gender.enum.js";
 
 @Injectable()
 export class UserService {
@@ -26,6 +31,7 @@ export class UserService {
         private readonly thirdPartyRepository: Repository<UserThirdPartyEntity>,
         private readonly tokenService: TokenService,
         private readonly configService: ConfigService,
+        private readonly clsStoreClsService: ClsService,
     ) {
     }
 
@@ -119,6 +125,8 @@ export class UserService {
         newUserEntity.avatarUrl = profile.avatar;
         newUserEntity.signature = profile.profileUrl;
         newUserEntity.email = profile.email;
+        newUserEntity.lastLoginIp = this.clsStoreClsService.get<string>(CommonConstants.IP) ?? '';
+        newUserEntity.lastLoginAt = new Date();
         const usersEntity = await this.userRepository.save(newUserEntity);
         const newUserThirdPartyEntity = new UserThirdPartyEntity();
         newUserThirdPartyEntity.user = usersEntity;
@@ -127,9 +135,29 @@ export class UserService {
         newUserThirdPartyEntity.userId = usersEntity.id
         newUserThirdPartyEntity.avatar = profile.avatar;
         newUserThirdPartyEntity.provider = ThirdPartyProvider.GITHUB;
-        newUserThirdPartyEntity.rawData = profile.raw;
+        newUserThirdPartyEntity.rawData = JSON.stringify(profile.raw);
         newUserThirdPartyEntity.openId = profile.id;
+        newUserThirdPartyEntity.boundAt = new Date();
         await this.thirdPartyRepository.save(newUserThirdPartyEntity);
         return this.tokenService.createToken(usersEntity.id);
+    }
+
+    async getUserInfo(): Promise<UserInfoResponseDto> {
+        const currentUserId = CurrentUserUtil.getCurrentUserId();
+        const userInfoResponseDto = new UserInfoResponseDto ();
+        const userThirdPartyEntity = await this.thirdPartyRepository.findOne({
+            where: {provider: ThirdPartyProvider.GITHUB, openId: currentUserId},
+            relations: {user: CommonConstants.BOOLEAN.TRUE},
+        });
+        if (userThirdPartyEntity && userThirdPartyEntity.user) {
+            userInfoResponseDto.avatar = userThirdPartyEntity?.avatar ?? null;
+            userInfoResponseDto.email = userThirdPartyEntity?.email ?? null;
+            userInfoResponseDto.username = userThirdPartyEntity?.username ?? null;
+            userInfoResponseDto.provider = ThirdPartyProvider.GITHUB;
+            userInfoResponseDto.gender = userThirdPartyEntity?.user?.gender ?? Gender.UNKNOWN;
+            userInfoResponseDto.signature = userThirdPartyEntity?.user.signature ?? null;
+            userInfoResponseDto.nickname = userThirdPartyEntity?.user.nickName ?? null;
+        }
+        return userInfoResponseDto;
     }
 }
