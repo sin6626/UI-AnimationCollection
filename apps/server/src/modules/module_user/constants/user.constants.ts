@@ -17,7 +17,7 @@ export class UserConstants {
         },
 
         LENGTH: {
-            NICK_NAME: 10,
+            NICK_NAME: 50,
             PASSWORD: 255,
             LAST_LOGIN_IP: 45,
             EMAIL: 100,

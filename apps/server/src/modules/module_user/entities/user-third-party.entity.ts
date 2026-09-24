@@ -80,7 +80,7 @@ export class UserThirdPartyEntity extends BaseEntity {
         type: CommonConstants.TYPE.TEXT,
         nullable: CommonConstants.BOOLEAN.TRUE,
     })
-    rawData: Record<string, any> | null;
+    rawData: string | null;
 
     @ApiProperty({description: '首次绑定时间', nullable: true})
     @Column({
