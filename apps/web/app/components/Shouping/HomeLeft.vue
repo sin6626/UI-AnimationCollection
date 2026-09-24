@@ -10,12 +10,12 @@ const greeting = ref('Hello World!')
 const description = ref('一个建立于 21 世纪的小站，存活于互联网的边缘')
 
 const socialList = ref<SocialItem[]>([
-  { name: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/Sin6626' },
-  { name: 'Bilibili', icon: 'ri:bilibili-fill', url: 'https://space.bilibili.com' },
+  { name: 'GitHub', icon: 'ri:github-fill', url: '#' },
+  { name: 'Bilibili', icon: 'ri:bilibili-fill', url: '#' },
   { name: 'QQ', icon: 'ri:qq-fill', url: '#' },
-  { name: 'Email', icon: 'ri:mail-fill', url: 'mailto:contact@sin.top' },
-  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: 'https://twitter.com' },
-  { name: 'Telegram', icon: 'ri:telegram-fill', url: 'https://t.me' }
+  { name: 'Email', icon: 'ri:mail-fill', url: '#' },
+  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: '#' },
+  { name: 'Telegram', icon: 'ri:telegram-fill', url: '#' }
 ])
 </script>
 
@@ -81,4 +81,4 @@ const socialList = ref<SocialItem[]>([
       </a>
     </div>
   </div>
-</template>
+</template>

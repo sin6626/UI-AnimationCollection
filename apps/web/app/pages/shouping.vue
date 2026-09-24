@@ -26,6 +26,7 @@ definePageMeta({
 
     <!-- 底部版权信息 -->
     <footer class="w-full py-4 text-center text-xs text-neutral-400">
+      <!-- &copy是版本符号   -->
       <p>Copyright &copy; {{ new Date().getFullYear() }} &bull; Made with &hearts;</p>
     </footer>
   </div>
