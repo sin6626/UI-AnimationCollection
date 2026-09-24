@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
+import { loginGithub } from '~/Api'
 
 const user = ref({
   name: 'Sin',
@@ -8,10 +9,18 @@ const user = ref({
   htmlUrl: '127.0.0.1'
 })
 
+const { data, error, status, execute } = loginGithub()
+
 const loggedIn = false
 
-const loginWithGithub = () => {
-  return
+const loginWithGithub = async () => {
+  await execute()
+  const loginUrl = data.value?.data
+
+  await navigateTo(loginUrl, {
+    external: true
+  })
+
 }
 
 const logout = () => {
@@ -47,6 +56,8 @@ const items = computed<DropdownMenuItem[][]>(() => [
     }
   ]
 ])
+
+
 </script>
 
 <template>
