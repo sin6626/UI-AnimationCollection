@@ -40,7 +40,7 @@ export class TokenService {
         }
         const accessExpiresIn = Number(this.config.get('JWT_ACCESS_EXPIRES_IN') ?? 3600);
         const refreshExpiresIn = Number(this.config.get('JWT_REFRESH_EXPIRES_IN') ?? 604800);
-        const payload = { sub: id};
+        const payload = {sub: id};
         const secret = this.config.get<string>('JWT_SECRET');
         const accessToken = this.jwtService.sign(payload, {
             secret,

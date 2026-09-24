@@ -10,7 +10,7 @@ export class CommonConstants {
     static readonly CACHE_KEY = {
         USER_ACCESS_TOKEN: 'user_access_token',
         USER_REFRESH_TOKEN: 'user_refresh_token',
-
+        USER_GET_CODE: 'user_get_code',
     } as const;
 
     /** ========== 数据库列类型 ========== */

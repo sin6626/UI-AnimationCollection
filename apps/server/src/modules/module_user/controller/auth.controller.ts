@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Query} from '@nestjs/common';
+import {Body, Controller, Get, Post, Query, Redirect} from '@nestjs/common';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 
 import {LoginRequestDto} from '../dto/request/login.request.dto.js';
@@ -7,11 +7,13 @@ import {ApiResultDto} from "../../../common/dto/result/api-result.dto.js";
 import {Public} from "../../../common/decorators/public.decorator.js";
 import {RefreshTokenRequestDto} from "../dto/request/refreshToken.request.dto.js";
 import {RegisterRequestDto} from "../dto/request/register.request.dto.js";
+import {ConfigService} from "@nestjs/config";
 
 @ApiTags('用户认证')
 @Controller()
 export class AuthController {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly userService: UserService,
+                private readonly configService: ConfigService,) {
     }
 
     @Public()
@@ -51,8 +53,28 @@ export class AuthController {
     @Public()
     @Get('/auth/login/github/callback')
     @ApiOperation({summary: 'GitHub 登录回调'})
-    async githubCallback(@Query('code') code: string): Promise<ApiResultDto> {
-        return ApiResultDto.success(await this.userService.githubLoginCallback(code));
+    @Redirect()
+    async githubCallback(@Query('code') code: string) {
+        const frontendUrl = this.configService.get<string>('FRONTEND_OAUTH_CALLBACK_URL');
+        try {
+            const loginResult = await this.userService.githubLoginCallback(code);
+            const codeToGGetToken: string = await this.userService.getCodeToGetToken(loginResult);
+            return {
+                url: `${frontendUrl}?code=${encodeURIComponent(codeToGGetToken)}`,
+                statusCode: 302,
+            };
+        } catch (error) {
+            return {
+                url: `${frontendUrl}?error=${encodeURIComponent((error as Error).message)}`,
+                statusCode: 302,
+            };
+        }
+    }
+
+    @Public()
+    @Get('/auth/getToken')
+    async getToken(@Query('code') code: string): Promise<ApiResultDto> {
+        return ApiResultDto.success(await this.userService.getToken(code));
     }
 
     @Get('/user/info')

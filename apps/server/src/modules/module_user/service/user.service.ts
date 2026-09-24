@@ -1,8 +1,7 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
 import {ConfigService} from '@nestjs/config';
-import { ClsService } from 'nestjs-cls';
+import {ClsService} from 'nestjs-cls';
 import axios from 'axios';
 
 import {UsersEntity} from '../entities/users.entity.js';
@@ -16,9 +15,11 @@ import {CommonConstants} from "../../../common/constants/common.constants.js";
 import {TokenService} from "../../module_common/token/service/token.service.js";
 import {LoginResponseDto} from "../dto/response/login.response.dto.js";
 import {UserInfoResponseDto} from "../dto/response/user.info.response.dto.js";
-import {getCurrentUser} from "../../../common/context/request-context.js";
 import {CurrentUserUtil} from "../../../common/utils/current-user.util.js";
 import {Gender} from "../enums/user.gender.enum.js";
+import {Repository} from "typeorm";
+import {RedisService} from "../../module_common/redis/service/redis.service.js";
+import {randomBytes} from "node:crypto";
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,7 @@ export class UserService {
         private readonly tokenService: TokenService,
         private readonly configService: ConfigService,
         private readonly clsStoreClsService: ClsService,
+        private readonly redisService: RedisService,
     ) {
     }
 
@@ -44,7 +46,11 @@ export class UserService {
     }
 
     async logout() {
-        return undefined;
+        const currentUserId = CurrentUserUtil.getCurrentUserId();
+        const accessTokenKey = `${CommonConstants.CACHE_KEY.USER_ACCESS_TOKEN}${currentUserId}`;
+        const refreshTokenKey = `${CommonConstants.CACHE_KEY.USER_ACCESS_TOKEN}${currentUserId}`;
+        await this.redisService.del(accessTokenKey, refreshTokenKey)
+        return null;
     }
 
     async register(dto: RegisterRequestDto) {
@@ -144,7 +150,7 @@ export class UserService {
 
     async getUserInfo(): Promise<UserInfoResponseDto> {
         const currentUserId = CurrentUserUtil.getCurrentUserId();
-        const userInfoResponseDto = new UserInfoResponseDto ();
+        const userInfoResponseDto = new UserInfoResponseDto();
         const userThirdPartyEntity = await this.thirdPartyRepository.findOne({
             where: {provider: ThirdPartyProvider.GITHUB, openId: currentUserId},
             relations: {user: CommonConstants.BOOLEAN.TRUE},
@@ -159,5 +165,30 @@ export class UserService {
             userInfoResponseDto.nickname = userThirdPartyEntity?.user.nickName ?? null;
         }
         return userInfoResponseDto;
+    }
+
+    async getCodeToGetToken(loginResponseDto: LoginResponseDto) {
+        const toString = randomBytes(32).toString('hex');
+        const key = `${CommonConstants.CACHE_KEY.USER_GET_CODE}${toString}`;
+        const loginResultStr = JSON.stringify(loginResponseDto);
+        await this.redisService.set(key, loginResultStr, 3600);
+        return toString;
+    }
+
+    async getToken(code: string): Promise<any> {
+        const key = `${CommonConstants.CACHE_KEY.USER_ACCESS_TOKEN}${code}`;
+        const raw = (await this.redisService.getClient().eval(
+            `local
+            v = redis.call('GET', KEYS[1])
+            if (v) then
+            redis.call('DEL', KEYS[1])
+            end
+            return v`,
+            1,
+            key,
+        )) as string | null;
+
+        if (!raw) throw new Error('code 无效或已过期');
+        return JSON.parse(raw);
     }
 }
