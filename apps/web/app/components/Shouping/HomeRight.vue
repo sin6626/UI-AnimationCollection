@@ -143,7 +143,7 @@ const navList = ref<NavItem[]>([
           v-for="item in navList"
           :key="item.title"
           :to="item.url"
-          class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-3 0"
+          class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
         >
           <UIcon :name="item.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
           <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
