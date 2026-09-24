@@ -60,4 +60,12 @@
 - **Composable 抽象层**：所有业务组件必须统一调用 `useAuth()`，禁止直接在页面顶层强耦合底层库；当后续切换为 [@HanniRis](https://github.com/HanniRis) 的后端服务时，仅需在 `app/composables/useAuth.ts` 中对接后端接口，确保 UI 层零成本无缝迁移。
 - **OAuth 服务端路由**：GitHub 授权回调位于 `server/routes/auth/github.get.ts`。
 
+## 8. Shouping 独立首屏页约定
+- **独立布局**：`app/pages/shouping.vue` 设置 `layout: false`，不继承默认 layout 的侧栏与公共梅花背景，使用独立的全屏居中沉浸式框架。
+- **栅格规范**：大屏端严格遵循 1:1 左右对称栅格（`grid-cols-1 lg:grid-cols-2`），小屏响应式折叠为单列。
+- **组件拆分**：
+  - `app/components/Shouping/HomeLeft.vue`：个人品牌、Logo 头像、一言毛玻璃卡片与社交媒体矩阵。
+  - `app/components/Shouping/HomeRight.vue`：每日诗词卡片、实时时间/天气卡片与快捷网站导航矩阵。
+
+
 
