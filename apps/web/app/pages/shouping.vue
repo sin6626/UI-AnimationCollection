@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="relative min-h-screen w-full bg-white text-neutral-800 flex flex-col justify-between">
+  <div class="relative min-h-screen w-full bg-[#282a30] text-neutral-800 flex flex-col justify-between">
     <!-- 顶部留白缓冲区 -->
     <div class="h-4 sm:h-8" />
 
@@ -26,7 +26,7 @@ definePageMeta({
 
     <!-- 底部版权信息 -->
     <footer class="w-full py-4 text-center text-xs text-neutral-400">
-      <!-- &copy是版本符号   -->
+      <!-- &copy是版本符号 &bull是圆点符号  -->
       <p>Copyright &copy; {{ new Date().getFullYear() }} &bull; Made with &hearts;</p>
     </footer>
   </div>

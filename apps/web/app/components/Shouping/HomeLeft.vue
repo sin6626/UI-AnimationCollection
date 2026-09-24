@@ -5,8 +5,8 @@ interface SocialItem {
   url: string
 }
 
-const siteTitle = ref('Sin.top')
-const greeting = ref('Hello World!')
+const siteTitle = ref('SinのUI＆Animation')
+const greeting = ref('Welcome to the my little world of Sin!')
 const description = ref('一个建立于 21 世纪的小站，存活于互联网的边缘')
 
 const socialList = ref<SocialItem[]>([
@@ -26,6 +26,7 @@ const socialList = ref<SocialItem[]>([
       <!-- 头像 / 圆形 Logo -->
       <div class="relative group cursor-pointer shrink-0">
         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-neutral-800/10 shadow-xl ring-4 ring-neutral-900/5 transition-transform duration-500 group-hover:scale-105 group-hover:rotate-6">
+          <!-- select-none 用户禁止选择 -->
           <NuxtImg
             src="/Sin.jpg"
             alt="Site Avatar"
@@ -37,7 +38,7 @@ const socialList = ref<SocialItem[]>([
 
       <!-- 站点标题 -->
       <div class="flex flex-col">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-neutral-900 select-none font-serif italic">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white select-none font-serif italic">
           {{ siteTitle }}
         </h1>
       </div>
@@ -46,8 +47,8 @@ const socialList = ref<SocialItem[]>([
     <!-- 2. 一言 / 个人介绍卡片 (毛玻璃质感) -->
     <div class="relative bg-neutral-900/90 text-white rounded-2xl p-6 sm:p-7 shadow-2xl border border-neutral-700/50 backdrop-blur-md transition-all duration-300 hover:shadow-neutral-900/20 hover:-translate-y-1">
       <!-- 左上双引号 -->
-      <div class="text-2xl sm:text-3xl leading-none text-white/40 font-serif select-none mb-1">
-        “
+      <div class="text-2xl sm:text-6xl leading-none text-white/40 font-serif select-none mb-1">
+        &ldquo;
       </div>
 
       <!-- 卡片文本主体 -->
@@ -61,8 +62,8 @@ const socialList = ref<SocialItem[]>([
       </div>
 
       <!-- 右下双引号 -->
-      <div class="flex justify-end text-2xl sm:text-3xl leading-none text-white/40 font-serif select-none mt-1">
-        ”
+      <div class="flex justify-end text-2xl sm:text-6xl leading-none text-white/40 font-serif select-none mt-1">
+        &rdquo;
       </div>
     </div>
 
