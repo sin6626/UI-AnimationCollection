@@ -7,8 +7,20 @@ import {EmailModule} from './module_email/email.module.js';
 import {KommentarModule} from "./module_kommentar/module.kommentar.js";
 
 @Module({
-    imports: [CommonModule, LogsModule, UsersModule, EmailModule, KommentarModule],
-    exports: [CommonModule, LogsModule, UsersModule, EmailModule, KommentarModule],
+    imports: [
+        CommonModule,
+        LogsModule,
+        UsersModule,
+        EmailModule,
+        KommentarModule
+    ],
+    exports: [
+        CommonModule,
+        LogsModule,
+        UsersModule,
+        EmailModule,
+        KommentarModule
+    ],
 })
 export class ModulesModule {
 }
