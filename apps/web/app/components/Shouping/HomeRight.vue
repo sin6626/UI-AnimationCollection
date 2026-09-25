@@ -5,6 +5,8 @@ interface NavItem {
   url: string
 }
 
+const localePath = useLocalePath()
+
 // 诗词数据池
 const poems = [
   {
@@ -73,27 +75,42 @@ const weatherInfo = ref({
 })
 
 // 网站快捷导航列表（按页划分，支持手势滑动轮播）
-const navPages = ref<NavItem[][]>([
+const navPagesIn = ref<NavItem[][]>([
   [
-    { title: '博客（外）', icon: 'ri:quill-pen-line', url: '#' },
-    // { title: '网盘', icon: 'ri:cloud-line', url: '#' },
     { title: '3D音乐', icon: 'ri:disc-line', url: '/Music' },
-    // { title: '首页', icon: 'ri:compass-3-line', url: '#' },
-    // { title: '网址集', icon: 'ri:book-read-line', url: '#' },
-    // { title: '今日热榜', icon: 'ri:fire-line', url: '#' }
+    { title: 'AI 实验室', icon: 'ri:robot-line', url: '/AiLaboratory' },
+    { title: 'UI 合集', icon: 'ri:layout-grid-line', url: '/ui' }
   ],
   [
-    { title: '哔哩哔哩', icon: 'ri:bilibili-line', url: 'https://bilibili.com' },
-    { title: 'GitHub', icon: 'ri:github-line', url: 'https://github.com' },
-    { title: '开发文档', icon: 'ri:code-s-slash-line', url: '#' },
-    { title: '设计灵感', icon: 'ri:palette-line', url: '#' },
-    { title: '影视中心', icon: 'ri:movie-2-line', url: '#' },
-    { title: 'AI 实验室', icon: 'ri:robot-line', url: '/AiLaboratory' }
+    { title: '动画合集', icon: 'tdesign:animation-1', url: '/animation' },
+    { title: '主题切换', icon: 'ri:contrast-2-line', url: '/ui/color-mode-button' },
+    { title: '流星音潮', icon: 'ri:music-2-line', url: '/ui/meteor-soundwave' }
+  ],
+  [
+    { title: '虚无 Hero', icon: 'ri:layout-column-line', url: '/ui/nihilistic-hero' },
+    { title: '拍立得 UI', icon: 'ri:image-line', url: '/ui/polaroid' },
+    { title: 'Shiro 导航', icon: 'ri:navigation-line', url: '/ui/shiro-nav' }
+  ],
+  [
+    { title: '图标形变', icon: 'ri:shape-line', url: '/animation/interactive-icon-morph' },
+    { title: '梅花生长', icon: 'ri:plant-line', url: '/animation/plum-growth' },
+    { title: '快门切片', icon: 'ri:camera-lens-line', url: '/animation/shutter-reveal' }
+  ],
+  [
+    { title: '波浪揭示', icon: 'ri:water-flash-line', url: '/animation/wave-reveal' },
+    { title: '主站首页', icon: 'ri:home-4-line', url: '/' }
+  ]
+])
+const navPagesOut = ref<NavItem[][]>([
+  [
+    { title: '博客', icon: 'ri:quill-pen-line', url: 'https://sin6626.me' },
+    { title: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/sin6626' },
+    { title: 'X', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' }
   ]
 ])
 
 // 轮播状态与引用
-const carouselRef = ref<{ emblaApi?: any } | null>(null)
+const internalCarouselRef = ref<{ emblaApi?: any } | null>(null)
 const currentNavPageIndex = ref(0)
 
 function onPageSelect(index: number) {
@@ -101,7 +118,7 @@ function onPageSelect(index: number) {
 }
 
 function goToPage(index: number) {
-  carouselRef.value?.emblaApi?.scrollTo(index)
+  internalCarouselRef.value?.emblaApi?.scrollTo(index)
 }
 </script>
 
@@ -156,14 +173,46 @@ function goToPage(index: number) {
       <!-- 区域标题 -->
       <div class="flex items-center gap-2 text-white font-medium text-sm">
         <UIcon name="ri:links-line" class="text-base text-white/80" />
-        <span>网站列表</span>
+        <span>站外列表</span>
       </div>
 
       <!-- UCarousel 轮播容器（内置 Embla Carousel，全面支持手势与鼠标拖拽滑动） -->
       <UCarousel
-        ref="carouselRef"
         v-slot="{ item }"
-        :items="navPages"
+        :items="navPagesOut"
+        :ui="{
+          root: 'w-full',
+          viewport: 'overflow-hidden w-full',
+          container: 'flex-row -ms-0',
+          item: 'ps-0'
+        }"
+      >
+        <!-- 每页最多 3 项，保持一行卡片布局 -->
+        <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 w-full">
+          <NuxtLink
+            v-for="nav in item"
+            :key="nav.title"
+            :to="nav.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
+          >
+            <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
+            <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
+              {{ nav.title }}
+            </span>
+          </NuxtLink>
+        </div>
+      </UCarousel>
+     <!-- 区域标题 -->
+      <div class="flex items-center gap-2 text-white font-medium text-sm">
+        <UIcon name="ri:links-line" class="text-base text-white/80" />
+        <span>站内列表</span>
+      </div>
+      <UCarousel
+        ref="internalCarouselRef"
+        v-slot="{ item }"
+        :items="navPagesIn"
         :ui="{
           root: 'w-full',
           viewport: 'overflow-hidden w-full',
@@ -172,12 +221,12 @@ function goToPage(index: number) {
         }"
         @select="onPageSelect"
       >
-        <!-- 每一页为 6 栅格：每项占 2 列，一行 3 项，共 2 行 6 项 -->
+        <!-- 每页最多 3 项，通过轮播覆盖全部站内区域 -->
         <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 w-full">
           <NuxtLink
             v-for="nav in item"
             :key="nav.title"
-            :to="nav.url"
+            :to="localePath(nav.url)"
             class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
           >
             <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
@@ -191,7 +240,7 @@ function goToPage(index: number) {
       <!-- 底部轮播/分页指示器（与 UCarousel 状态联动，支持点击与手势跟随） -->
       <div class="flex items-center justify-center gap-1.5 mt-2">
         <button
-          v-for="(_, index) in navPages"
+          v-for="(_, index) in navPagesIn"
           :key="index"
           type="button"
           :class="[
