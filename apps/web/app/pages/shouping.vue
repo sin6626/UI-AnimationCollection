@@ -38,7 +38,7 @@ function handleMouseLeave(event: MouseEvent) {
       <div class="relative w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         <!-- 左侧个人名片区（1:1 平分） -->
         <div class="w-full">
-          <ShoupingHomeLeft />
+          <ShoupingHomeLeft :enter="enter" />
         </div>
 
         <!-- 中间分割线：绝对定位居中，不占 Grid 轨道 -->

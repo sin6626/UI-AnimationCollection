@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  enter: (path: string) => Promise<void>
+}>()
+
 interface SocialItem {
   name: string
   icon: string
@@ -14,17 +18,22 @@ const socialList = ref<SocialItem[]>([
   { name: 'Bilibili', icon: 'ri:bilibili-fill', url: 'https://space.bilibili.com/514794835?spm_id_from=333.1007.0.0' },
   // { name: 'QQ', icon: 'ri:qq-fill', url: '#' },
   // { name: 'Email', icon: 'ri:mail-fill', url: '#' },
-  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' },
+  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' }
   // { name: 'Telegram', icon: 'ri:telegram-fill', url: '#' }
 ])
 </script>
 
 <template>
   <div class="flex flex-col gap-6 sm:gap-8 w-full max-w-lg mx-auto lg:mx-0">
-    <!--站点 Logo 与标题 -->
+    <!-- 站点 Logo 与标题 -->
     <div class="flex items-center gap-4 sm:gap-6">
       <!-- 头像 / 圆形 Logo shrink-0 禁止压缩, 保证图标大小 -->
-      <div class="relative group cursor-pointer shrink-0">
+      <button
+        type="button"
+        aria-label="进入首页"
+        class="relative group cursor-pointer shrink-0"
+        @click="enter('/')"
+      >
         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-neutral-800/10 shadow-xl ring-4 ring-neutral-900/5 transition-transform duration-500 group-hover:scale-105 group-hover:rotate-6">
           <!-- select-none 用户禁止选择 -->
           <NuxtImg
@@ -34,7 +43,7 @@ const socialList = ref<SocialItem[]>([
             loading="lazy"
           />
         </div>
-      </div>
+      </button>
 
       <!-- 站点标题 -->
       <div class="flex flex-col">
@@ -67,7 +76,7 @@ const socialList = ref<SocialItem[]>([
       </div>
     </div>
 
-    <!--社交图标矩阵 -->
+    <!-- 社交图标矩阵 -->
     <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
       <a
         v-for="item in socialList"

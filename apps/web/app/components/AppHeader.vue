@@ -18,6 +18,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const localePath = useLocalePath()
 const navRef = ref<HTMLElement | null>(null)
 const indicator = reactive({ left: 0, width: 0, opacity: 0 })
 
@@ -68,7 +69,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 
 <template>
   <header class="sticky top-2 sm:top-4 z-20 grid grid-cols-[1fr_auto_1fr] items-center">
-    <div class="hidden md:block size-10 justify-self-start">
+    <NuxtLink
+      :to="localePath('/shouping')"
+      aria-label="返回首屏"
+      class="hidden md:block size-10 justify-self-start"
+    >
       <NuxtImg
         src="/Sin.jpg"
         alt=""
@@ -79,7 +84,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
         loading="eager"
         class="size-full object-cover rounded-lg shadow-lg shadow-neutral-950/5"
       />
-    </div>
+    </NuxtLink>
 
     <!-- 外层 relative 容器: 为绝对定位的指示条提供定位基准 -->
     <div
