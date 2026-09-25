@@ -145,7 +145,10 @@ function goToPage(index: number) {
           </span>
 
           <!-- LED 数码时钟 -->
-          <span class="flex items-center text-3xl sm:text-4xl font-mono font-bold tracking-widest text-white my-1 tabular-nums">
+          <span
+            :data-door-time="now.format('HH:mm:ss')"
+            class="flex items-center text-3xl sm:text-4xl font-mono font-bold tracking-widest text-white my-1 tabular-nums"
+          >
             <NumberFlow :value="hours" :format="{ minimumIntegerDigits: 2 }" />
             <span>:</span>
             <NumberFlow :value="minutes" :format="{ minimumIntegerDigits: 2 }" />

@@ -39,6 +39,8 @@ export function useEnter() {
       snapshot.style.minWidth = '100vw'
       snapshot.style.transform = `translateY(-${window.scrollY}px)`
       snapshot.querySelector('[data-visit-divider]')?.remove()
+      const clock = snapshot.querySelector<HTMLElement>('[data-door-time]')
+      if (clock?.dataset.doorTime) clock.textContent = clock.dataset.doorTime
       scene.append(snapshot)
 
       const line = document.createElement('div')
