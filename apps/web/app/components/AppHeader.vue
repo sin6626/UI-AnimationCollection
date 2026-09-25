@@ -70,7 +70,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateIndicator))
 <template>
   <header class="sticky top-2 sm:top-4 z-20 grid grid-cols-[1fr_auto_1fr] items-center">
     <NuxtLink
-      :to="localePath('/shouping')"
+      :to="localePath('/')"
       aria-label="返回首屏"
       class="hidden md:block size-10 justify-self-start"
     >

@@ -60,7 +60,9 @@ export default defineNuxtConfig({
       // 显式预渲染根路径,并启用链接爬取发现更多需预渲染的页面
       routes: [
         '/',
-        '/en'
+        '/en',
+        '/home',
+        '/en/home'
       ],
       // 爬取链接, 像搜索引擎一样寻找 <a>, 然后发现别的页面, 继续预渲染这些页面
       crawlLinks: true

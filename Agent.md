@@ -61,7 +61,8 @@
 - **OAuth 服务端路由**：GitHub 授权回调位于 `server/routes/auth/github.get.ts`。
 
 ## 8. Shouping 独立首屏页约定
-- **独立布局**：`app/pages/shouping.vue` 设置 `layout: false`，不继承默认 layout 的侧栏与公共梅花背景，使用独立的全屏居中沉浸式框架。
+- **页面路由**：`app/pages/index.vue` 是默认入口 `/`（英文为 `/en`）；原内容首页位于 `app/pages/home.vue`，对应 `/home`（英文为 `/en/home`）。
+- **独立布局**：首屏设置 `layout: false`，不继承默认 layout 的侧栏与公共梅花背景，使用独立的全屏居中沉浸式框架。
 - **栅格规范**：大屏端严格遵循 1:1 左右对称栅格（`grid-cols-1 lg:grid-cols-2`），小屏响应式折叠为单列。
 - **组件拆分**：
   - `app/components/Shouping/HomeLeft.vue`：个人品牌、Logo 头像、一言毛玻璃卡片与社交媒体矩阵。

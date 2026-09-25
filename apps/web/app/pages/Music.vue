@@ -250,7 +250,7 @@ onUnmounted(() => {
           Lyrics
         </button>
         <NuxtLink
-          :to="localePath('/')"
+          :to="localePath('/home')"
           class="pointer-events-auto flex items-center gap-1.5 border border-white/20 bg-white/5 px-4 py-2.5 text-[12px] font-bold tracking-[0.18em] uppercase backdrop-blur-md transition-colors hover:border-[#8ef0de]/60 hover:bg-[#8ef0de]/15 hover:text-[#8ef0de]"
         >
           <UIcon

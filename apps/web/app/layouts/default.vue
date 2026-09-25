@@ -12,7 +12,7 @@ const localePath = useLocalePath()
 const navLinks = computed<NavigationMenuItem[]>(() => [{
   label: t('nav.home'),
   icon: 'i-lucide-home',
-  to: localePath('/')
+  to: localePath('/home')
 }, {
   label: t('nav.ui'),
   icon: 'tabler:components',

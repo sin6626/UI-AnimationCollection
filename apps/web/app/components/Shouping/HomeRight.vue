@@ -94,7 +94,7 @@ const navPagesIn = ref<NavItem[][]>([
   ],
   [
     { title: '波浪揭示', icon: 'ri:water-flash-line', url: '/animation/wave-reveal' },
-    { title: '主站首页', icon: 'ri:home-4-line', url: '/' }
+    { title: '主站首页', icon: 'ri:home-4-line', url: '/home' }
   ]
 ])
 const navPagesOut = ref<NavItem[][]>([
