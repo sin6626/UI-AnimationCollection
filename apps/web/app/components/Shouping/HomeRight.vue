@@ -10,6 +10,16 @@ interface NavItem {
   url: string
 }
 
+const props = defineProps<{
+  enter: (path: string) => Promise<void>
+}>()
+
+function enterInternal(event: MouseEvent, path: string) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  void props.enter(path)
+}
+
 // nuxt/18n 确保跳转不丢语言
 const localePath = useLocalePath()
 
@@ -195,7 +205,7 @@ function goToPage(index: number) {
           </NuxtLink>
         </div>
       </UCarousel>
-     <!-- 区域标题 -->
+      <!-- 区域标题 -->
       <div class="flex items-center gap-2 text-white font-medium text-sm">
         <UIcon name="ri:links-line" class="text-base text-white/80" />
         <span>站内列表</span>
@@ -219,6 +229,7 @@ function goToPage(index: number) {
             :key="nav.title"
             :to="localePath(nav.url)"
             class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-20"
+            @click.capture="enterInternal($event, nav.url)"
           >
             <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
             <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
