@@ -123,7 +123,7 @@ onBeforeUnmount(stopCamera)
         Animation Laboratory
       </p>
       <h1 class="font-serif text-4xl font-bold tracking-[0.15em] text-amber-200 sm:text-5xl">
-        黄金螺旋
+        黄金回旋
       </h1>
       <p class="font-serif text-lg text-amber-100/80 sm:text-xl">
         r(θ) = aφ<sup>2θ/π</sup><span class="mx-3 text-amber-500/60">·</span>φ = (1 + √5) / 2

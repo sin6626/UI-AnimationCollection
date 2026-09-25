@@ -16,7 +16,7 @@
     "@applemusic-like-lyrics/vue": "^0.5.2",
     "@lottiefiles/dotlottie-vue": "^0.11.23",
     "@number-flow/vue": "^0.5.2",
-    "@nuxt/content": "^3.14.0",
+    "@nuxt/content": "^3.16.1",
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.9.0",
     "@nuxtjs/i18n": "^10.6.0",
