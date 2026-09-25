@@ -61,7 +61,7 @@ for (const [index, size] of sizes.entries()) {
         ? `M ${x + size} ${y} A ${size} ${size} 0 0 1 ${x} ${y + size}`
         : `M ${x + size} ${y + size} A ${size} ${size} 0 0 1 ${x} ${y}`
 
-  squares.push({ x, y, size, arc, color: colors[index]! })
+  squares.push({ x, y, size, arc, color: colors[index % colors.length]! })
 }
 
 const stepDuration = 1100

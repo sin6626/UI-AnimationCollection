@@ -82,3 +82,9 @@ test('每一帧方形视窗都容纳已出现的方块', () => {
   assert.ok(new Set(ratios.map(ratio => ratio.toFixed(3))).size > 1, '各次缩放不应使用固定比例')
   assert.ok(Math.abs(ratios.at(-1) - (1 + Math.sqrt(5)) / 2) < 0.01)
 })
+
+test('新增方块也必须有有效的描边颜色', () => {
+  for (const [index, square] of context.spiralSquares.entries()) {
+    assert.match(square.color ?? '', /^#[\da-f]{6}$/i, `第 ${index + 1} 个方块缺少描边颜色`)
+  }
+})
