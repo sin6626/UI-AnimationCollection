@@ -7,6 +7,12 @@ interface SpiralSquare {
   color: string
 }
 
+interface CameraFrame {
+  x: number
+  y: number
+  size: number
+}
+
 useSeoMeta({
   title: '黄金螺旋实验室',
   description: '观察斐波那契方块与四分之一圆弧如何逐步拼成螺旋。'
@@ -15,6 +21,7 @@ useSeoMeta({
 const colors = ['#fbbf24', '#fb923c', '#facc15', '#a3e635', '#4ade80', '#38bdf8', '#a78bfa']
 const sizes = [1, 1, 2, 3, 5, 8, 13]
 const squares: SpiralSquare[] = []
+const cameraFrames: CameraFrame[] = []
 const bounds = { left: 0, top: 0, right: 0, bottom: 0 }
 
 // 从相邻的两个 1×1 方块开始，依次向下、左、上、右添加新方块。
@@ -35,6 +42,16 @@ for (const [index, size] of sizes.entries()) {
   bounds.right = Math.max(bounds.right, x + size)
   bounds.bottom = Math.max(bounds.bottom, y + size)
 
+  // 正方形视窗始终容纳已经绘制的所有方块；边长随斐波那契外框增长。
+  const width = bounds.right - bounds.left
+  const height = bounds.bottom - bounds.top
+  const cameraSize = Math.max(width, height) * 1.12
+  cameraFrames.push({
+    x: (bounds.left + bounds.right - cameraSize) / 2,
+    y: (bounds.top + bounds.bottom - cameraSize) / 2,
+    size: cameraSize
+  })
+
   // 四种圆心位置轮换，邻接圆弧共用端点，形成一条连续的近似螺旋。
   const arc = index % 4 === 0
     ? `M ${x} ${y + size} A ${size} ${size} 0 0 1 ${x + size} ${y}`
@@ -47,13 +64,58 @@ for (const [index, size] of sizes.entries()) {
   squares.push({ x, y, size, arc, color: colors[index]! })
 }
 
-const padding = 1.5
-const viewBox = `${bounds.left - padding} ${bounds.top - padding} ${bounds.right - bounds.left + padding * 2} ${bounds.bottom - bounds.top + padding * 2}`
+const stepDuration = 900
+const zoomDuration = 700
+const camera = ref<CameraFrame>({ ...cameraFrames[0]! })
+const viewBox = computed(() => `${camera.value.x} ${camera.value.y} ${camera.value.size} ${camera.value.size}`)
 const replayKey = ref(0)
+const timers: ReturnType<typeof setTimeout>[] = []
+let animationFrame = 0
+
+function stopCamera() {
+  timers.forEach(clearTimeout)
+  timers.length = 0
+  cancelAnimationFrame(animationFrame)
+}
+
+function moveCamera(target: CameraFrame) {
+  const from = { ...camera.value }
+  const startedAt = performance.now()
+
+  function tick(now: number) {
+    const progress = Math.min((now - startedAt) / zoomDuration, 1)
+    const eased = progress * progress * (3 - 2 * progress)
+    camera.value = {
+      x: from.x + (target.x - from.x) * eased,
+      y: from.y + (target.y - from.y) * eased,
+      size: from.size + (target.size - from.size) * eased
+    }
+    if (progress < 1) animationFrame = requestAnimationFrame(tick)
+  }
+
+  animationFrame = requestAnimationFrame(tick)
+}
+
+function play(restart = true) {
+  stopCamera()
+  if (restart) replayKey.value++
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    camera.value = { ...cameraFrames.at(-1)! }
+    return
+  }
+
+  camera.value = { ...cameraFrames[0]! }
+  for (let index = 1; index < cameraFrames.length; index++) {
+    timers.push(setTimeout(() => moveCamera(cameraFrames[index]!), index * stepDuration - zoomDuration))
+  }
+}
+
+onMounted(() => play(false))
+onBeforeUnmount(stopCamera)
 </script>
 
 <template>
-  <section class="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-4 py-10 text-center sm:py-14">
+  <section class="mx-auto flex w-full max-w-5xl flex-col items-center gap-5 px-4 py-6 text-center">
     <div class="space-y-3">
       <p class="text-xs font-semibold uppercase tracking-[0.35em] text-amber-400/75">
         Animation Laboratory
@@ -66,11 +128,16 @@ const replayKey = ref(0)
       </p>
     </div>
 
-    <div class="flex w-full flex-col items-center rounded-3xl border border-amber-200/10 bg-[#08090d] px-5 py-10 shadow-2xl sm:py-14">
+    <div class="flex w-full flex-col items-center rounded-3xl border border-amber-200/10 bg-[#08090d] px-4 py-6 shadow-2xl">
       <svg
         :key="replayKey"
         :viewBox="viewBox"
-        class="spiral-canvas h-[min(64vh,580px)] w-full max-w-[500px] overflow-visible"
+        class="spiral-canvas aspect-square overflow-hidden"
+        :style="{
+          'width': 'min(100%, 56dvh, 520px)',
+          '--square-stroke': String(camera.size / 350),
+          '--arc-stroke': String(camera.size / 260)
+        }"
         role="img"
         aria-label="斐波那契方块与圆弧依次绘制成黄金螺旋近似图"
       >
@@ -97,16 +164,16 @@ const replayKey = ref(0)
         </g>
       </svg>
 
-      <p class="mt-5 max-w-lg text-sm leading-7 text-neutral-400">
+      <p class="mt-4 max-w-lg text-sm leading-6 text-neutral-400">
         按 1、1、2、3、5、8、13 的边长排列方块，再在每个方块内画一段四分之一圆弧。
         这是黄金螺旋的常见近似画法，并非公式对应的精确曲线。
       </p>
       <UButton
-        class="mt-6"
+        class="mt-4"
         color="neutral"
         variant="outline"
         icon="i-lucide-rotate-ccw"
-        @click="replayKey++"
+        @click="play()"
       >
         重播动画
       </UButton>
@@ -125,12 +192,12 @@ const replayKey = ref(0)
 }
 
 .spiral-square {
-  stroke-width: 0.075;
+  stroke-width: var(--square-stroke);
 }
 
 .spiral-arc {
   stroke: #f8fafc;
-  stroke-width: 0.1;
+  stroke-width: var(--arc-stroke);
 }
 
 @keyframes spiral-draw {

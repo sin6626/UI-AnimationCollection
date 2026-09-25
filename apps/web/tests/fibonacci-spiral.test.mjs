@@ -8,12 +8,21 @@ const component = readFileSync(new URL('../app/pages/AiLaboratory.vue', import.m
 const script = component.match(/<script setup lang="ts">([\s\S]*?)<\/script>/)?.[1]
 assert.ok(script, '实验室页应包含生成螺旋的脚本')
 
-const js = ts.transpileModule(`${script}\nglobalThis.spiralSquares = squares`, {
+const js = ts.transpileModule(`${script}\nglobalThis.spiralSquares = squares\nglobalThis.cameraFrames = cameraFrames`, {
   compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None }
 }).outputText
 const context = {
   useSeoMeta() {},
-  ref(value) { return { value } }
+  ref(value) { return { value } },
+  computed(getter) {
+    return {
+      get value() {
+        return getter()
+      }
+    }
+  },
+  onMounted() {},
+  onBeforeUnmount() {}
 }
 vm.runInNewContext(js, context)
 
@@ -53,4 +62,22 @@ test('相邻圆弧在同一端点平滑相接', () => {
     const cosine = (ax * bx + ay * by) / (Math.hypot(ax, ay) * Math.hypot(bx, by))
     assert.ok(cosine > 0.999, `第 ${index} 段圆弧在接点折返：切线余弦 ${cosine}`)
   }
+})
+
+test('每一帧方形视窗都容纳已出现的方块', () => {
+  const squares = context.spiralSquares
+  const frames = context.cameraFrames
+  assert.equal(frames.length, squares.length)
+
+  for (const [index, frame] of frames.entries()) {
+    for (const square of squares.slice(0, index + 1)) {
+      assert.ok(square.x >= frame.x && square.y >= frame.y, `第 ${index} 帧漏掉方块左上角`)
+      assert.ok(square.x + square.size <= frame.x + frame.size, `第 ${index} 帧漏掉方块右边`)
+      assert.ok(square.y + square.size <= frame.y + frame.size, `第 ${index} 帧漏掉方块底边`)
+    }
+  }
+
+  const ratios = frames.slice(2).map((frame, index) => frame.size / frames[index + 1].size)
+  assert.ok(new Set(ratios.map(ratio => ratio.toFixed(3))).size > 1, '各次缩放不应使用固定比例')
+  assert.ok(Math.abs(ratios.at(-1) - (1 + Math.sqrt(5)) / 2) < 0.01)
 })

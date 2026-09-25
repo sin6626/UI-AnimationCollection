@@ -34,7 +34,7 @@
 ## 5. 动效、3D 与音频技术规范
 - **Nuxt 组件命名**：`app/components/SinAni/AniDemo.vue` 使用时写 `<SinAniDemo>`，不要写重复前缀 `<SinAniAniDemo>`。
 - **GSAP 类型安全**：创建 `ctx`、`t1`、`resetAni` 等变量时显式标注类型（如 `let ctx: gsap.Context`、`let t1: gsap.core.Timeline`、`let resetAni: () => void`），避免 TS 检查报错。
-- **动画入库流程**：`AiLaboratory.vue` 当前为斐波那契方块与圆弧的黄金螺旋近似动画实验页；后续入库时复制实现到 `app/components/SinAni/`，提取后的组件需补齐算法注释。全局梅花背景与动画库单株演示是独立用途，不得替换。
+- **动画入库流程**：`AiLaboratory.vue` 当前为斐波那契方块与圆弧的黄金螺旋近似动画实验页；SVG `viewBox` 随方块外框逐步扩展，并保持方形展示区域。后续入库时复制实现到 `app/components/SinAni/`，提取后的组件需补齐算法注释。全局梅花背景与动画库单株演示是独立用途，不得替换。
 - **3D 音频可视化组件 (Meteor Soundwave / Three.js)**：
   - 着色器统一在 `app/components/SinUI/shaders/`（如 `stageVertex.glsl`, `stageFragment.glsl`），使用 `?raw` 导入。
   - Web Audio 与 Three.js 逻辑封装在 `app/components/SinUI/composables/useMeteorSoundwave.ts`。
