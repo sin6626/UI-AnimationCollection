@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import NumberFlow from '@number-flow/vue'
+
 interface NavItem {
   title: string
   icon: string
@@ -35,28 +39,18 @@ function nextPoem() {
 }
 
 // 实时时间计算（使用 ClientOnly 避免 SSR 水合不一致）
-const currentDate = ref('')
-const currentTime = ref('00:00:00')
-const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+const now = ref(dayjs())
+const currentDate = computed(() => now.value.locale('zh-cn').format('YYYY 年 MM 月 DD 日 dddd'))
+const hours = computed(() => now.value.hour())
+const minutes = computed(() => now.value.minute())
+const seconds = computed(() => now.value.second())
 let timer: ReturnType<typeof setInterval> | null = null
 
-function updateDateTime() {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const date = String(now.getDate()).padStart(2, '0')
-  const day = weekdays[now.getDay()]
-  currentDate.value = `${year} 年 ${month} 月 ${date} 日 ${day}`
-
-  const hours = String(now.getHours()).padStart(2, '0')
-  const minutes = String(now.getMinutes()).padStart(2, '0')
-  const seconds = String(now.getSeconds()).padStart(2, '0')
-  currentTime.value = `${hours}:${minutes}:${seconds}`
-}
-
 onMounted(() => {
-  updateDateTime()
-  timer = setInterval(updateDateTime, 1000)
+  now.value = dayjs()
+  timer = setInterval(() => {
+    now.value = dayjs()
+  }, 1000)
 })
 
 onBeforeUnmount(() => {
@@ -149,8 +143,12 @@ function goToPage(index: number) {
           </span>
 
           <!-- LED 数码时钟 -->
-          <span class="text-3xl sm:text-4xl font-mono font-bold tracking-widest text-white my-1 tabular-nums">
-            {{ currentTime }}
+          <span class="flex items-center text-3xl sm:text-4xl font-mono font-bold tracking-widest text-white my-1 tabular-nums">
+            <NumberFlow :value="hours" :format="{ minimumIntegerDigits: 2 }" />
+            <span>:</span>
+            <NumberFlow :value="minutes" :format="{ minimumIntegerDigits: 2 }" />
+            <span>:</span>
+            <NumberFlow :value="seconds" :format="{ minimumIntegerDigits: 2 }" />
           </span>
 
           <!-- 天气概况 -->
