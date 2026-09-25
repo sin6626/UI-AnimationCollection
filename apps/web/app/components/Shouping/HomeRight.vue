@@ -10,6 +10,7 @@ interface NavItem {
   url: string
 }
 
+// nuxt/18n 确保跳转不丢语言
 const localePath = useLocalePath()
 
 // 诗词数据池
@@ -67,10 +68,8 @@ const { weatherInfo } = useLocalWeather()
 const navPagesIn = ref<NavItem[][]>([
   [
     { title: '3D音乐', icon: 'ri:disc-line', url: '/Music' },
-    { title: 'AI 实验室', icon: 'ri:robot-line', url: '/AiLaboratory' },
-    { title: 'UI 合集', icon: 'ri:layout-grid-line', url: '/ui' }
-  ],
-  [
+    { title: '实验室', icon: 'ri:ai', url: '/AiLaboratory' },
+    { title: 'UI 合集', icon: 'ri:layout-grid-line', url: '/ui' },
     { title: '动画合集', icon: 'tdesign:animation-1', url: '/animation' },
     { title: '主题切换', icon: 'ri:contrast-2-line', url: '/ui/color-mode-button' },
     { title: '流星音潮', icon: 'ri:music-2-line', url: '/ui/meteor-soundwave' }
@@ -78,9 +77,7 @@ const navPagesIn = ref<NavItem[][]>([
   [
     { title: '虚无 Hero', icon: 'ri:layout-column-line', url: '/ui/nihilistic-hero' },
     { title: '拍立得 UI', icon: 'ri:image-line', url: '/ui/polaroid' },
-    { title: 'Shiro 导航', icon: 'ri:navigation-line', url: '/ui/shiro-nav' }
-  ],
-  [
+    { title: 'Shiro 导航', icon: 'ri:navigation-line', url: '/ui/shiro-nav' },
     { title: '图标形变', icon: 'ri:shape-line', url: '/animation/interactive-icon-morph' },
     { title: '梅花生长', icon: 'ri:plant-line', url: '/animation/plum-growth' },
     { title: '快门切片', icon: 'ri:camera-lens-line', url: '/animation/shutter-reveal' }
@@ -94,7 +91,7 @@ const navPagesOut = ref<NavItem[][]>([
   [
     { title: '博客', icon: 'ri:quill-pen-line', url: 'https://sin6626.me' },
     { title: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/sin6626' },
-    { title: 'X', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' }
+    { title: '', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' }
   ]
 ])
 
@@ -189,7 +186,7 @@ function goToPage(index: number) {
             :to="nav.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
+            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-20"
           >
             <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
             <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
@@ -221,7 +218,7 @@ function goToPage(index: number) {
             v-for="nav in item"
             :key="nav.title"
             :to="localePath(nav.url)"
-            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
+            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-20"
           >
             <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
             <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
