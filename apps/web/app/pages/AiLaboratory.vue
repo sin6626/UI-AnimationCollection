@@ -37,12 +37,12 @@ for (const [index, size] of sizes.entries()) {
 
   // 四种圆心位置轮换，邻接圆弧共用端点，形成一条连续的近似螺旋。
   const arc = index % 4 === 0
-    ? `M ${x} ${y + size} A ${size} ${size} 0 0 0 ${x + size} ${y}`
+    ? `M ${x} ${y + size} A ${size} ${size} 0 0 1 ${x + size} ${y}`
     : index % 4 === 1
-      ? `M ${x} ${y} A ${size} ${size} 0 0 0 ${x + size} ${y + size}`
+      ? `M ${x} ${y} A ${size} ${size} 0 0 1 ${x + size} ${y + size}`
       : index % 4 === 2
-        ? `M ${x + size} ${y} A ${size} ${size} 0 0 0 ${x} ${y + size}`
-        : `M ${x + size} ${y + size} A ${size} ${size} 0 0 0 ${x} ${y}`
+        ? `M ${x + size} ${y} A ${size} ${size} 0 0 1 ${x} ${y + size}`
+        : `M ${x + size} ${y + size} A ${size} ${size} 0 0 1 ${x} ${y}`
 
   squares.push({ x, y, size, arc, color: colors[index]! })
 }
@@ -84,17 +84,15 @@ const replayKey = ref(0)
             :width="square.size"
             :height="square.size"
             :stroke="square.color"
-            :style="{ animationDelay: `${index * 0.9}s` }"
+            :style="{ '--dash-length': String(4 * square.size), 'animation-delay': `${index * 0.9}s` }"
             class="spiral-square"
             fill="none"
-            pathLength="1"
           />
           <path
             :d="square.arc"
-            :style="{ animationDelay: `${index * 0.9 + 0.25}s` }"
+            :style="{ '--dash-length': String(Math.PI * square.size / 2), 'animation-delay': `${index * 0.9 + 0.25}s` }"
             class="spiral-arc"
             fill="none"
-            pathLength="1"
           />
         </g>
       </svg>
@@ -119,21 +117,20 @@ const replayKey = ref(0)
 <style scoped>
 .spiral-square,
 .spiral-arc {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dasharray: var(--dash-length);
+  stroke-dashoffset: var(--dash-length);
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
   animation: spiral-draw 0.8s ease-in-out forwards;
 }
 
 .spiral-square {
-  stroke-width: 1.5px;
+  stroke-width: 0.075;
 }
 
 .spiral-arc {
   stroke: #f8fafc;
-  stroke-width: 2px;
+  stroke-width: 0.1;
 }
 
 @keyframes spiral-draw {
