@@ -1,143 +1,150 @@
 <script setup lang="ts">
-import { parseMarkdown } from '@nuxtjs/mdc/runtime'
-
-const apiUrl = '/api/blog/post'
-
-interface BlogPost {
-  id: string
-  title: string
-  text: string
-  summary?: string
-  created: string
-  modified: string
-  tags?: string[]
+interface SpiralSquare {
+  x: number
+  y: number
+  size: number
+  arc: string
+  color: string
 }
 
-// 1. 使用 useLazyFetch 懒加载请求博客文章数据（非阻塞，路由秒切），并开启 getCachedData 缓存复用
-const { data: post, status, error, refresh } = useLazyFetch<BlogPost>(apiUrl, {
-  // 开启内存缓存复用：从其他路由切回时直接从 nuxtApp 内存秒取，彻底免除重复网络请求
-  getCachedData(key, nuxtApp) {
-    return nuxtApp.payload.data[key]
-  },
-  // 规范化接口返回的 Markdown 换行符（CRLF -> LF），彻底消除客户端与服务端 Hydration text mismatch
-  transform(data) {
-    if (data && typeof data.text === 'string') {
-      data.text = data.text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
-    }
-    return data
-  }
+useSeoMeta({
+  title: '黄金螺旋实验室',
+  description: '观察斐波那契方块与四分之一圆弧如何逐步拼成螺旋。'
 })
 
-// 2. 将 Markdown 文本解析为包含 body AST 与 toc 目录树的 Content 数据结构
-// 启用 lazy 非阻塞模式与 getCachedData 缓存复用
-const { data: parsedPost } = useAsyncData(
-  'lab-parsed-blog-post',
-  async () => {
-    if (!post.value?.text) return null
-    return await parseMarkdown(post.value.text, { highlight: false })
-  },
-  {
-    lazy: true,
-    watch: [post],
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
+const colors = ['#fbbf24', '#fb923c', '#facc15', '#a3e635', '#4ade80', '#38bdf8', '#a78bfa']
+const sizes = [1, 1, 2, 3, 5, 8, 13]
+const squares: SpiralSquare[] = []
+const bounds = { left: 0, top: 0, right: 0, bottom: 0 }
+
+// 从相邻的两个 1×1 方块开始，依次向下、左、上、右添加新方块。
+for (const [index, size] of sizes.entries()) {
+  const direction = (index - 2) % 4
+  let x = bounds.left
+  let y = bounds.top
+  if (index === 1) x = 1
+  else if (index > 1) {
+    if (direction === 0) y = bounds.bottom
+    if (direction === 1) x = bounds.left - size
+    if (direction === 2) y = bounds.top - size
+    if (direction === 3) x = bounds.right
   }
-)
+
+  bounds.left = Math.min(bounds.left, x)
+  bounds.top = Math.min(bounds.top, y)
+  bounds.right = Math.max(bounds.right, x + size)
+  bounds.bottom = Math.max(bounds.bottom, y + size)
+
+  // 四种圆心位置轮换，邻接圆弧共用端点，形成一条连续的近似螺旋。
+  const arc = index % 4 === 0
+    ? `M ${x} ${y + size} A ${size} ${size} 0 0 0 ${x + size} ${y}`
+    : index % 4 === 1
+      ? `M ${x} ${y} A ${size} ${size} 0 0 0 ${x + size} ${y + size}`
+      : index % 4 === 2
+        ? `M ${x + size} ${y} A ${size} ${size} 0 0 0 ${x} ${y + size}`
+        : `M ${x + size} ${y + size} A ${size} ${size} 0 0 0 ${x} ${y}`
+
+  squares.push({ x, y, size, arc, color: colors[index]! })
+}
+
+const padding = 1.5
+const viewBox = `${bounds.left - padding} ${bounds.top - padding} ${bounds.right - bounds.left + padding * 2} ${bounds.bottom - bounds.top + padding * 2}`
+const replayKey = ref(0)
 </script>
 
 <template>
-  <div class="py-8 px-2 sm:px-4">
-    <!-- 加载中状态（当请求中或尚未解析完成时） -->
-    <div
-      v-if="status === 'pending' || (!parsedPost && !error)"
-      class="flex flex-col items-center justify-center py-20 gap-3"
-    >
-      <UIcon
-        name="i-lucide-loader-circle"
-        class="size-8 animate-spin text-primary"
-      />
-      <p class="text-sm text-muted">
-        正在拉取并解析博客富文本内容...
+  <section class="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-4 py-10 text-center sm:py-14">
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-[0.35em] text-amber-400/75">
+        Animation Laboratory
+      </p>
+      <h1 class="font-serif text-4xl font-bold tracking-[0.15em] text-amber-200 sm:text-5xl">
+        黄金螺旋
+      </h1>
+      <p class="font-serif text-lg text-amber-100/80 sm:text-xl">
+        r(θ) = aφ<sup>2θ/π</sup><span class="mx-3 text-amber-500/60">·</span>φ = (1 + √5) / 2
       </p>
     </div>
 
-    <!-- 加载失败状态 -->
-    <div
-      v-else-if="error"
-      class="flex flex-col items-center justify-center py-20 gap-4 text-center"
-    >
-      <UIcon
-        name="i-lucide-alert-triangle"
-        class="size-10 text-red-500"
-      />
-      <p class="text-base text-red-500 font-medium">
-        请求博客内容失败：{{ error.message }}
+    <div class="flex w-full flex-col items-center rounded-3xl border border-amber-200/10 bg-[#08090d] px-5 py-10 shadow-2xl sm:py-14">
+      <svg
+        :key="replayKey"
+        :viewBox="viewBox"
+        class="spiral-canvas h-[min(64vh,580px)] w-full max-w-[500px] overflow-visible"
+        role="img"
+        aria-label="斐波那契方块与圆弧依次绘制成黄金螺旋近似图"
+      >
+        <g
+          v-for="(square, index) in squares"
+          :key="index"
+        >
+          <rect
+            :x="square.x"
+            :y="square.y"
+            :width="square.size"
+            :height="square.size"
+            :stroke="square.color"
+            :style="{ animationDelay: `${index * 0.9}s` }"
+            class="spiral-square"
+            fill="none"
+            pathLength="1"
+          />
+          <path
+            :d="square.arc"
+            :style="{ animationDelay: `${index * 0.9 + 0.25}s` }"
+            class="spiral-arc"
+            fill="none"
+            pathLength="1"
+          />
+        </g>
+      </svg>
+
+      <p class="mt-5 max-w-lg text-sm leading-7 text-neutral-400">
+        按 1、1、2、3、5、8、13 的边长排列方块，再在每个方块内画一段四分之一圆弧。
+        这是黄金螺旋的常见近似画法，并非公式对应的精确曲线。
       </p>
       <UButton
+        class="mt-6"
         color="neutral"
-        variant="subtle"
+        variant="outline"
         icon="i-lucide-rotate-ccw"
-        @click="refresh()"
+        @click="replayKey++"
       >
-        重试
+        重播动画
       </UButton>
     </div>
-
-    <!-- 成功渲染：左侧文章正文 + 右侧 TOC 目录树两栏布局 -->
-    <div
-      v-else-if="post && parsedPost"
-      class="flex flex-col lg:flex-row gap-10 items-start"
-    >
-      <!-- 主体文章区 -->
-      <article class="flex-1 min-w-0 flex flex-col gap-8">
-        <!-- 文章头部元信息 -->
-        <header class="border-b border-muted/40 pb-6 flex flex-col gap-4">
-          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-highlighted">
-            {{ post.title }}
-          </h1>
-
-          <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
-            <span class="flex items-center gap-1.5">
-              <UIcon
-                name="i-lucide-calendar"
-                class="size-4"
-              />
-              {{ new Date(post.created).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }) }}
-            </span>
-
-            <span
-              v-if="post.tags?.length"
-              class="flex items-center gap-2"
-            >
-              <UIcon
-                name="i-lucide-tags"
-                class="size-4"
-              />
-              <span
-                v-for="tag in post.tags"
-                :key="tag"
-                class="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium"
-              >
-                {{ tag }}
-              </span>
-            </span>
-          </div>
-
-          <!-- 摘要引言块 -->
-          <blockquote
-            v-if="post.summary"
-            class="mt-2 pl-4 border-l-2 border-primary/60 text-sm italic text-muted-foreground bg-muted/20 py-2 pr-3 rounded-r-lg"
-          >
-            💡 <span class="font-medium not-italic text-default">摘要：</span>{{ post.summary }}
-          </blockquote>
-        </header>
-
-        <!-- 🌟 使用 Nuxt Content 官方 ContentRenderer 渲染富文本正文 -->
-        <main class="prose dark:prose-invert max-w-none">
-          <ContentRenderer :value="parsedPost" />
-        </main>
-      </article>
-    </div>
-  </div>
+  </section>
 </template>
+
+<style scoped>
+.spiral-square,
+.spiral-arc {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  animation: spiral-draw 0.8s ease-in-out forwards;
+}
+
+.spiral-square {
+  stroke-width: 1.5px;
+}
+
+.spiral-arc {
+  stroke: #f8fafc;
+  stroke-width: 2px;
+}
+
+@keyframes spiral-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spiral-square,
+  .spiral-arc {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+</style>
