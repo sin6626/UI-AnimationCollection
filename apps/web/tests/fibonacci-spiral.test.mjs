@@ -68,6 +68,7 @@ test('每一帧方形视窗都容纳已出现的方块', () => {
   const squares = context.spiralSquares
   const frames = context.cameraFrames
   assert.equal(frames.length, squares.length)
+  assert.equal(squares.length, 11, '应在原有七格后继续完成一圈螺旋')
 
   for (const [index, frame] of frames.entries()) {
     for (const square of squares.slice(0, index + 1)) {

@@ -19,7 +19,7 @@ useSeoMeta({
 })
 
 const colors = ['#fbbf24', '#fb923c', '#facc15', '#a3e635', '#4ade80', '#38bdf8', '#a78bfa']
-const sizes = [1, 1, 2, 3, 5, 8, 13]
+const sizes = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 const squares: SpiralSquare[] = []
 const cameraFrames: CameraFrame[] = []
 const bounds = { left: 0, top: 0, right: 0, bottom: 0 }
@@ -64,8 +64,10 @@ for (const [index, size] of sizes.entries()) {
   squares.push({ x, y, size, arc, color: colors[index]! })
 }
 
-const stepDuration = 900
-const zoomDuration = 700
+const stepDuration = 1100
+const zoomDuration = 850
+const drawDuration = 850
+const arcDelay = 250
 const camera = ref<CameraFrame>({ ...cameraFrames[0]! })
 const viewBox = computed(() => `${camera.value.x} ${camera.value.y} ${camera.value.size} ${camera.value.size}`)
 const replayKey = ref(0)
@@ -136,7 +138,8 @@ onBeforeUnmount(stopCamera)
         :style="{
           'width': 'min(100%, 56dvh, 520px)',
           '--square-stroke': String(camera.size / 350),
-          '--arc-stroke': String(camera.size / 260)
+          '--arc-stroke': String(camera.size / 260),
+          '--draw-duration': `${drawDuration}ms`
         }"
         role="img"
         aria-label="斐波那契方块与圆弧依次绘制成黄金螺旋近似图"
@@ -151,13 +154,13 @@ onBeforeUnmount(stopCamera)
             :width="square.size"
             :height="square.size"
             :stroke="square.color"
-            :style="{ '--dash-length': String(4 * square.size), 'animation-delay': `${index * 0.9}s` }"
+            :style="{ '--dash-length': String(4 * square.size), 'animation-delay': `${index * stepDuration}ms` }"
             class="spiral-square"
             fill="none"
           />
           <path
             :d="square.arc"
-            :style="{ '--dash-length': String(Math.PI * square.size / 2), 'animation-delay': `${index * 0.9 + 0.25}s` }"
+            :style="{ '--dash-length': String(Math.PI * square.size / 2), 'animation-delay': `${index * stepDuration + arcDelay}ms` }"
             class="spiral-arc"
             fill="none"
           />
@@ -165,7 +168,7 @@ onBeforeUnmount(stopCamera)
       </svg>
 
       <p class="mt-4 max-w-lg text-sm leading-6 text-neutral-400">
-        按 1、1、2、3、5、8、13 的边长排列方块，再在每个方块内画一段四分之一圆弧。
+        按斐波那契数列的边长排列方块，再在每个方块内画一段四分之一圆弧。
         这是黄金螺旋的常见近似画法，并非公式对应的精确曲线。
       </p>
       <UButton
@@ -188,7 +191,7 @@ onBeforeUnmount(stopCamera)
   stroke-dashoffset: var(--dash-length);
   stroke-linecap: round;
   stroke-linejoin: round;
-  animation: spiral-draw 0.8s ease-in-out forwards;
+  animation: spiral-draw var(--draw-duration) ease-in-out forwards;
 }
 
 .spiral-square {
