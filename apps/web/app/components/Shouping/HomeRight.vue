@@ -227,6 +227,8 @@ function goToPage(index: number) {
       >
         <!-- 每页最多 3 项，通过轮播覆盖全部站内区域 -->
         <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 w-full">
+          <!-- 这里的NuxtLink为了开屏动画必须要使用@click.capture，让点击时间直接在捕获阶段直接被拦截，并且取消默认的跳转 -->
+           <!-- 如果是普通的@click会在冒泡阶段被拦截，但是NuxtLink可能已经跳转了，属于很细节的的防御性编程，做动画讲究这一点差别 -->
           <NuxtLink
             v-for="nav in item"
             :key="nav.title"
