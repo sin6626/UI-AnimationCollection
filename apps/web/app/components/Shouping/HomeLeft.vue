@@ -7,15 +7,15 @@ interface SocialItem {
 
 const siteTitle = ref('SinのUI＆Animation')
 const greeting = ref('Welcome to the my little world')
-const description = ref('一个建立于 21 世纪的小站，存活于互联网的边缘')
+const description = ref('一个松鼠站，收藏着我喜爱的东西，现在是UI和动画，以后呢？')
 
 const socialList = ref<SocialItem[]>([
-  { name: 'GitHub', icon: 'ri:github-fill', url: '#' },
-  { name: 'Bilibili', icon: 'ri:bilibili-fill', url: '#' },
-  { name: 'QQ', icon: 'ri:qq-fill', url: '#' },
-  { name: 'Email', icon: 'ri:mail-fill', url: '#' },
-  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: '#' },
-  { name: 'Telegram', icon: 'ri:telegram-fill', url: '#' }
+  { name: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/sin6626' },
+  { name: 'Bilibili', icon: 'ri:bilibili-fill', url: 'https://space.bilibili.com/514794835?spm_id_from=333.1007.0.0' },
+  // { name: 'QQ', icon: 'ri:qq-fill', url: '#' },
+  // { name: 'Email', icon: 'ri:mail-fill', url: '#' },
+  { name: 'Twitter', icon: 'ri:twitter-x-fill', url: 'https://x.com/Sins6626' },
+  // { name: 'Telegram', icon: 'ri:telegram-fill', url: '#' }
 ])
 </script>
 

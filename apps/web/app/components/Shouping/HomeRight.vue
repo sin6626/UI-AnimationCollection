@@ -72,15 +72,37 @@ const weatherInfo = ref({
   icon: 'i-lucide-sun-medium'
 })
 
-// 网站快捷导航列表
-const navList = ref<NavItem[]>([
-  { title: '博客', icon: 'ri:quill-pen-line', url: '#' },
-  { title: '网盘', icon: 'ri:cloud-line', url: '#' },
-  { title: '音乐', icon: 'ri:disc-line', url: '/Music' },
-  { title: '起始页', icon: 'ri:compass-3-line', url: '#' },
-  { title: '网址集', icon: 'ri:book-read-line', url: '#' },
-  { title: '今日热榜', icon: 'ri:fire-line', url: '#' }
+// 网站快捷导航列表（按页划分，支持手势滑动轮播）
+const navPages = ref<NavItem[][]>([
+  [
+    { title: '博客（外）', icon: 'ri:quill-pen-line', url: '#' },
+    // { title: '网盘', icon: 'ri:cloud-line', url: '#' },
+    { title: '3D音乐', icon: 'ri:disc-line', url: '/Music' },
+    // { title: '首页', icon: 'ri:compass-3-line', url: '#' },
+    // { title: '网址集', icon: 'ri:book-read-line', url: '#' },
+    // { title: '今日热榜', icon: 'ri:fire-line', url: '#' }
+  ],
+  [
+    { title: '哔哩哔哩', icon: 'ri:bilibili-line', url: 'https://bilibili.com' },
+    { title: 'GitHub', icon: 'ri:github-line', url: 'https://github.com' },
+    { title: '开发文档', icon: 'ri:code-s-slash-line', url: '#' },
+    { title: '设计灵感', icon: 'ri:palette-line', url: '#' },
+    { title: '影视中心', icon: 'ri:movie-2-line', url: '#' },
+    { title: 'AI 实验室', icon: 'ri:robot-line', url: '/AiLaboratory' }
+  ]
 ])
+
+// 轮播状态与引用
+const carouselRef = ref<{ emblaApi?: any } | null>(null)
+const currentNavPageIndex = ref(0)
+
+function onPageSelect(index: number) {
+  currentNavPageIndex.value = index
+}
+
+function goToPage(index: number) {
+  carouselRef.value?.emblaApi?.scrollTo(index)
+}
 </script>
 
 <template>
@@ -137,25 +159,50 @@ const navList = ref<NavItem[]>([
         <span>网站列表</span>
       </div>
 
-      <!-- 快捷导航网格（6 栅格：每项占 2 列，刚好一行 3 项，共 2 行 6 项） -->
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-3">
-        <NuxtLink
-          v-for="item in navList"
-          :key="item.title"
-          :to="item.url"
-          class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
-        >
-          <UIcon :name="item.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
-          <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
-            {{ item.title }}
-          </span>
-        </NuxtLink>
-      </div>
+      <!-- UCarousel 轮播容器（内置 Embla Carousel，全面支持手势与鼠标拖拽滑动） -->
+      <UCarousel
+        ref="carouselRef"
+        v-slot="{ item }"
+        :items="navPages"
+        :ui="{
+          root: 'w-full',
+          viewport: 'overflow-hidden w-full',
+          container: 'flex-row -ms-0',
+          item: 'ps-0'
+        }"
+        @select="onPageSelect"
+      >
+        <!-- 每一页为 6 栅格：每项占 2 列，一行 3 项，共 2 行 6 项 -->
+        <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 w-full">
+          <NuxtLink
+            v-for="nav in item"
+            :key="nav.title"
+            :to="nav.url"
+            class="col-span-1 sm:col-span-2 bg-neutral-900/90 text-white rounded-2xl py-3.5 px-4 shadow-xl border border-neutral-700/50 backdrop-blur-md flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.03] hover:bg-neutral-800 hover:border-neutral-500/50 select-none group h-30"
+          >
+            <UIcon :name="nav.icon" class="text-lg text-neutral-300 group-hover:text-white transition-colors" />
+            <span class="text-sm font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors">
+              {{ nav.title }}
+            </span>
+          </NuxtLink>
+        </div>
+      </UCarousel>
 
-      <!-- 底部轮播/分页指示器 -->
+      <!-- 底部轮播/分页指示器（与 UCarousel 状态联动，支持点击与手势跟随） -->
       <div class="flex items-center justify-center gap-1.5 mt-2">
-        <span class="w-6 h-1 rounded-full bg-white" />
-        <span class="w-1.5 h-1 rounded-full bg-white/40" />
+        <button
+          v-for="(_, index) in navPages"
+          :key="index"
+          type="button"
+          :class="[
+            'h-1 rounded-full transition-all duration-300 cursor-pointer',
+            currentNavPageIndex === index
+              ? 'w-6 bg-white'
+              : 'w-1.5 bg-white/40 hover:bg-white/70'
+          ]"
+          :aria-label="`切换至第 ${index + 1} 页导航`"
+          @click="goToPage(index)"
+        />
       </div>
     </div>
   </div>
