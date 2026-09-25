@@ -19,9 +19,9 @@ services:
       PORT: 3001
       NODE_ENV: production
     networks:
-      - app-net
+      - web-net
 
 networks:
   app-net:
     external: true
-    name: app-net
+    name: web-net

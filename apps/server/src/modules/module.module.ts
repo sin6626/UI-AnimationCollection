@@ -1,12 +1,26 @@
 // module.ts
-import { Module } from '@nestjs/common';
-import { CommonModule } from './module_common/common.module.js';
-import { LogsModule } from './module_logs/module.logs.js';
-import { UsersModule } from './module_user/users.module.js';
-import { EmailModule } from './module_email/email.module.js';
+import {Module} from '@nestjs/common';
+import {CommonModule} from './module_common/common.module.js';
+import {LogsModule} from './module_logs/module.logs.js';
+import {UsersModule} from './module_user/users.module.js';
+import {EmailModule} from './module_email/email.module.js';
+import {KommentarModule} from "./module_kommentar/module.kommentar.js";
 
 @Module({
-    imports: [CommonModule, LogsModule, UsersModule, EmailModule],
-    exports: [CommonModule, LogsModule, UsersModule, EmailModule],
+    imports: [
+        CommonModule,
+        LogsModule,
+        UsersModule,
+        EmailModule,
+        KommentarModule
+    ],
+    exports: [
+        CommonModule,
+        LogsModule,
+        UsersModule,
+        EmailModule,
+        KommentarModule
+    ],
 })
-export class ModulesModule {}
+export class ModulesModule {
+}
