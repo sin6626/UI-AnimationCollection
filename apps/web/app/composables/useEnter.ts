@@ -10,7 +10,8 @@ export function useEnter() {
   async function enter(path: string) {
     if (isEntering.value) return
     const to = localePath(path)
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !pageRef.value) {
+    const sourcePage = pageRef.value
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !sourcePage) {
       await navigateTo(to)
       return
     }
@@ -33,7 +34,7 @@ export function useEnter() {
 
       const scene = document.createElement('div')
       scene.className = 'visit-door-scene'
-      const snapshot = pageRef.value!.cloneNode(true) as HTMLElement
+      const snapshot = sourcePage.cloneNode(true) as HTMLElement
       snapshot.style.width = '100vw'
       snapshot.style.minWidth = '100vw'
       snapshot.style.transform = `translateY(-${window.scrollY}px)`
@@ -50,8 +51,30 @@ export function useEnter() {
     document.body.append(overlay)
 
     try {
-      // 等目标页面就位，再把覆盖它的两半画面向外移走。
+      // navigateTo 返回时目标页可能仍在加载，尤其是开发环境首次访问。
       await navigateTo(to)
+      if (sourcePage.isConnected) {
+        await new Promise<void>((resolve, reject) => {
+          const observer = new MutationObserver(() => {
+            if (!sourcePage.isConnected) {
+              clearTimeout(timeout)
+              observer.disconnect()
+              resolve()
+            }
+          })
+          const timeout = setTimeout(() => {
+            observer.disconnect()
+            reject(new Error('目标页面渲染超时'))
+          }, 15000)
+          observer.observe(document.getElementById('__nuxt') ?? document.body, { childList: true, subtree: true })
+          if (!sourcePage.isConnected) {
+            clearTimeout(timeout)
+            observer.disconnect()
+            resolve()
+          }
+        })
+      }
+      // 旧页面卸载后再等浏览器绘制一帧，门后才会是目标页面。
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
 
       const animations = panels.map((panel, index) => panel.animate(
