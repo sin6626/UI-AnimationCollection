@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import 'dayjs/locale/en'
 import NumberFlow from '@number-flow/vue'
 import { useLocalWeather } from '~/Api/weather'
 
@@ -33,36 +34,21 @@ const { data: internalContent } = await useAsyncData(`landing-internal-${locale.
   return { ui, animation }
 }, { watch: [locale] })
 
-// 诗词数据池
-const poems = [
-  {
-    content: '黑云翻墨未遮山，白雨跳珠乱入船。',
-    author: '「六月二十七日望湖楼醉书」'
-  },
-  {
-    content: '长风破浪会有时，直挂云帆济沧海。',
-    author: '「行路难·其一」'
-  },
-  {
-    content: '落霞与孤鹜齐飞，秋水共长天一色。',
-    author: '「滕王阁序」'
-  },
-  {
-    content: '山重水复疑无路，柳暗花明又一村。',
-    author: '「游山西村」'
-  }
-]
+const poems = computed(() => [1, 2, 3, 4].map(index => ({
+  content: t(`landing.poems.${index}.content`),
+  author: t(`landing.poems.${index}.author`)
+})))
 
 const currentPoemIndex = ref(0)
-const currentPoem = computed(() => poems[currentPoemIndex.value] ?? poems[0]!)
+const currentPoem = computed(() => poems.value[currentPoemIndex.value] ?? poems.value[0]!)
 
 function nextPoem() {
-  currentPoemIndex.value = (currentPoemIndex.value + 1) % poems.length
+  currentPoemIndex.value = (currentPoemIndex.value + 1) % poems.value.length
 }
 
 // 实时时间计算（使用 ClientOnly 避免 SSR 水合不一致）
 const now = ref(dayjs())
-const currentDate = computed(() => now.value.locale('zh-cn').format('YYYY 年 MM 月 DD 日 dddd'))
+const currentDate = computed(() => now.value.locale(locale.value === 'en' ? 'en' : 'zh-cn').format(locale.value === 'en' ? 'dddd, MMMM D, YYYY' : 'YYYY 年 MM 月 DD 日 dddd'))
 const hours = computed(() => now.value.hour())
 const minutes = computed(() => now.value.minute())
 const seconds = computed(() => now.value.second())
@@ -83,6 +69,16 @@ onBeforeUnmount(() => {
 })
 
 const { weatherInfo } = useLocalWeather()
+const weatherCondition = computed(() => {
+  const conditions: Record<string, string> = {
+    '获取位置中…': 'locating', '定位不可用': 'locationUnavailable',
+    '天气加载中…': 'loading', '天气不可用': 'unavailable', '未授权定位': 'locationDenied',
+    '晴朗': 'clear', '多云': 'partlyCloudy', '阴天': 'cloudy', '有雾': 'fog',
+    '毛毛雨': 'drizzle', '有雨': 'rain', '有雪': 'snow', '阵雨': 'showers',
+    '阵雪': 'snowShowers', '雷雨': 'thunderstorm'
+  }
+  return t(`landing.weather.${conditions[weatherInfo.value.condition] ?? 'unavailable'}`)
+})
 
 // 固定入口由路由决定；作品入口从内容集合生成，再按每页 6 项分组。
 const navPagesIn = computed<NavItem[][]>(() => {
@@ -133,8 +129,8 @@ function goToPage(index: number) {
     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4">
       <!-- 诗词卡片（占 3 列） -->
       <div
-        class="sm:col-span-3 bg-neutral-900/90 text-white rounded-2xl p-5 shadow-2xl border border-neutral-700/50 backdrop-blur-md flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:bg-neutral-800/90 select-none group min-h-[140px]"
-        title="点击切换下一首诗词"
+        class="sm:col-span-3 bg-neutral-900/90 text-white rounded-2xl p-5 shadow-2xl border border-neutral-700/50 backdrop-blur-md flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:bg-neutral-800/90 select-none group min-h-[160px]"
+        :title="t('landing.nextPoem')"
         @click="nextPoem"
       >
         <p class="text-sm sm:text-base font-serif leading-relaxed line-clamp-3 text-neutral-200">
@@ -168,14 +164,14 @@ function goToPage(index: number) {
           <!-- 天气概况 -->
           <div class="flex items-center gap-1.5 text-xs text-neutral-400">
             <UIcon :name="weatherInfo.icon" class="text-sm" />
-            <span>当前位置 {{ weatherInfo.temp }} {{ weatherInfo.condition }}</span>
+            <span>{{ t('landing.currentLocation') }} {{ weatherInfo.temp }} {{ weatherCondition }}</span>
             <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" class="text-[10px] text-neutral-500 hover:text-neutral-300">Open-Meteo</a>
           </div>
         </div>
 
         <template #fallback>
           <div class="sm:col-span-3 bg-neutral-900/90 text-white rounded-2xl p-5 shadow-2xl border border-neutral-700/50 backdrop-blur-md flex flex-col items-center justify-center min-h-[140px]">
-            <span class="text-neutral-500 text-xs">加载时间中...</span>
+            <span class="text-neutral-500 text-xs">{{ t('landing.loadingTime') }}</span>
           </div>
         </template>
       </ClientOnly>
@@ -186,7 +182,7 @@ function goToPage(index: number) {
       <!-- 区域标题 -->
       <div class="flex items-center gap-2 text-white font-medium text-sm">
         <UIcon name="ri:links-line" class="text-base text-white/80" />
-        <span>站外列表</span>
+        <span>{{ t('landing.externalLinks') }}</span>
       </div>
 
       <!-- UCarousel 轮播容器（内置 Embla Carousel，全面支持手势与鼠标拖拽滑动） -->
@@ -220,7 +216,7 @@ function goToPage(index: number) {
       <!-- 区域标题 -->
       <div class="flex items-center gap-2 text-white font-medium text-sm">
         <UIcon name="ri:links-line" class="text-base text-white/80" />
-        <span>站内列表</span>
+        <span>{{ t('landing.internalLinks') }}</span>
       </div>
       <UCarousel
         ref="internalCarouselRef"
@@ -265,7 +261,7 @@ function goToPage(index: number) {
               ? 'w-6 bg-white'
               : 'w-1.5 bg-white/40 hover:bg-white/70'
           ]"
-          :aria-label="`切换至第 ${index + 1} 页导航`"
+          :aria-label="t('landing.navigationPage', { page: index + 1 })"
           @click="goToPage(index)"
         />
       </div>

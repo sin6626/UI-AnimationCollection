@@ -9,6 +9,30 @@
     "title": "我是 Sin，这是我写 UI 和动画的地方",
     "description": "一个专门用来写组件、UI 设计与动画的仓库，收集各个角落自己喜欢的东西。"
   },
+  "landing": {
+    "enterHome": "进入首页",
+    "greeting": "Welcome to my little world",
+    "description": "一个松鼠站，收藏着我喜爱的东西，现在是 UI 和动画，以后呢？",
+    "visit": "进入网站",
+    "nextPoem": "点击切换下一首诗词",
+    "currentLocation": "当前位置",
+    "loadingTime": "加载时间中...",
+    "externalLinks": "站外列表",
+    "internalLinks": "站内列表",
+    "navigationPage": "切换至第 {page} 页导航",
+    "poems": {
+      "1": { "content": "黑云翻墨未遮山，白雨跳珠乱入船。", "author": "「六月二十七日望湖楼醉书」" },
+      "2": { "content": "长风破浪会有时，直挂云帆济沧海。", "author": "「行路难·其一」" },
+      "3": { "content": "落霞与孤鹜齐飞，秋水共长天一色。", "author": "「滕王阁序」" },
+      "4": { "content": "山重水复疑无路，柳暗花明又一村。", "author": "「游山西村」" }
+    },
+    "weather": {
+      "locating": "获取位置中…", "locationUnavailable": "定位不可用", "loading": "天气加载中…",
+      "unavailable": "天气不可用", "locationDenied": "未授权定位", "clear": "晴朗",
+      "partlyCloudy": "多云", "cloudy": "阴天", "fog": "有雾", "drizzle": "毛毛雨",
+      "rain": "有雨", "snow": "有雪", "showers": "阵雨", "snowShowers": "阵雪", "thunderstorm": "雷雨"
+    }
+  },
   "categories": {
     "UI": "UI",
     "Animation": "动画"

@@ -9,6 +9,30 @@
     "title": "I'm Sin. This is where I build UI and animation.",
     "description": "A collection of components, UI experiments, and animations I enjoy from all over the web."
   },
+  "landing": {
+    "enterHome": "Enter home",
+    "greeting": "Welcome to my little world",
+    "description": "A little collection of things I love. For now, UI and animation. What comes next?",
+    "visit": "Visit",
+    "nextPoem": "Show another poem",
+    "currentLocation": "Local weather",
+    "loadingTime": "Loading time...",
+    "externalLinks": "External links",
+    "internalLinks": "Explore this site",
+    "navigationPage": "Go to navigation page {page}",
+    "poems": {
+      "1": { "content": "Dark clouds spill ink, yet leave the hills in sight; white raindrops leap like pearls into the boat.", "author": "Su Shi · Rain at the Lake" },
+      "2": { "content": "A time will come to ride the wind and waves, and set my sail across the open sea.", "author": "Li Bai · The Hard Road" },
+      "3": { "content": "The sunset cloud and lone wild duck fly together; autumn water and vast sky share one hue.", "author": "Wang Bo · Preface to the Pavilion" },
+      "4": { "content": "Where mountains and rivers seem to end the road, a village appears among willows and blossoms.", "author": "Lu You · Visiting a Village" }
+    },
+    "weather": {
+      "locating": "Locating…", "locationUnavailable": "Location unavailable", "loading": "Loading weather…",
+      "unavailable": "Weather unavailable", "locationDenied": "Location access denied", "clear": "Clear",
+      "partlyCloudy": "Partly cloudy", "cloudy": "Cloudy", "fog": "Foggy", "drizzle": "Drizzle",
+      "rain": "Rain", "snow": "Snow", "showers": "Showers", "snowShowers": "Snow showers", "thunderstorm": "Thunderstorm"
+    }
+  },
   "categories": {
     "UI": "UI",
     "Animation": "Animation"

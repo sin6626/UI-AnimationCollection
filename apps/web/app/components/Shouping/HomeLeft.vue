@@ -9,9 +9,8 @@ interface SocialItem {
   url: string
 }
 
-const siteTitle = ref('SinのUI＆Animation')
-const greeting = ref('Welcome to the my little world')
-const description = ref('一个松鼠站，收藏着我喜爱的东西，现在是UI和动画，以后呢？')
+const { t } = useI18n()
+const siteTitle = 'SinのUI＆Animation'
 
 const socialList = ref<SocialItem[]>([
   { name: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/sin6626' },
@@ -30,7 +29,7 @@ const socialList = ref<SocialItem[]>([
       <!-- 头像 / 圆形 Logo shrink-0 禁止压缩, 保证图标大小 -->
       <button
         type="button"
-        aria-label="进入首页"
+        :aria-label="t('landing.enterHome')"
         class="relative group cursor-pointer shrink-0"
         @click="enter('/home')"
       >
@@ -63,10 +62,10 @@ const socialList = ref<SocialItem[]>([
       <!-- 卡片文本主体 -->
       <div class="px-2 sm:px-3">
         <h2 class="text-xl sm:text-2xl font-bold tracking-wide italic font-serif text-white/95">
-          {{ greeting }}
+          {{ t('landing.greeting') }}
         </h2>
         <p class="mt-2 text-sm sm:text-base text-neutral-300 leading-relaxed font-sans">
-          {{ description }}
+          {{ t('landing.description') }}
         </p>
       </div>
 
