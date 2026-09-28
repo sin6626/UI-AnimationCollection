@@ -1,4 +1,6 @@
 title: "Polaroid UI: A little instant-photo component"
+navTitle: "Polaroid UI"
+navIcon: "ri:image-line"
 date: "2026-7-21"
 src: "/polaroid.png"
 description: "An instant-photo stamp component for paired sites or photo walls."

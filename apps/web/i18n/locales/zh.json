@@ -28,6 +28,12 @@
   "laboratory": {
     "button": "点这里"
   },
+  "landingLinks": {
+    "music": "3D音乐",
+    "uiCollection": "UI 合集",
+    "animationCollection": "动画合集",
+    "mainHome": "主站首页"
+  },
   "goldLoop": {
     "title": "黄金回旋",
     "laboratoryTitle": "黄金螺旋实验室",

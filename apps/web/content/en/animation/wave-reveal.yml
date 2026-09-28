@@ -1,4 +1,6 @@
 title: "WaveReveal + Logo Stroke: A wave reveal animation"
+navTitle: "Wave Reveal"
+navIcon: "ri:water-flash-line"
 date: "2026-07-28"
 src: "/WaveReveal.png"
 description: "A preloader showcase adapted from BenjaminOddou/portfolio, combining SVG strokes with a GSAP wave transition."

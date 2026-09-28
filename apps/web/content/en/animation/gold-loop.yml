@@ -1,4 +1,6 @@
 title: "Golden Spin"
+navTitle: "Golden Spin"
+navIcon: "lucide:orbit"
 date: "2026-09-28"
 src: "/GoldLoop.png"
 description: "I made this on a whim with GPT-6 Sol to celebrate the airing of Steel Ball Run, and the result exceeded my expectations. It arranges SVG squares by Fibonacci side lengths and draws a quarter-circle arc in each one. Setting stroke-dasharray to each path's length and animating stroke-dashoffset from that length to zero reveals the square and arc strokes in sequence; requestAnimationFrame smoothly expands the viewBox as the spiral grows."

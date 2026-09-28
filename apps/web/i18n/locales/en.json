@@ -28,6 +28,12 @@
   "laboratory": {
     "button": "Click There"
   },
+  "landingLinks": {
+    "music": "3D Music",
+    "uiCollection": "UI Collection",
+    "animationCollection": "Animation Collection",
+    "mainHome": "Main Home"
+  },
   "goldLoop": {
     "title": "Golden Spin",
     "laboratoryTitle": "Golden Spiral Laboratory",

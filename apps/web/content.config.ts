@@ -2,6 +2,9 @@ import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 const itemSchema = z.object({
   title: z.string(),
+  // 首屏快捷导航使用短标题和图标，详情页仍使用完整 title。
+  navTitle: z.string(),
+  navIcon: z.string(),
   date: z.date(),
   description: z.string(),
   src: z.string()

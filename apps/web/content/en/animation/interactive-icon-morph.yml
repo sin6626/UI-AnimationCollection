@@ -1,4 +1,6 @@
 title: "InteractiveIconMorph: An interactive icon morph"
+navTitle: "Icon Morph"
+navIcon: "ri:shape-line"
 date: "2026-07-29"
 src: "/InteractiveIconMorph.png"
 description: "A menu icon study adapted from BenjaminOddou/portfolio, with GSAP-driven SVG morphing and rotating circular type."
