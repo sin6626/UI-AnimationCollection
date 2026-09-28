@@ -28,6 +28,14 @@
   "laboratory": {
     "button": "Click There"
   },
+  "goldLoop": {
+    "title": "Golden Spin",
+    "laboratoryTitle": "Golden Spiral Laboratory",
+    "seoDescription": "Watch Fibonacci squares and quarter-circle arcs gradually form a spiral.",
+    "ariaLabel": "Fibonacci squares and arcs are drawn in sequence to approximate a golden spiral",
+    "explanation": "Squares with Fibonacci side lengths are arranged in sequence, then a quarter-circle arc is drawn inside each one. This is a common approximation of a golden spiral, not the exact curve described by the formula.",
+    "replay": "Replay animation"
+  },
   "common": {
     "backHome": "Back to Home",
     "switchLanguage": "Switch to Chinese"

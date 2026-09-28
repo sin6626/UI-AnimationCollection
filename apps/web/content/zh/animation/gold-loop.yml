@@ -1,0 +1,4 @@
+title: "黄金回旋"
+date: "2026-09-28"
+src: "/GoldLoop.png"
+description: "为了庆祝飙马野郎的播出而随性6 sol coding的，实现超出了我的预料。实现方式是，按斐波那契数列计算方块的边长与位置，在每个方块中用 SVG 绘制一段四分之一圆弧；将 stroke-dasharray 设为路径长度，用 stroke-dashoffset 把描边移出可见范围，再将偏移量动画过渡到 0，让方块和圆弧逐段显现；同时用 requestAnimationFrame 平滑调整 viewBox，让镜头跟随螺旋向外扩展。"

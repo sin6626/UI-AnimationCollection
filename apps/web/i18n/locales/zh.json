@@ -28,6 +28,14 @@
   "laboratory": {
     "button": "点这里"
   },
+  "goldLoop": {
+    "title": "黄金回旋",
+    "laboratoryTitle": "黄金螺旋实验室",
+    "seoDescription": "观察斐波那契方块与四分之一圆弧如何逐步拼成螺旋。",
+    "ariaLabel": "斐波那契方块与圆弧依次绘制成黄金螺旋近似图",
+    "explanation": "按斐波那契数列的边长排列方块，再在每个方块内画一段四分之一圆弧。这是黄金螺旋的常见近似画法，并非公式对应的精确曲线。",
+    "replay": "重播动画"
+  },
   "common": {
     "backHome": "返回首页",
     "switchLanguage": "切换至 English"
