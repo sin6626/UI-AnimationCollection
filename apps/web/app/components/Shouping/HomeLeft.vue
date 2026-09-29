@@ -10,7 +10,6 @@ interface SocialItem {
 }
 
 const { t } = useI18n()
-const siteTitle = 'SinのUI＆Animation'
 
 const socialList = ref<SocialItem[]>([
   { name: 'GitHub', icon: 'ri:github-fill', url: 'https://github.com/sin6626' },
@@ -46,8 +45,8 @@ const socialList = ref<SocialItem[]>([
 
       <!-- 站点标题 -->
       <div class="flex flex-col">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white select-none font-serif italic">
-          {{ siteTitle }}
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white select-none font-serif italic whitespace-nowrap" aria-label="SinのUI＆Animation">
+          <span class="sin-word"><span class="sin-char sin-s">S</span><span class="sin-char sin-i">i</span><span class="sin-char sin-n">n</span></span><span class="title-rest">のUI＆Animation</span>
         </h1>
       </div>
     </div>
@@ -91,3 +90,60 @@ const socialList = ref<SocialItem[]>([
     </div>
   </div>
 </template>
+
+<style scoped>
+.sin-word {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.sin-char {
+  display: inline-block;
+  vertical-align: baseline;
+  clip-path: inset(0 100% 0 0);
+  animation: write-char 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.sin-s { animation-delay: 0.15s; }
+.sin-i { animation-delay: 0.6s; }
+.sin-n { animation-delay: 1.05s; }
+
+.title-rest {
+  display: inline-block;
+  vertical-align: baseline;
+  opacity: 0;
+  animation: title-enter 0.6s ease-out 1.55s forwards;
+}
+
+@keyframes write-char {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes title-enter {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sin-char {
+    clip-path: none;
+    opacity: 1;
+    animation: none;
+  }
+  .title-rest {
+    opacity: 1;
+    animation: none;
+  }
+}
+</style>
