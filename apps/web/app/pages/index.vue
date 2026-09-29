@@ -87,11 +87,13 @@ function handleMouseLeave(event: MouseEvent) {
         </span>
       </UButton>
 
+
+
       <!-- 版权信息 -->
-      <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-neutral-400">
+      <div class="text-xs text-neutral-400">
         <!-- &copy是版本符号 &bull是圆点符号  -->
         <p>Copyright &copy; {{ new Date().getFullYear() }} &bull; Made with &hearts;</p>
-        <LocaleSwitch class="rounded-full border border-white/20 bg-neutral-900/60 text-white" />
+        <LocaleSwitch class="rounded-full inline border border-white/20 bg-neutral-900/60 text-white" />
       </div>
     </footer>
   </div>
