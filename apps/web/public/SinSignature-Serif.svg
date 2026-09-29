@@ -3,7 +3,7 @@
     .guide { fill: none; stroke: white; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0 var(--length); opacity: 0; animation: write var(--duration) ease-in-out var(--delay) forwards; }
     .s { --length: 1452; --duration: 1.45s; --delay: .12s; }
     .i { --length: 860; --duration: 1s; --delay: 1.62s; }
-    .n { --length: 1757; --duration: 1.45s; --delay: 2.8s; }
+    .n { --length: 1757; --duration: 1.45s; --delay: 3.12s; }
     .glyph { fill: white; stroke: white; stroke-width: 32; stroke-linejoin: round; }
     .dot { fill: white; opacity: 0; animation: finish .15s 2.64s forwards; }
     @keyframes write { 1% { opacity: 1; } to { opacity: 1; stroke-dasharray: var(--length) 0; } }
