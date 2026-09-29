@@ -96,7 +96,7 @@ const socialList = ref<SocialItem[]>([
   display: inline-block;
   vertical-align: baseline;
   opacity: 0;
-  animation: title-enter 0.6s ease-out 3.3s forwards;
+  animation: title-enter 0.6s ease-out 4.3s forwards;
 }
 
 @keyframes title-enter {
