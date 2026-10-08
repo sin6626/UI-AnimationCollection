@@ -49,6 +49,11 @@
     "view": "查看动画",
     "back": "返回动画"
   },
+  "aiLaboratory": {
+    "language": "选择代码语言",
+    "plainText": "无",
+    "apiKey": "DeepSeek API Key"
+  },
   "laboratory": {
     "button": "点这里"
   },

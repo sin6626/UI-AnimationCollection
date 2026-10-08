@@ -49,6 +49,11 @@
     "view": "View Animation",
     "back": "Back to Animation"
   },
+  "aiLaboratory": {
+    "language": "Select code language",
+    "plainText": "None",
+    "apiKey": "DeepSeek API Key"
+  },
   "laboratory": {
     "button": "Click There"
   },
