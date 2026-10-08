@@ -14,6 +14,8 @@
     "@applemusic-like-lyrics/core": "^0.5.2",
     "@applemusic-like-lyrics/lyric": "^1.0.2",
     "@applemusic-like-lyrics/vue": "^0.5.2",
+    "@lezer/go": "^1.0.1",
+    "@lezer/python": "^1.1.19",
     "@lottiefiles/dotlottie-vue": "^0.11.23",
     "@number-flow/vue": "^0.5.2",
     "@nuxt/content": "^3.16.1",

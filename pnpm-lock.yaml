@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  monaco-editor@0.57.0: d872cb116e156b70c828dacc00fc17030deeb270f5eaf32f09c3a5ebccc903a7
+
 importers:
 
   .: {}
@@ -137,6 +140,12 @@ importers:
       '@applemusic-like-lyrics/vue':
         specifier: ^0.5.2
         version: 0.5.2(@pixi/app@7.4.3(@pixi/core@7.4.3)(@pixi/display@7.4.3(@pixi/core@7.4.3)))(@pixi/core@7.4.3)(@pixi/display@7.4.3(@pixi/core@7.4.3))(@pixi/filter-blur@7.4.3(@pixi/core@7.4.3))(@pixi/filter-bulge-pinch@5.1.1(@pixi/core@7.4.3))(@pixi/filter-color-matrix@7.4.3(@pixi/core@7.4.3))(@pixi/sprite@7.4.3(@pixi/core@7.4.3)(@pixi/display@7.4.3(@pixi/core@7.4.3)))(vue@3.5.40(typescript@5.9.3))
+      '@lezer/go':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@lezer/python':
+        specifier: ^1.1.19
+        version: 1.1.19
       '@lottiefiles/dotlottie-vue':
         specifier: ^0.11.23
         version: 0.11.23(vue@3.5.40(typescript@5.9.3))
@@ -172,7 +181,7 @@ importers:
         version: 3.15.0
       monaco-editor:
         specifier: ^0.57.0
-        version: 0.57.0
+        version: 0.57.0(patch_hash=d872cb116e156b70c828dacc00fc17030deeb270f5eaf32f09c3a5ebccc903a7)
       motion-v:
         specifier: ^2.3.0
         version: 2.3.0(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(vue@3.5.40(typescript@5.9.3))
@@ -1743,6 +1752,21 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lezer/common@1.5.3':
+    resolution: {integrity: sha512-H0iErY4e43LpXbYDyBci5W4v/RwTgGV3YzYOlJPiGZ8RY8w51kVE+xLn1tg3Z6UmSfyETvtsUK3r7YsgDQEI7Q==}
+
+  '@lezer/go@1.0.1':
+    resolution: {integrity: sha512-xToRsYxwsgJNHTgNdStpcvmbVuKxTapV0dM0wey1geMMRc9aggoVyKgzYp41D2/vVOx+Ii4hmE206kvxIXBVXQ==}
+
+  '@lezer/highlight@1.2.5':
+    resolution: {integrity: sha512-O1GMVKgtf5YspFaRzpmqkVgMtIk2HG9uMAbH6wdAIdNh3TVzCsch/+cRi+6l2//UGDKe6NB9BW3cvuR5ezMQ0w==}
+
+  '@lezer/lr@1.4.11':
+    resolution: {integrity: sha512-UwgZcl1R66H2hDzBrA7kWyYmX6s8p5TQ+e/t7CuvgCtBEPxbEPaHYHu+pJBvTvDotEJpuQkJjbXuHiw5Cixxgw==}
+
+  '@lezer/python@1.1.19':
+    resolution: {integrity: sha512-MhQIURHRytsNzP/YXnqpYKW6la6voAH3kyplTOOiCdjyFY6cWWGFVmYVdHIPrElqSDf4iCDktQCockB9FxuhzQ==}
 
   '@lottiefiles/dotlottie-vue@0.11.23':
     resolution: {integrity: sha512-ThMrpMGVbaoCQ3yfpmMZCM05wBH4XQp1Z1RFBAmyLMMrPajMWoMx9mmfoQsenN0mSN5YtcSHe9E46yXuWKKGpQ==}
@@ -10847,6 +10871,28 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
+  '@lezer/common@1.5.3': {}
+
+  '@lezer/go@1.0.1':
+    dependencies:
+      '@lezer/common': 1.5.3
+      '@lezer/highlight': 1.2.5
+      '@lezer/lr': 1.4.11
+
+  '@lezer/highlight@1.2.5':
+    dependencies:
+      '@lezer/common': 1.5.3
+
+  '@lezer/lr@1.4.11':
+    dependencies:
+      '@lezer/common': 1.5.3
+
+  '@lezer/python@1.1.19':
+    dependencies:
+      '@lezer/common': 1.5.3
+      '@lezer/highlight': 1.2.5
+      '@lezer/lr': 1.4.11
+
   '@lottiefiles/dotlottie-vue@0.11.23(vue@3.5.40(typescript@5.9.3))':
     dependencies:
       '@lottiefiles/dotlottie-web': 0.78.2
@@ -17046,7 +17092,7 @@ snapshots:
 
   mocked-exports@0.1.1: {}
 
-  monaco-editor@0.57.0:
+  monaco-editor@0.57.0(patch_hash=d872cb116e156b70c828dacc00fc17030deeb270f5eaf32f09c3a5ebccc903a7):
     dependencies:
       dompurify: 3.4.15
       marked: 14.0.0

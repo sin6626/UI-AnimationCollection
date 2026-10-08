@@ -9,3 +9,7 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   vue-demi: true
+
+# Monaco 0.57：处理补全取消异常，关闭有初始化问题的首次编辑预览引导。
+patchedDependencies:
+  monaco-editor@0.57.0: patches/monaco-editor@0.57.0.patch

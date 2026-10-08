@@ -1,0 +1,36 @@
+--- a/esm/vs/editor/contrib/inlineCompletions/browser/controller/inlineCompletionsController.js
++++ b/esm/vs/editor/contrib/inlineCompletions/browser/controller/inlineCompletionsController.js
+@@ -1,5 +1,6 @@
+ import { alert } from '../../../../../base/browser/ui/aria/aria.js';
+ import { timeout } from '../../../../../base/common/async.js';
++import { isCancellationError } from '../../../../../base/common/errors.js';
+ import { cancelOnDispose } from '../../../../../base/common/cancellation.js';
+ import { createHotClass } from '../../../../../base/common/hotReloadHelpers.js';
+ import { Disposable, toDisposable } from '../../../../../base/common/lifecycle.js';
+@@ -309,8 +310,13 @@
+             if (!state || !model) {
+                 return;
+             }
+-            await timeout(50, cancelOnDispose(store));
+-            await waitForState(this._suggestWidgetAdapter.selectedItem, isUndefined, () => false, cancelOnDispose(store));
++            try {
++                await timeout(50, cancelOnDispose(store));
++                await waitForState(this._suggestWidgetAdapter.selectedItem, isUndefined, () => false, cancelOnDispose(store));
++            } catch (error) {
++                if (isCancellationError(error)) { return; }
++                throw error;
++            }
+             model = this.model.get();
+             state = model?.state.get();
+             if (!state || !model) {
+--- a/esm/vs/editor/contrib/inlineCompletions/browser/view/inlineEdits/inlineEditsNewUsers.js
++++ b/esm/vs/editor/contrib/inlineCompletions/browser/view/inlineEdits/inlineEditsNewUsers.js
+@@ -58,6 +58,8 @@
+         this._setupDone.set(true, undefined);
+     }
+     setupNewUserExperience() {
++        // Standalone editor: skip onboarding animation before icon refs are initialized.
++        return undefined;
+         if (this.getNewUserType() === UserKind.Active) {
+             return undefined;
+         }

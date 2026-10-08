@@ -50,9 +50,25 @@
     "back": "Back to Animation"
   },
   "aiLaboratory": {
+    "syntaxError": "{language} syntax error",
     "language": "Select code language",
     "plainText": "None",
-    "apiKey": "DeepSeek API Key"
+    "apiKey": "DeepSeek API Key",
+    "idle": "Auto-complete as you type · Tab to accept · Esc to dismiss",
+    "loading": "Generating completion…",
+    "ready": "Suggestion ready · Tab to accept",
+    "empty": "No suggestion available",
+    "generate": "Generate completion",
+    "accept": "Accept AI completion",
+    "invalidInput": "Invalid code context",
+    "missingKey": "Enter an API key to enable completion",
+    "invalidKey": "Invalid API key",
+    "insufficientBalance": "Insufficient DeepSeek balance",
+    "rateLimited": "Too many requests. Try again later",
+    "upstreamError": "Model service unavailable",
+    "invalidResponse": "Invalid model response",
+    "timeout": "Completion request timed out",
+    "networkError": "Unable to connect to completion service"
   },
   "laboratory": {
     "button": "Click There"

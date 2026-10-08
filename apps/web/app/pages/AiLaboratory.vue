@@ -2,11 +2,11 @@
 import MonacoEditor from './ui/MonacoEditor.client.vue'
 
 const { t } = useI18n()
-// 页面保存代码内容；切换语言只改变语法模式，不清空已输入的代码。
+// 页面同步当前语言的代码；每种语言的独立模型由编辑器保存，切回时恢复。
 const code = ref('')
 const language = ref('typescript')
 const languageMenuOpen = ref(false)
-// Key 仅保存在当前页面内存中，为后续 FIM 接入预留，不写入本地存储。
+// Key 仅保存在当前页面内存中，通过同源 Nuxt 服务调用 FIM，不写入本地存储。
 const apiKey = ref('')
 const languages = computed(() => [
   { value: 'typescript', label: 'TypeScript', extension: 'ts' },
@@ -33,7 +33,7 @@ const selectedLanguage = computed(() => languages.value.find(item => item.value 
           class="flex items-center gap-2 rounded-md px-2 py-1.5 text-xs text-zinc-300 transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-sky-400"
           :aria-label="t('aiLaboratory.language')"
           :aria-expanded="languageMenuOpen"
-          @click="languageMenuOpen = !languageMenuOpen"
+          @click="languageMenuOpen = true"
           @keydown.esc="languageMenuOpen = false"
         >
           <span class="font-mono text-sky-400">{{ selectedLanguage.extension.toUpperCase() }}</span>
@@ -70,7 +70,7 @@ const selectedLanguage = computed(() => languages.value.find(item => item.value 
     </div>
     <!-- 服务端渲染时不执行 Monaco 的浏览器代码。 -->
     <ClientOnly>
-      <MonacoEditor v-model="code" :language="language" />
+      <MonacoEditor v-model="code" :language="language" :api-key="apiKey" />
     </ClientOnly>
   </section>
 </template>

@@ -50,9 +50,25 @@
     "back": "返回动画"
   },
   "aiLaboratory": {
+    "syntaxError": "{language} 语法错误",
     "language": "选择代码语言",
     "plainText": "无",
-    "apiKey": "DeepSeek API Key"
+    "apiKey": "DeepSeek API Key",
+    "idle": "输入后自动补全 · Tab 接受 · Esc 取消",
+    "loading": "正在生成补全…",
+    "ready": "建议已就绪 · Tab 接受",
+    "empty": "暂无补全建议",
+    "generate": "生成补全",
+    "accept": "接受 AI 补全",
+    "invalidInput": "代码上下文不符合要求",
+    "missingKey": "输入 API Key 以启用补全",
+    "invalidKey": "API Key 无效",
+    "insufficientBalance": "DeepSeek 余额不足",
+    "rateLimited": "请求过于频繁，请稍后重试",
+    "upstreamError": "模型服务暂时不可用",
+    "invalidResponse": "模型返回格式异常",
+    "timeout": "补全请求超时",
+    "networkError": "暂时无法连接补全服务"
   },
   "laboratory": {
     "button": "点这里"
