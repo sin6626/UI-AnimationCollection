@@ -25,6 +25,7 @@
     "@vueuse/nuxt": "^14.3.0",
     "dayjs": "^1.11.23",
     "gsap": "^3.15.0",
+    "monaco-editor": "^0.57.0",
     "motion-v": "^2.3.0",
     "nuxt": "^4.5.1",
     "nuxt-auth-utils": "^0.5.30",
