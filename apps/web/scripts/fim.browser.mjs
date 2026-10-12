@@ -19,7 +19,7 @@ try {
     await new Promise(resolve => setTimeout(resolve, delay))
     await route.fulfill({ status: responseStatus, json: responseStatus === 200 ? { completion: response, elapsedMs: 123 } : { error: 'invalidKey' } }).catch(() => {})
   })
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/AiLaboratory`)
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}${process.env.TEST_PAGE_PATH || '/AiLaboratory'}`)
   await page.locator('.monaco-editor').waitFor()
   await page.getByPlaceholder('DeepSeek API Key').fill('test-key')
   // 从 Vue 开发实例读取已有编辑器，不在产品代码中增加测试全局变量。

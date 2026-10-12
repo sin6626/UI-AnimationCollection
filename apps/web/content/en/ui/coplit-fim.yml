@@ -1,0 +1,6 @@
+title: "Coplit-style FIM implementation"
+navTitle: "Coplit FIM"
+navIcon: "ri:code-s-slash-line"
+date: "2026-10-12"
+src: "/CoplitFIM.png"
+description: "A Coplit-style implementation that uses Microsoft's open-source Monaco editor, which shares its origins with VS Code and feels familiar to use. The interviewer discussed this idea with me during my interview at Plate. After the interview, he asked me to implement it with a textarea, but I made it more complicated by introducing Monaco. Fortunately, I passed the interview and started my internship."

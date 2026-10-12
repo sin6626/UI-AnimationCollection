@@ -1,0 +1,6 @@
+title: "仿 Coplit 实现FIM"
+navTitle: "Coplit FIM"
+navIcon: "ri:code-s-slash-line"
+date: "2026-10-12"
+src: "/CoplitFIM.png"
+description: "一个仿照Coplit的实现，使用的微软的开源的Monaco编辑器，跟Vscode同源的存在，使用起来很亲切。这个东西是我在面试Plate的时候面试官在面试的时候跟我讨论的，面试完他让我就基于textare实现即可，但是我却复杂化了，引入了Monaco，复杂化了，不过好在过了面试了，实习了。"
